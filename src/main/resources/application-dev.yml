@@ -1,0 +1,24 @@
+server:
+  port: 8919
+  servlet:
+    context-path: /
+
+# spring
+spring:
+  # datasource
+  datasource:
+    username: yunpinadmin
+    password: 123456
+  # redis
+  redis:
+    password:
+
+
+# swagger 配置接口访问域名
+swagger:
+  host: localhost:8919
+
+# mybatis 打印sql
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
