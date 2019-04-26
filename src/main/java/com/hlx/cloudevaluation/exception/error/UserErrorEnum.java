@@ -8,7 +8,7 @@ package com.hlx.cloudevaluation.exception.error;
 public enum UserErrorEnum implements ApiError {
 
     // 用户名存在
-    NICKNAME_EXIST(430,"NICKNAME_EXIST"),
+    NICKNAME_EXIST(430, "ACCOUNT_EXIST"),
 
     // 密码错误
     PASSWORD_ERROR(431,"PASSWORD_ERROR"),

@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
 
         String encryptSessionId = AESUtil.encrypt(httpSession.getId(), SESSION_PWD);
         userDao.updateSessionIdByUserId(userId, encryptSessionId);
-
     }
 
 }

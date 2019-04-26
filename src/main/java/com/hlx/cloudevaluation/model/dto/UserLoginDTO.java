@@ -13,13 +13,13 @@ import javax.validation.constraints.Size;
 public class UserLoginDTO {
 
     @NotNull
-    @Size(min = 1, max = 255)
-    @ApiModelProperty(required = true, notes = "用户名", example = "hlx")
+    @Size(min = 1, max = 15)
+    @ApiModelProperty(required = true, notes = "用户名,最长15位", example = "hlx")
     private String userAccount;
 
     @NotNull
-    @Size(min = 1, max = 255)
-    @ApiModelProperty(required = true, notes = "密码", example = "123456")
+    @Size(min = 1, max = 50)
+    @ApiModelProperty(required = true, notes = "密码,最长50位", example = "123456")
     private String userPass;
 
 }
