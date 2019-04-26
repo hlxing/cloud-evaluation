@@ -61,6 +61,4 @@ public class SkillController {
         skillService.update(skillUpdateDTO, (Integer) session.getAttribute("userId"));
         return new ApiResult<>("update skill success");
     }
-
-
 }

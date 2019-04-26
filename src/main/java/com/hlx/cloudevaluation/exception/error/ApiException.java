@@ -22,5 +22,4 @@ public class ApiException extends RuntimeException {
         super(apiError.getMsg());
         this.code = apiError.getCode();
     }
-
 }

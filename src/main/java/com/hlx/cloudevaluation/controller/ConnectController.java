@@ -38,5 +38,4 @@ public class ConnectController {
         log.info("测试管理员权限成功!");
         return new ApiResult<>("Test Admin Success");
     }
-
 }
