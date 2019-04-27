@@ -2,6 +2,8 @@ package com.hlx.cloudevaluation.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hlx.cloudevaluation.exception.error.ApiException;
+import com.hlx.cloudevaluation.exception.error.SkillErrorEnum;
 import com.hlx.cloudevaluation.mapper.SysSkillMapper;
 import com.hlx.cloudevaluation.model.dto.SkillAddDTO;
 import com.hlx.cloudevaluation.model.dto.SkillSearchDTO;
@@ -47,6 +49,9 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public void delete(Integer skillId, Integer userId) {
+        if (sysSkillMapper.selectByPrimaryKey(skillId) == null) {
+            throw new ApiException(SkillErrorEnum.SKILL_ID_NO_EXIST);
+        }
         sysSkillMapper.deleteByPrimaryKey(skillId);
     }
 
