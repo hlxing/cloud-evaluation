@@ -34,10 +34,15 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public void add(SkillAddDTO skillAddDTO, Integer userId) {
-        SysSkill sysSkill = modelMapper.map(skillAddDTO, SysSkill.class);
-        sysSkill.setSkillCreator(userId);
-        sysSkill.setSkillCreateAt(new Date());
-        sysSkillMapper.insertSelective(sysSkill);
+        SysSkillExample example = new SysSkillExample();
+        SysSkillExample.Criteria criteria = example.createCriteria();
+        criteria.andSkillNameEqualTo(skillAddDTO.getSkillName());
+        if (sysSkillMapper.selectByExample(example).size() == 0) {//不存在
+            SysSkill sysSkill = modelMapper.map(skillAddDTO, SysSkill.class);
+            sysSkill.setSkillCreator(userId);
+            sysSkill.setSkillCreateAt(new Date());
+            sysSkillMapper.insertSelective(sysSkill);
+        }
     }
 
     @Override
