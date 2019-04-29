@@ -32,4 +32,8 @@ public class UserRegisterDTO {
     @ApiModelProperty(required = true, notes = "姓名,最长20", example = "hlxing")
     private String userName;
 
+    @NotNull
+    @ApiModelProperty(required = true, notes = "0为老师,1为学生", example = "0")
+    private Integer userRole;
+
 }

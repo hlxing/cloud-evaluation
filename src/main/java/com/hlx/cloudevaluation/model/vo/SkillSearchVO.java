@@ -13,7 +13,7 @@ import java.util.List;
 public class SkillSearchVO {
 
     @ApiModelProperty(notes = "技能信息列表", example = "...")
-    private List<SkillVO> donationVOList;
+    private List<SkillVO> skillVOList;
 
     @ApiModelProperty(notes = "当前页数", example = "1")
     private Integer pageNum;

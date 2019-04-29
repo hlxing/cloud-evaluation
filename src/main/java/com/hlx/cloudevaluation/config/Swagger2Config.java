@@ -61,8 +61,8 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Chamber-API")
-                .description("商会API文档")
+                .title("Evaluation-API")
+                .description("云评-API文档")
                 .termsOfServiceUrl("https://github.com/hlxing/cloud-evaluation")
                 .contact(new Contact("hlx", "https://github.com/hlxing", "603773962@qq.com"))
                 .version("1.0")

@@ -47,7 +47,7 @@ public class SkillController {
     }
 
     @ApiOperation(value = "查询能力")
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ApiResult<SkillSearchVO> search(@RequestBody @Valid SkillSearchDTO skillSearchDTO, HttpSession session) {
         SkillSearchVO skillSearchVO = skillService.search(skillSearchDTO, (Integer) session.getAttribute("userId"));
         ApiResult<SkillSearchVO> apiResult = new ApiResult<>();

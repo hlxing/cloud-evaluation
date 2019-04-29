@@ -78,7 +78,7 @@ public class SkillServiceImpl implements SkillService {
         for (SysSkill sysSkill : sysSkillList) {
             skillVOList.add(modelMapper.map(sysSkill, SkillVO.class));
         }
-        skillSearchVO.setDonationVOList(skillVOList);
+        skillSearchVO.setSkillVOList(skillVOList);
 
         return skillSearchVO;
     }
