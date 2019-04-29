@@ -11,7 +11,10 @@ public enum SkillErrorEnum implements ApiError {
     SKILL_ID_NO_EXIST(530, "SKILL_ID_NO_EXIST"),
 
     // skill_name 已存在
-    SKILL_NAME_EXIST(531, "SKILL_NAME_EXIST");
+    SKILL_NAME_EXIST(531, "SKILL_NAME_EXIST"),
+
+    //skill被非法用户操作
+    SKILL_INVALID(532, "SKILL_INVALID");
 
 
     // 响应码

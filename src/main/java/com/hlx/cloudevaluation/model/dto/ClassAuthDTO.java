@@ -22,4 +22,8 @@ public class ClassAuthDTO {
     @ApiModelProperty(required = true, notes = "授权代码", example = "0为学生,1为助教")
     private Integer authCode;
 
+    @NotNull
+    @ApiModelProperty(required = true, notes = "所在班级", example = "1")
+    private Integer classID;
+
 }

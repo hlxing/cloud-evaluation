@@ -55,6 +55,14 @@ public class SkillServiceImpl implements SkillService {
         if (sysSkillMapper.selectByPrimaryKey(skillId) == null) {
             throw new ApiException(SkillErrorEnum.SKILL_ID_NO_EXIST);
         }
+        SysSkillExample example = new SysSkillExample();
+        SysSkillExample.Criteria criteria = example.createCriteria();
+        criteria.andSkillIdEqualTo(skillId);
+        criteria.andSkillCreatorEqualTo(userId);
+        if (sysSkillMapper.selectByExample(example).size() == 0) {
+            //skill不属于这个老师，不能操作
+            throw new ApiException(SkillErrorEnum.SKILL_INVALID);
+        }
         sysSkillMapper.deleteByPrimaryKey(skillId);
     }
 
@@ -66,6 +74,7 @@ public class SkillServiceImpl implements SkillService {
 
         SysSkillExample example = new SysSkillExample();
         SysSkillExample.Criteria criteria = example.createCriteria();
+        criteria.andSkillCreatorEqualTo(userId);
         if (skillSearchDTO.getSkillName() != null) {
             criteria.andSkillNameLike("%" + skillSearchDTO.getSkillName() + "%");
         }
