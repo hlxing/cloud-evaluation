@@ -8,7 +8,11 @@ package com.hlx.cloudevaluation.exception.error;
 public enum SkillErrorEnum implements ApiError {
 
     // id 不存在
-    SKILL_ID_NO_EXIST(530, "SKILL_ID_NO_EXIST");
+    SKILL_ID_NO_EXIST(530, "SKILL_ID_NO_EXIST"),
+
+    // skill_name 已存在
+    SKILL_NAME_EXIST(531, "SKILL_NAME_EXIST");
+
 
     // 响应码
     private final int code;

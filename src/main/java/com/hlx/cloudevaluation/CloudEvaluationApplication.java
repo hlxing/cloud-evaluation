@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.hlx.cloudevaluation.dao")
+@MapperScan({"com.hlx.cloudevaluation.dao", "com.hlx.cloudevaluation.mapper"})
 public class CloudEvaluationApplication {
 
 	public static void main(String[] args) {

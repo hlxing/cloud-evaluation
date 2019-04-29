@@ -44,6 +44,8 @@ public class SkillServiceImpl implements SkillService {
             sysSkill.setSkillCreator(userId);
             sysSkill.setSkillCreateAt(new Date());
             sysSkillMapper.insertSelective(sysSkill);
+        } else {//已存在，不能添加到数据库
+            throw new ApiException(SkillErrorEnum.SKILL_NAME_EXIST);
         }
     }
 
@@ -63,7 +65,7 @@ public class SkillServiceImpl implements SkillService {
 
         SysSkillExample example = new SysSkillExample();
         SysSkillExample.Criteria criteria = example.createCriteria();
-        if (skillSearchDTO != null) {
+        if (skillSearchDTO.getSkillName() != null) {
             criteria.andSkillNameLike("%" + skillSearchDTO.getSkillName() + "%");
         }
         List<SysSkill> sysSkillList = sysSkillMapper.selectByExample(example);
