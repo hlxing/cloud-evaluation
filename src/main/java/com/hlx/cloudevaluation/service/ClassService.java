@@ -12,7 +12,5 @@ public interface ClassService {
 
     void update(ClassUpdateDTO classUpdateDTO, Integer userId);
 
-
-
-
+    void delete(Integer classId, Integer userId);
 }
