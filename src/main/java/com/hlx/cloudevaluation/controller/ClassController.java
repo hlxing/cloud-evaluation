@@ -2,8 +2,10 @@ package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
 import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
+import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
+import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
 import com.hlx.cloudevaluation.service.ClassService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +50,15 @@ public class ClassController {
     public ApiResult<String> delete(@RequestParam("classId") Integer classId, HttpSession session) {
         classService.delete(classId, (Integer) session.getAttribute("userId"));
         return new ApiResult<>("delete class success");
+    }
+
+    @ApiOperation(value = "班级查询")
+    @PostMapping("/search")
+    public ApiResult<ClassSearchVO> search(@RequestBody @Valid ClassSearchDTO classSearchDTO, HttpSession session) {
+        ApiResult<ClassSearchVO> apiResult = new ApiResult<>();
+        ClassSearchVO classSearchVO = classService.search(classSearchDTO, (Integer) session.getAttribute("userId"));
+        apiResult.setData(classSearchVO);
+        return apiResult;
     }
 
     @ApiOperation(value = "班级授权", notes = "授权成为班级的学生, 助教")
