@@ -2,6 +2,7 @@ package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
+import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.SysClass;
 import com.hlx.cloudevaluation.model.po.SysClassExample;
@@ -44,6 +45,11 @@ public class ClassServiceImpl implements ClassService {
         sysClass.setClassDeleteAt(new Date());
 
         sysClassMapper.updateByExampleSelective(sysClass, example);
+    }
+
+    @Override
+    public void auth(ClassAuthDTO classAuthDTO, Integer userId) {
+
     }
 
     @Override
