@@ -99,4 +99,14 @@ public interface SysClassMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SysClass record);
+
+    /**
+     * 分页找班级
+     * @param start
+     * @param end
+     * @param className
+     * @return
+     */
+    //List<SysClass> search(@Param("start") int start, @Param("end") int end, @Param("className") String className, @Param("userId") int userId);
+
 }

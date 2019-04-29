@@ -1,5 +1,7 @@
 package com.hlx.cloudevaluation.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
@@ -11,13 +13,17 @@ import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
+import com.hlx.cloudevaluation.model.vo.ClassVO;
 import com.hlx.cloudevaluation.service.ClassService;
-import com.hlx.cloudevaluation.util.GetRandomToken;
+import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -88,14 +94,45 @@ public class ClassServiceImpl implements ClassService {
             ClassRole classRole = new ClassRole();
             classRole.setClassId(classAuthDTO.getClassID());
             classRole.setUserId(userId);
-            classRole.setRoleName("助教");
+            classRole.setRoleName("assistant");
             classRoleMapper.insert(classRole);
         }
     }
 
     @Override
     public ClassSearchVO search(ClassSearchDTO classSearchDTO, Integer userId) {
-        return null;
+        Integer pageNum = classSearchDTO.getPageNum();
+        Integer pageSize = classSearchDTO.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+
+        ClassRoleExample classRoleExample = new ClassRoleExample();
+        ClassRoleExample.Criteria criteria = classRoleExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<ClassRole> classRoleList = classRoleMapper.selectByExample(classRoleExample);
+
+        PageInfo<ClassRole> pageInfo = new PageInfo<>(classRoleList);
+
+        List<SysClass> classList = new ArrayList<>();
+        for (ClassRole item : classRoleList) {
+            SysClassExample sysClassExample = new SysClassExample();
+            SysClassExample.Criteria classCriteria = sysClassExample.createCriteria();
+            classCriteria.andClassIdEqualTo(item.getClassId());
+            classCriteria.andClassNameLike("%" + classSearchDTO.getClassName() + "%");
+            List<SysClass> sysClassListItem = sysClassMapper.selectByExample(sysClassExample);
+            if (sysClassListItem.size() > 0) {
+                classList.add(sysClassListItem.get(0));
+            }
+        }
+        ClassSearchVO classSearchVO = new ClassSearchVO();
+        classSearchVO.setPageNum(pageInfo.getPageNum());
+        classSearchVO.setMaxPageNum(pageInfo.getPages());
+
+        List<ClassVO> classVOList = modelMapper.map(
+                classList, new TypeToken<List<ClassVO>>() {
+                }.getType());
+        classSearchVO.setClassVOList(classVOList);
+
+        return classSearchVO;
     }
 
     @Override
@@ -103,8 +140,8 @@ public class ClassServiceImpl implements ClassService {
         SysClass sysClass = modelMapper.map(classAddDTO, SysClass.class);
         sysClass.setClassCreator(userId);
         sysClass.setClassCreateAt(new Date());
-        sysClass.setClassAssistantToken(GetRandomToken.getRandomToken());
-        sysClass.setClassStuToken(GetRandomToken.getRandomToken());
+        sysClass.setClassAssistantToken(RandomUtil.get());
+        sysClass.setClassStuToken(RandomUtil.get());
         sysClassMapper.insertSelective(sysClass);
     }
 }
