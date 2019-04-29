@@ -52,9 +52,6 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public void delete(Integer skillId, Integer userId) {
-        if (sysSkillMapper.selectByPrimaryKey(skillId) == null) {
-            throw new ApiException(SkillErrorEnum.SKILL_ID_NO_EXIST);
-        }
         SysSkillExample example = new SysSkillExample();
         SysSkillExample.Criteria criteria = example.createCriteria();
         criteria.andSkillIdEqualTo(skillId);
@@ -94,8 +91,13 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public void update(SkillUpdateDTO skillUpdateDTO, Integer userId) {
+        SysSkillExample example = new SysSkillExample();
+        SysSkillExample.Criteria criteria = example.createCriteria();
+        criteria.andSkillIdEqualTo(skillUpdateDTO.getSkillId());
+        criteria.andSkillCreatorEqualTo(userId);
+
         SysSkill sysSkill = modelMapper.map(skillUpdateDTO, SysSkill.class);
         sysSkill.setSkillUpdateAt(new Date());
-        sysSkillMapper.updateByPrimaryKeySelective(sysSkill);
+        sysSkillMapper.updateByExampleSelective(sysSkill, example);
     }
 }
