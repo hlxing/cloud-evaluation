@@ -1,23 +1,25 @@
 package com.hlx.cloudevaluation.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
-import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
-import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
-import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
-import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
+import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
+import com.hlx.cloudevaluation.model.vo.ClassDetailVO;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
+import com.hlx.cloudevaluation.model.vo.ClassUserVO;
 import com.hlx.cloudevaluation.service.ClassService;
-import com.hlx.cloudevaluation.util.GetRandomToken;
+import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -30,12 +32,16 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
+    private UserDao userDao;
+
     @Autowired
-    public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper, ClassRoleMapper classRoleMapper, ModelMapper modelMapper) {
+    public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
+                            ClassRoleMapper classRoleMapper, UserDao userDao, ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
         this.modelMapper = modelMapper;
+        this.userDao = userDao;
     }
 
     @Override
@@ -95,7 +101,47 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public ClassSearchVO search(ClassSearchDTO classSearchDTO, Integer userId) {
+
+
         return null;
+    }
+
+    @Override
+    public ClassDetailVO getDetail(ClassGetDetailDTO detailDTO, Integer userId) {
+        Set<Integer> classSet = new HashSet<>();
+        ClassRoleExample roleExample = new ClassRoleExample();
+        ClassRoleExample.Criteria roleCriteria = roleExample.createCriteria();
+        roleCriteria.andUserIdEqualTo(userId);
+        List<ClassRole> classRoleList = classRoleMapper.selectByExample(roleExample);
+        for (ClassRole classRole : classRoleList) {
+            classSet.add(classRole.getClassId());
+        }
+        if (!classSet.contains(detailDTO.getClassId())) {
+            throw new ApiException(ClassErrorEnum.CLASS_ID_INVALID);
+        }
+
+        SysClass sysClass = sysClassMapper.selectByPrimaryKey(detailDTO.getClassId());
+        ClassDetailVO classDetailVO = modelMapper.map(sysClass, ClassDetailVO.class);
+        PageHelper.startPage(detailDTO.getPageNum(), detailDTO.getPageSize());
+
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria classUserCriteria = classUserExample.createCriteria();
+        classUserCriteria.andClassIdEqualTo(detailDTO.getClassId());
+        List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
+
+        PageInfo info = new PageInfo<>(classUserList);
+        classDetailVO.setMaxPageNum(info.getPages());
+        classDetailVO.setPageNum(info.getPageNum());
+
+        List<ClassUserVO> classUserVOList = new ArrayList<>();
+        for (ClassUser classUser : classUserList) {
+            User user = userDao.get(classUser.getUserId());
+            ClassUserVO classUserVO = modelMapper.map(user, ClassUserVO.class);
+            classUserVOList.add(classUserVO);
+        }
+        classDetailVO.setClassUserVOList(classUserVOList);
+
+        return classDetailVO;
     }
 
     @Override
@@ -103,8 +149,8 @@ public class ClassServiceImpl implements ClassService {
         SysClass sysClass = modelMapper.map(classAddDTO, SysClass.class);
         sysClass.setClassCreator(userId);
         sysClass.setClassCreateAt(new Date());
-        sysClass.setClassAssistantToken(GetRandomToken.getRandomToken());
-        sysClass.setClassStuToken(GetRandomToken.getRandomToken());
+        sysClass.setClassAssistantToken(RandomUtil.get());
+        sysClass.setClassStuToken(RandomUtil.get());
         sysClassMapper.insertSelective(sysClass);
     }
 }

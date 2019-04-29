@@ -7,7 +7,9 @@ public enum ClassErrorEnum implements ApiError {
     //学生已存在
     STU_EXIST(631, "STU_EXIST"),
 
-    EXIST_IN_CLASS_ROLE(632, "EXIST_IN_CLASS_ROLE");
+    EXIST_IN_CLASS_ROLE(632, "EXIST_IN_CLASS_ROLE"),
+
+    CLASS_ID_INVALID(633, "CLASS_ID_INVALID");
 
     // 响应码
     private final int code;
