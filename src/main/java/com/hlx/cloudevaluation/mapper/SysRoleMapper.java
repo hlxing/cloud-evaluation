@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.SysRole;
 import com.hlx.cloudevaluation.model.po.SysRoleExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
