@@ -14,10 +14,9 @@ import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
 import com.hlx.cloudevaluation.model.vo.SkillVO;
 import com.hlx.cloudevaluation.service.SkillService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,12 +38,14 @@ public class SkillServiceImpl implements SkillService {
         SysSkillExample example = new SysSkillExample();
         SysSkillExample.Criteria criteria = example.createCriteria();
         criteria.andSkillNameEqualTo(skillAddDTO.getSkillName());
-        if (sysSkillMapper.selectByExample(example).size() == 0) {//不存在
+        if (sysSkillMapper.selectByExample(example).size() == 0) {
+            //不存在
             SysSkill sysSkill = modelMapper.map(skillAddDTO, SysSkill.class);
             sysSkill.setSkillCreator(userId);
             sysSkill.setSkillCreateAt(new Date());
             sysSkillMapper.insertSelective(sysSkill);
-        } else {//已存在，不能添加到数据库
+        } else {
+            //已存在，不能添加到数据库
             throw new ApiException(SkillErrorEnum.SKILL_NAME_EXIST);
         }
     }
@@ -74,10 +75,9 @@ public class SkillServiceImpl implements SkillService {
         SkillSearchVO skillSearchVO = new SkillSearchVO();
         skillSearchVO.setMaxPageNum(pageInfo.getPages());
         skillSearchVO.setPageNum(pageInfo.getPageNum());
-        List<SkillVO> skillVOList = new ArrayList<>();
-        for (SysSkill sysSkill : sysSkillList) {
-            skillVOList.add(modelMapper.map(sysSkill, SkillVO.class));
-        }
+        List<SkillVO> skillVOList = modelMapper.map(
+                sysSkillList, new TypeToken<List<SkillVO>>() {
+                }.getType());
         skillSearchVO.setSkillVOList(skillVOList);
 
         return skillSearchVO;
