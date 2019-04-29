@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.model.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.util.List;
 
 /**

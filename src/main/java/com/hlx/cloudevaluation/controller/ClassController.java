@@ -1,21 +1,17 @@
 package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
-import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
+import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
-import com.hlx.cloudevaluation.model.dto.SkillSearchDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
-import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
 import com.hlx.cloudevaluation.service.ClassService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 /**
  * @description: 班级控制器
  * @author: hlx 2019-04-29
@@ -54,6 +50,11 @@ public class ClassController {
         return new ApiResult<>("delete class success");
     }
 
-
+    @ApiOperation(value = "班级授权", notes = "授权成为班级的学生, 助教")
+    @PostMapping("/auth")
+    public ApiResult<String> auth(@RequestBody @Valid ClassAuthDTO classAuthDTO, HttpSession session) {
+        classService.auth(classAuthDTO, (Integer) session.getAttribute("userId"));
+        return new ApiResult<>("auth class success");
+    }
 
 }

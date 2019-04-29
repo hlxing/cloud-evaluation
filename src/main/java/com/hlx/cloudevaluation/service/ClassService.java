@@ -1,6 +1,7 @@
 package com.hlx.cloudevaluation.service;
 
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
+import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 /**
  * @description: 班级服务层
@@ -13,4 +14,6 @@ public interface ClassService {
     void update(ClassUpdateDTO classUpdateDTO, Integer userId);
 
     void delete(Integer classId, Integer userId);
+
+    void auth(ClassAuthDTO classAuthDTO, Integer userId);
 }
