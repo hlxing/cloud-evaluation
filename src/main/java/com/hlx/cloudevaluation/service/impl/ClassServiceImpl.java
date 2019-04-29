@@ -7,8 +7,10 @@ import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
 import com.hlx.cloudevaluation.model.dto.ClassAuthDTO;
+import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.*;
+import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
 import com.hlx.cloudevaluation.service.ClassService;
 import com.hlx.cloudevaluation.util.GetRandomToken;
 import org.modelmapper.ModelMapper;
@@ -89,6 +91,11 @@ public class ClassServiceImpl implements ClassService {
             classRole.setRoleName("助教");
             classRoleMapper.insert(classRole);
         }
+    }
+
+    @Override
+    public ClassSearchVO search(ClassSearchDTO classSearchDTO, Integer userId) {
+        return null;
     }
 
     @Override
