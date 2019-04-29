@@ -13,17 +13,13 @@ import com.hlx.cloudevaluation.model.dto.ClassSearchDTO;
 import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
-import com.hlx.cloudevaluation.model.vo.ClassVO;
 import com.hlx.cloudevaluation.service.ClassService;
 import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -36,12 +32,16 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
+    private UserDao userDao;
+
     @Autowired
-    public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper, ClassRoleMapper classRoleMapper, ModelMapper modelMapper) {
+    public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
+                            ClassRoleMapper classRoleMapper, UserDao userDao, ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
         this.modelMapper = modelMapper;
+        this.userDao = userDao;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ClassServiceImpl implements ClassService {
             ClassRole classRole = new ClassRole();
             classRole.setClassId(classAuthDTO.getClassID());
             classRole.setUserId(userId);
-            classRole.setRoleName("assistant");
+            classRole.setRoleName("助教");
             classRoleMapper.insert(classRole);
         }
     }
@@ -133,6 +133,44 @@ public class ClassServiceImpl implements ClassService {
         classSearchVO.setClassVOList(classVOList);
 
         return classSearchVO;
+    }
+
+    @Override
+    public ClassDetailVO getDetail(ClassGetDetailDTO detailDTO, Integer userId) {
+        Set<Integer> classSet = new HashSet<>();
+        ClassRoleExample roleExample = new ClassRoleExample();
+        ClassRoleExample.Criteria roleCriteria = roleExample.createCriteria();
+        roleCriteria.andUserIdEqualTo(userId);
+        List<ClassRole> classRoleList = classRoleMapper.selectByExample(roleExample);
+        for (ClassRole classRole : classRoleList) {
+            classSet.add(classRole.getClassId());
+        }
+        if (!classSet.contains(detailDTO.getClassId())) {
+            throw new ApiException(ClassErrorEnum.CLASS_ID_INVALID);
+        }
+
+        SysClass sysClass = sysClassMapper.selectByPrimaryKey(detailDTO.getClassId());
+        ClassDetailVO classDetailVO = modelMapper.map(sysClass, ClassDetailVO.class);
+        PageHelper.startPage(detailDTO.getPageNum(), detailDTO.getPageSize());
+
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria classUserCriteria = classUserExample.createCriteria();
+        classUserCriteria.andClassIdEqualTo(detailDTO.getClassId());
+        List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
+
+        PageInfo info = new PageInfo<>(classUserList);
+        classDetailVO.setMaxPageNum(info.getPages());
+        classDetailVO.setPageNum(info.getPageNum());
+
+        List<ClassUserVO> classUserVOList = new ArrayList<>();
+        for (ClassUser classUser : classUserList) {
+            User user = userDao.get(classUser.getUserId());
+            ClassUserVO classUserVO = modelMapper.map(user, ClassUserVO.class);
+            classUserVOList.add(classUserVO);
+        }
+        classDetailVO.setClassUserVOList(classUserVOList);
+
+        return classDetailVO;
     }
 
     @Override
