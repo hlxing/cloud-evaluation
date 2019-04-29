@@ -1,6 +1,9 @@
 package com.hlx.cloudevaluation.config.shiro;
 
 import com.hlx.cloudevaluation.dao.UserDao;
+import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
+import com.hlx.cloudevaluation.model.po.ClassRole;
+import com.hlx.cloudevaluation.model.po.ClassRoleExample;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -13,6 +16,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @description: 认证服务实现
  * @author: hlx 2018-08-19
@@ -21,11 +28,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService extends AuthorizingRealm {
 
+    private ClassRoleMapper classRoleMapper;
+
     private UserDao userDao;
 
     @Autowired
-    public AuthService(UserDao userDao) {
+    public AuthService(UserDao userDao, ClassRoleMapper classRoleMapper) {
         this.userDao = userDao;
+        this.classRoleMapper = classRoleMapper;
     }
 
     //判断支持的token类型
@@ -43,20 +53,22 @@ public class AuthService extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
 
-        // TODO : 用户角色权限
-//        UserRole userRole = userDao.getRole(userId);
-//        if (userRole != null) {
-//            Set<String> roles = new HashSet<>();
-//            Set<String> permissions = new HashSet<>();
-//            String[] roleStr = userRole.getRole()
-//                    .split(" ");
-//            String[] permissionStr = userRole.getPermission()
-//                    .split(" ");
-//            roles.addAll(Arrays.asList(roleStr));
-//            permissions.addAll(Arrays.asList(permissionStr));
-//            simpleAuthorizationInfo.setRoles(roles);
-//            simpleAuthorizationInfo.setStringPermissions(permissions);
-//        }
+        Set<String> roles = new HashSet<>();
+        Set<String> permissions = new HashSet<>();
+        Integer userRole = userDao.get(userId).getUserRole();
+        roles.add(userRole == 0 ? "student" : "teacher");
+
+        ClassRoleExample example = new ClassRoleExample();
+        ClassRoleExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<ClassRole> classRoleList = classRoleMapper.selectByExample(example);
+        for (ClassRole classRole : classRoleList) {
+            roles.add(classRole.getRoleName());
+            permissions.add(classRole.getClassId().toString());
+        }
+
+        simpleAuthorizationInfo.setRoles(roles);
+        simpleAuthorizationInfo.setStringPermissions(permissions);
 
         log.info("Role->>" + simpleAuthorizationInfo.getRoles());
         log.info("permission->>" + simpleAuthorizationInfo.getStringPermissions());
@@ -65,17 +77,17 @@ public class AuthService extends AuthorizingRealm {
 
     /**
      * 定义获取用户信息的逻辑,即登录判断(token合法性),错误直接抛出异常(原意)
-     *
+     * <p>
      * 由于Spring-Session在Restful下的特殊性, {@link (AuthFilter)}在onAccessDenied方法中
      * 已经通过检测session合法性来判断是否登录,此函数仅用来包装SimpleAuthenticationInfo
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String name = authenticationToken.getPrincipal()
-                 .toString();
+                .toString();
         String token = authenticationToken.getCredentials()
                 .toString();
         // SimpleAuthenticationInfo用于后面权限判断,第三个参数为Realm Name
-        return new SimpleAuthenticationInfo(name,token,"auService");
+        return new SimpleAuthenticationInfo(name, token, "auService");
     }
 }

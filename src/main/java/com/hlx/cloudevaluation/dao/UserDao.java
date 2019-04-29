@@ -10,6 +10,8 @@ public interface UserDao {
 
     void save(User user);
 
+    User get(Integer userId);
+
     User getByAccount(@Param("userAccount") String userAccount);
 
     String getSessionIdByUserId(Integer userId);
