@@ -1,16 +1,14 @@
 package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.ClassAddDTO;
+import com.hlx.cloudevaluation.model.dto.ClassUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
 import com.hlx.cloudevaluation.service.ClassService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -38,6 +36,14 @@ public class ClassController {
         classService.add(classAddDTO, (Integer) session.getAttribute("userId"));
         return new ApiResult<>("add class success");
     }
+
+    @ApiOperation(value = "编辑班级", notes = "修改班级名称")
+    @PostMapping("/update")
+    public ApiResult<String> update(@RequestBody @Valid ClassUpdateDTO classUpdateDTO, HttpSession session) {
+        classService.update(classUpdateDTO, (Integer) session.getAttribute("userId"));
+        return new ApiResult<>("update class success");
+    }
+
 
 
 }
