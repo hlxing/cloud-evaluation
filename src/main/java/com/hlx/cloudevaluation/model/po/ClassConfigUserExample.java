@@ -374,143 +374,143 @@ public class ClassConfigUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameIsNull() {
-            addCriterion("config_name is null");
+        public Criteria andClassConfigNameIsNull() {
+            addCriterion("class_config_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameIsNotNull() {
-            addCriterion("config_name is not null");
+        public Criteria andClassConfigNameIsNotNull() {
+            addCriterion("class_config_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameEqualTo(String value) {
-            addCriterion("config_name =", value, "configName");
+        public Criteria andClassConfigNameEqualTo(String value) {
+            addCriterion("class_config_name =", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameNotEqualTo(String value) {
-            addCriterion("config_name <>", value, "configName");
+        public Criteria andClassConfigNameNotEqualTo(String value) {
+            addCriterion("class_config_name <>", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameGreaterThan(String value) {
-            addCriterion("config_name >", value, "configName");
+        public Criteria andClassConfigNameGreaterThan(String value) {
+            addCriterion("class_config_name >", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameGreaterThanOrEqualTo(String value) {
-            addCriterion("config_name >=", value, "configName");
+        public Criteria andClassConfigNameGreaterThanOrEqualTo(String value) {
+            addCriterion("class_config_name >=", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameLessThan(String value) {
-            addCriterion("config_name <", value, "configName");
+        public Criteria andClassConfigNameLessThan(String value) {
+            addCriterion("class_config_name <", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameLessThanOrEqualTo(String value) {
-            addCriterion("config_name <=", value, "configName");
+        public Criteria andClassConfigNameLessThanOrEqualTo(String value) {
+            addCriterion("class_config_name <=", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameLike(String value) {
-            addCriterion("config_name like", value, "configName");
+        public Criteria andClassConfigNameLike(String value) {
+            addCriterion("class_config_name like", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameNotLike(String value) {
-            addCriterion("config_name not like", value, "configName");
+        public Criteria andClassConfigNameNotLike(String value) {
+            addCriterion("class_config_name not like", value, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameIn(List<String> values) {
-            addCriterion("config_name in", values, "configName");
+        public Criteria andClassConfigNameIn(List<String> values) {
+            addCriterion("class_config_name in", values, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameNotIn(List<String> values) {
-            addCriterion("config_name not in", values, "configName");
+        public Criteria andClassConfigNameNotIn(List<String> values) {
+            addCriterion("class_config_name not in", values, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameBetween(String value1, String value2) {
-            addCriterion("config_name between", value1, value2, "configName");
+        public Criteria andClassConfigNameBetween(String value1, String value2) {
+            addCriterion("class_config_name between", value1, value2, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigNameNotBetween(String value1, String value2) {
-            addCriterion("config_name not between", value1, value2, "configName");
+        public Criteria andClassConfigNameNotBetween(String value1, String value2) {
+            addCriterion("class_config_name not between", value1, value2, "classConfigName");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueIsNull() {
-            addCriterion("config_value is null");
+        public Criteria andClassConfigValueIsNull() {
+            addCriterion("class_config_value is null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueIsNotNull() {
-            addCriterion("config_value is not null");
+        public Criteria andClassConfigValueIsNotNull() {
+            addCriterion("class_config_value is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueEqualTo(String value) {
-            addCriterion("config_value =", value, "configValue");
+        public Criteria andClassConfigValueEqualTo(String value) {
+            addCriterion("class_config_value =", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueNotEqualTo(String value) {
-            addCriterion("config_value <>", value, "configValue");
+        public Criteria andClassConfigValueNotEqualTo(String value) {
+            addCriterion("class_config_value <>", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueGreaterThan(String value) {
-            addCriterion("config_value >", value, "configValue");
+        public Criteria andClassConfigValueGreaterThan(String value) {
+            addCriterion("class_config_value >", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueGreaterThanOrEqualTo(String value) {
-            addCriterion("config_value >=", value, "configValue");
+        public Criteria andClassConfigValueGreaterThanOrEqualTo(String value) {
+            addCriterion("class_config_value >=", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueLessThan(String value) {
-            addCriterion("config_value <", value, "configValue");
+        public Criteria andClassConfigValueLessThan(String value) {
+            addCriterion("class_config_value <", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueLessThanOrEqualTo(String value) {
-            addCriterion("config_value <=", value, "configValue");
+        public Criteria andClassConfigValueLessThanOrEqualTo(String value) {
+            addCriterion("class_config_value <=", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueLike(String value) {
-            addCriterion("config_value like", value, "configValue");
+        public Criteria andClassConfigValueLike(String value) {
+            addCriterion("class_config_value like", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueNotLike(String value) {
-            addCriterion("config_value not like", value, "configValue");
+        public Criteria andClassConfigValueNotLike(String value) {
+            addCriterion("class_config_value not like", value, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueIn(List<String> values) {
-            addCriterion("config_value in", values, "configValue");
+        public Criteria andClassConfigValueIn(List<String> values) {
+            addCriterion("class_config_value in", values, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueNotIn(List<String> values) {
-            addCriterion("config_value not in", values, "configValue");
+        public Criteria andClassConfigValueNotIn(List<String> values) {
+            addCriterion("class_config_value not in", values, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueBetween(String value1, String value2) {
-            addCriterion("config_value between", value1, value2, "configValue");
+        public Criteria andClassConfigValueBetween(String value1, String value2) {
+            addCriterion("class_config_value between", value1, value2, "classConfigValue");
             return (Criteria) this;
         }
 
-        public Criteria andConfigValueNotBetween(String value1, String value2) {
-            addCriterion("config_value not between", value1, value2, "configValue");
+        public Criteria andClassConfigValueNotBetween(String value1, String value2) {
+            addCriterion("class_config_value not between", value1, value2, "classConfigValue");
             return (Criteria) this;
         }
     }
