@@ -14,15 +14,14 @@ import javax.validation.constraints.Size;
 @Data
 public class SkillSearchDTO {
 
+    @Size(min = 1, max = 20)
     @ApiModelProperty(notes = "技能名称", example = "博客")
     private String skillName;
 
-    @NotNull
     @Size(min = 1, max = 50)
     @ApiModelProperty(required = true, notes = "技能类型,最长50", example = "工程能力")
     private String skillType;
 
-    @NotNull
     @Size(min = 1, max = 10)
     @ApiModelProperty(required = true, notes = "技能代号", example = "A")
     private String skillShortName;
