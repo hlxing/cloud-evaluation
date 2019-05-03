@@ -5,15 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
+import com.hlx.cloudevaluation.mapper.ClassConfigMapper;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
 import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
-import com.hlx.cloudevaluation.model.vo.ClassDetailVO;
-import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
-import com.hlx.cloudevaluation.model.vo.ClassUserVO;
-import com.hlx.cloudevaluation.model.vo.ClassVO;
+import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.ClassService;
 import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
@@ -34,11 +32,14 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
+    private ClassConfigMapper classConfigMapper;
+
     private UserDao userDao;
 
     @Autowired
     public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
-                            ClassRoleMapper classRoleMapper, UserDao userDao, ModelMapper modelMapper) {
+                            ClassRoleMapper classRoleMapper, UserDao userDao,
+                            ClassConfigMapper classConfigMapper, ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
@@ -176,6 +177,11 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
+    public ClassConfigListVO getConfigList(String token) {
+        return null;
+    }
+
+    @Override
     public void add(ClassAddDTO classAddDTO, Integer userId) {
         SysClass sysClass = modelMapper.map(classAddDTO, SysClass.class);
         sysClass.setClassCreator(userId);
@@ -183,5 +189,16 @@ public class ClassServiceImpl implements ClassService {
         sysClass.setClassAssistantToken(RandomUtil.get());
         sysClass.setClassStuToken(RandomUtil.get());
         sysClassMapper.insertSelective(sysClass);
+
+        Integer classId = sysClass.getClassId();
+        List<String> classConfigs = classAddDTO.getClassConfigs();
+        if (classConfigs != null) {
+            for (String configName : classConfigs) {
+                ClassConfig classConfig = new ClassConfig();
+                classConfig.setClassId(classId);
+                classConfig.setClassConfigName(configName);
+
+            }
+        }
     }
 }
