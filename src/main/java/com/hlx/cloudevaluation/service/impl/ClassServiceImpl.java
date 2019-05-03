@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
-import com.hlx.cloudevaluation.mapper.ClassConfigMapper;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
@@ -18,7 +17,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
@@ -32,14 +30,12 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
-    private ClassConfigMapper classConfigMapper;
-
     private UserDao userDao;
 
     @Autowired
     public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
                             ClassRoleMapper classRoleMapper, UserDao userDao,
-                            ClassConfigMapper classConfigMapper, ModelMapper modelMapper) {
+                            ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
@@ -177,11 +173,6 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public ClassConfigListVO getConfigList(String token) {
-        return null;
-    }
-
-    @Override
     public void add(ClassAddDTO classAddDTO, Integer userId) {
         SysClass sysClass = modelMapper.map(classAddDTO, SysClass.class);
         sysClass.setClassCreator(userId);
@@ -189,16 +180,5 @@ public class ClassServiceImpl implements ClassService {
         sysClass.setClassAssistantToken(RandomUtil.get());
         sysClass.setClassStuToken(RandomUtil.get());
         sysClassMapper.insertSelective(sysClass);
-
-        Integer classId = sysClass.getClassId();
-        List<String> classConfigs = classAddDTO.getClassConfigs();
-        if (classConfigs != null) {
-            for (String configName : classConfigs) {
-                ClassConfig classConfig = new ClassConfig();
-                classConfig.setClassId(classId);
-                classConfig.setClassConfigName(configName);
-
-            }
-        }
     }
 }

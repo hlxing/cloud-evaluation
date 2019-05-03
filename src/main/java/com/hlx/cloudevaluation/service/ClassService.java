@@ -24,5 +24,4 @@ public interface ClassService {
 
     ClassDetailVO getDetail(ClassGetDetailDTO classGetDetailDTO, Integer userId);
 
-    ClassConfigListVO getConfigList(String token);
 }
