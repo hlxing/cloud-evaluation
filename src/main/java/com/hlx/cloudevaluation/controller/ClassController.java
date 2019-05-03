@@ -2,6 +2,7 @@ package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.ApiResult;
+import com.hlx.cloudevaluation.model.vo.ClassConfigListVO;
 import com.hlx.cloudevaluation.model.vo.ClassDetailVO;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
 import com.hlx.cloudevaluation.service.ClassService;
@@ -75,13 +76,21 @@ public class ClassController {
         return apiResult;
     }
 
-
-
     @ApiOperation(value = "班级授权", notes = "授权成为班级的学生, 助教")
     @PostMapping("/auth")
     public ApiResult<String> auth(@RequestBody @Valid ClassAuthDTO classAuthDTO, HttpSession session) {
         classService.auth(classAuthDTO, (Integer) session.getAttribute("userId"));
         return new ApiResult<>("auth class success");
     }
+
+    @ApiOperation(value = "班级配置", notes = "根据班级 Token 获取配置信息")
+    @GetMapping("/configList")
+    public ApiResult<ClassConfigListVO> getConfigList(@RequestParam("token") String token) {
+        ApiResult<ClassConfigListVO> apiResult = new ApiResult<>();
+        ClassConfigListVO classConfigListVO = classService.getConfigList(token);
+        apiResult.setData(classConfigListVO);
+        return apiResult;
+    }
+
 
 }

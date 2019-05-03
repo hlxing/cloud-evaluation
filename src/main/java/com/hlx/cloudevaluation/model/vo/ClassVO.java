@@ -19,6 +19,8 @@ public class ClassVO {
 
     private String classAssistantToken;
 
+    private Boolean classTeamEdit;
+
     private Date classCreateAt;
 
     private Date classUpdateAt;

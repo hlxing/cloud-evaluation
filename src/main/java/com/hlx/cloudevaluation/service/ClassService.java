@@ -1,6 +1,7 @@
 package com.hlx.cloudevaluation.service;
 
 import com.hlx.cloudevaluation.model.dto.*;
+import com.hlx.cloudevaluation.model.vo.ClassConfigListVO;
 import com.hlx.cloudevaluation.model.vo.ClassDetailVO;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
 
@@ -22,4 +23,6 @@ public interface ClassService {
     ClassSearchVO search(ClassSearchDTO classSearchDTO, Integer userId);
 
     ClassDetailVO getDetail(ClassGetDetailDTO classGetDetailDTO, Integer userId);
+
+    ClassConfigListVO getConfigList(String token);
 }

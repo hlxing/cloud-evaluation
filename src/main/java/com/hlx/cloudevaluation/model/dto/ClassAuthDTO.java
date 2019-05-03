@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @description: 班级授权传输对象
@@ -25,5 +26,8 @@ public class ClassAuthDTO {
     @NotNull
     @ApiModelProperty(required = true, notes = "所在班级", example = "1")
     private Integer classID;
+
+    @ApiModelProperty(required = true, notes = "班级配置信息", example = "助教不需要，学生需要，可以为空")
+    private List<ClassConfigUserAddDTO> configList;
 
 }
