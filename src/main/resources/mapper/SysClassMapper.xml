@@ -339,4 +339,10 @@
         class_delete_at = #{classDeleteAt,jdbcType=TIMESTAMP}
         where class_id = #{classId,jdbcType=INTEGER}
     </update>
+
+    <!--<select id="search">-->
+    <!--SELECT * FROM sys_class-->
+    <!--WHERE class_name LIKE '%#{className}%' AND-->
+    <!--class_id IN (SELECT class_id FROM class_role WHERE user_id=#{userId})-->
+    <!--</select>-->
 </mapper>

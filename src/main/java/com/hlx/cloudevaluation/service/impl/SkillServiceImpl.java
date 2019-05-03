@@ -13,6 +13,7 @@ import com.hlx.cloudevaluation.model.po.SysSkillExample;
 import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
 import com.hlx.cloudevaluation.model.vo.SkillVO;
 import com.hlx.cloudevaluation.service.SkillService;
+import com.hlx.cloudevaluation.util.StringUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,9 +73,16 @@ public class SkillServiceImpl implements SkillService {
         SysSkillExample example = new SysSkillExample();
         SysSkillExample.Criteria criteria = example.createCriteria();
         criteria.andSkillCreatorEqualTo(userId);
-        if (skillSearchDTO.getSkillName() != null) {
+        if (StringUtil.isNotEmpty(skillSearchDTO.getSkillName())) {
             criteria.andSkillNameLike("%" + skillSearchDTO.getSkillName() + "%");
         }
+        if (StringUtil.isNotEmpty(skillSearchDTO.getSkillType())) {
+            criteria.andSkillTypeLike("%" + skillSearchDTO.getSkillType() + "%");
+        }
+        if (StringUtil.isNotEmpty(skillSearchDTO.getSkillShortName())) {
+            criteria.andSkillShortNameLike("%" + skillSearchDTO.getSkillShortName() + "%");
+        }
+
         List<SysSkill> sysSkillList = sysSkillMapper.selectByExample(example);
         PageInfo<SysSkill> pageInfo = new PageInfo<>(sysSkillList);
 

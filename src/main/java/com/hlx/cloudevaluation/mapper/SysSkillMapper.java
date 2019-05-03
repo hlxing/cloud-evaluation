@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.SysSkill;
 import com.hlx.cloudevaluation.model.po.SysSkillExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;

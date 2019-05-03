@@ -564,6 +564,146 @@ public class SysSkillExample {
             addCriterion("skill_delete_at not between", value1, value2, "skillDeleteAt");
             return (Criteria) this;
         }
+
+        public Criteria andSkillTypeIsNull() {
+            addCriterion("skill_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeIsNotNull() {
+            addCriterion("skill_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeEqualTo(String value) {
+            addCriterion("skill_type =", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeNotEqualTo(String value) {
+            addCriterion("skill_type <>", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeGreaterThan(String value) {
+            addCriterion("skill_type >", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("skill_type >=", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeLessThan(String value) {
+            addCriterion("skill_type <", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeLessThanOrEqualTo(String value) {
+            addCriterion("skill_type <=", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeLike(String value) {
+            addCriterion("skill_type like", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeNotLike(String value) {
+            addCriterion("skill_type not like", value, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeIn(List<String> values) {
+            addCriterion("skill_type in", values, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeNotIn(List<String> values) {
+            addCriterion("skill_type not in", values, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeBetween(String value1, String value2) {
+            addCriterion("skill_type between", value1, value2, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillTypeNotBetween(String value1, String value2) {
+            addCriterion("skill_type not between", value1, value2, "skillType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameIsNull() {
+            addCriterion("skill_short_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameIsNotNull() {
+            addCriterion("skill_short_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameEqualTo(String value) {
+            addCriterion("skill_short_name =", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameNotEqualTo(String value) {
+            addCriterion("skill_short_name <>", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameGreaterThan(String value) {
+            addCriterion("skill_short_name >", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameGreaterThanOrEqualTo(String value) {
+            addCriterion("skill_short_name >=", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameLessThan(String value) {
+            addCriterion("skill_short_name <", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameLessThanOrEqualTo(String value) {
+            addCriterion("skill_short_name <=", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameLike(String value) {
+            addCriterion("skill_short_name like", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameNotLike(String value) {
+            addCriterion("skill_short_name not like", value, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameIn(List<String> values) {
+            addCriterion("skill_short_name in", values, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameNotIn(List<String> values) {
+            addCriterion("skill_short_name not in", values, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameBetween(String value1, String value2) {
+            addCriterion("skill_short_name between", value1, value2, "skillShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkillShortNameNotBetween(String value1, String value2) {
+            addCriterion("skill_short_name not between", value1, value2, "skillShortName");
+            return (Criteria) this;
+        }
     }
 
     /**
