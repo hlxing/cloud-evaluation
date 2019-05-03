@@ -32,8 +32,8 @@
                              targetProject="src\main\java"/>
 
         <!--表名-->
-        <table tableName="class_config">
-            <generatedKey column="config_id" sqlStatement="MySql"/>
+        <table tableName="sys_class">
+            <generatedKey column="class_id" sqlStatement="MySql"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -2,12 +2,12 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.SysTeam;
 import com.hlx.cloudevaluation.model.po.SysTeamExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
 
 @Mapper
 @Repository

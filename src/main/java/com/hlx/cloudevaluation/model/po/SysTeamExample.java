@@ -505,63 +505,63 @@ public class SysTeamExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstIsNull() {
-            addCriterion("team_exitst is null");
+        public Criteria andTeamExitIsNull() {
+            addCriterion("team_exit is null");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstIsNotNull() {
-            addCriterion("team_exitst is not null");
+        public Criteria andTeamExitIsNotNull() {
+            addCriterion("team_exit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstEqualTo(Boolean value) {
-            addCriterion("team_exitst =", value, "teamExitst");
+        public Criteria andTeamExitEqualTo(Boolean value) {
+            addCriterion("team_exit =", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstNotEqualTo(Boolean value) {
-            addCriterion("team_exitst <>", value, "teamExitst");
+        public Criteria andTeamExitNotEqualTo(Boolean value) {
+            addCriterion("team_exit <>", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstGreaterThan(Boolean value) {
-            addCriterion("team_exitst >", value, "teamExitst");
+        public Criteria andTeamExitGreaterThan(Boolean value) {
+            addCriterion("team_exit >", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("team_exitst >=", value, "teamExitst");
+        public Criteria andTeamExitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("team_exit >=", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstLessThan(Boolean value) {
-            addCriterion("team_exitst <", value, "teamExitst");
+        public Criteria andTeamExitLessThan(Boolean value) {
+            addCriterion("team_exit <", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstLessThanOrEqualTo(Boolean value) {
-            addCriterion("team_exitst <=", value, "teamExitst");
+        public Criteria andTeamExitLessThanOrEqualTo(Boolean value) {
+            addCriterion("team_exit <=", value, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstIn(List<Boolean> values) {
-            addCriterion("team_exitst in", values, "teamExitst");
+        public Criteria andTeamExitIn(List<Boolean> values) {
+            addCriterion("team_exit in", values, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstNotIn(List<Boolean> values) {
-            addCriterion("team_exitst not in", values, "teamExitst");
+        public Criteria andTeamExitNotIn(List<Boolean> values) {
+            addCriterion("team_exit not in", values, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstBetween(Boolean value1, Boolean value2) {
-            addCriterion("team_exitst between", value1, value2, "teamExitst");
+        public Criteria andTeamExitBetween(Boolean value1, Boolean value2) {
+            addCriterion("team_exit between", value1, value2, "teamExit");
             return (Criteria) this;
         }
 
-        public Criteria andTeamExitstNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("team_exitst not between", value1, value2, "teamExitst");
+        public Criteria andTeamExitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("team_exit not between", value1, value2, "teamExit");
             return (Criteria) this;
         }
 
@@ -622,6 +622,126 @@ public class SysTeamExample {
 
         public Criteria andTeamCreateAtNotBetween(Date value1, Date value2) {
             addCriterion("team_create_at not between", value1, value2, "teamCreateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditIsNull() {
+            addCriterion("team_edit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditIsNotNull() {
+            addCriterion("team_edit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditEqualTo(Boolean value) {
+            addCriterion("team_edit =", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditNotEqualTo(Boolean value) {
+            addCriterion("team_edit <>", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditGreaterThan(Boolean value) {
+            addCriterion("team_edit >", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("team_edit >=", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditLessThan(Boolean value) {
+            addCriterion("team_edit <", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditLessThanOrEqualTo(Boolean value) {
+            addCriterion("team_edit <=", value, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditIn(List<Boolean> values) {
+            addCriterion("team_edit in", values, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditNotIn(List<Boolean> values) {
+            addCriterion("team_edit not in", values, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditBetween(Boolean value1, Boolean value2) {
+            addCriterion("team_edit between", value1, value2, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamEditNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("team_edit not between", value1, value2, "teamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassIsNull() {
+            addCriterion("team_class is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassIsNotNull() {
+            addCriterion("team_class is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassEqualTo(Integer value) {
+            addCriterion("team_class =", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassNotEqualTo(Integer value) {
+            addCriterion("team_class <>", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassGreaterThan(Integer value) {
+            addCriterion("team_class >", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassGreaterThanOrEqualTo(Integer value) {
+            addCriterion("team_class >=", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassLessThan(Integer value) {
+            addCriterion("team_class <", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassLessThanOrEqualTo(Integer value) {
+            addCriterion("team_class <=", value, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassIn(List<Integer> values) {
+            addCriterion("team_class in", values, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassNotIn(List<Integer> values) {
+            addCriterion("team_class not in", values, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassBetween(Integer value1, Integer value2) {
+            addCriterion("team_class between", value1, value2, "teamClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamClassNotBetween(Integer value1, Integer value2) {
+            addCriterion("team_class not between", value1, value2, "teamClass");
             return (Criteria) this;
         }
 
@@ -742,66 +862,6 @@ public class SysTeamExample {
 
         public Criteria andTeamDeleteAtNotBetween(Date value1, Date value2) {
             addCriterion("team_delete_at not between", value1, value2, "teamDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassIsNull() {
-            addCriterion("team_class is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassIsNotNull() {
-            addCriterion("team_class is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassEqualTo(Integer value) {
-            addCriterion("team_class =", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassNotEqualTo(Integer value) {
-            addCriterion("team_class <>", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassGreaterThan(Integer value) {
-            addCriterion("team_class >", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassGreaterThanOrEqualTo(Integer value) {
-            addCriterion("team_class >=", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassLessThan(Integer value) {
-            addCriterion("team_class <", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassLessThanOrEqualTo(Integer value) {
-            addCriterion("team_class <=", value, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassIn(List<Integer> values) {
-            addCriterion("team_class in", values, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassNotIn(List<Integer> values) {
-            addCriterion("team_class not in", values, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassBetween(Integer value1, Integer value2) {
-            addCriterion("team_class between", value1, value2, "teamClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamClassNotBetween(Integer value1, Integer value2) {
-            addCriterion("team_class not between", value1, value2, "teamClass");
             return (Criteria) this;
         }
     }

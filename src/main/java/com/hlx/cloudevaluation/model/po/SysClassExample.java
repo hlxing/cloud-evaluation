@@ -764,6 +764,66 @@ public class SysClassExample {
             addCriterion("class_delete_at not between", value1, value2, "classDeleteAt");
             return (Criteria) this;
         }
+
+        public Criteria andClassTeamEditIsNull() {
+            addCriterion("class_team_edit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditIsNotNull() {
+            addCriterion("class_team_edit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditEqualTo(Boolean value) {
+            addCriterion("class_team_edit =", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditNotEqualTo(Boolean value) {
+            addCriterion("class_team_edit <>", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditGreaterThan(Boolean value) {
+            addCriterion("class_team_edit >", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("class_team_edit >=", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditLessThan(Boolean value) {
+            addCriterion("class_team_edit <", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditLessThanOrEqualTo(Boolean value) {
+            addCriterion("class_team_edit <=", value, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditIn(List<Boolean> values) {
+            addCriterion("class_team_edit in", values, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditNotIn(List<Boolean> values) {
+            addCriterion("class_team_edit not in", values, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditBetween(Boolean value1, Boolean value2) {
+            addCriterion("class_team_edit between", value1, value2, "classTeamEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassTeamEditNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("class_team_edit not between", value1, value2, "classTeamEdit");
+            return (Criteria) this;
+        }
     }
 
     /**

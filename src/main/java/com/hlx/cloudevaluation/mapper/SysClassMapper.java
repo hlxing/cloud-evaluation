@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.SysClass;
 import com.hlx.cloudevaluation.model.po.SysClassExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -99,14 +98,4 @@ public interface SysClassMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SysClass record);
-
-    /**
-     * 分页找班级
-     * @param start
-     * @param end
-     * @param className
-     * @return
-     */
-    //List<SysClass> search(@Param("start") int start, @Param("end") int end, @Param("className") String className, @Param("userId") int userId);
-
 }
