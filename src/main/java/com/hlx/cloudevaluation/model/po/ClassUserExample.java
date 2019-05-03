@@ -554,6 +554,216 @@ public class ClassUserExample {
             addCriterion("cu_delete_at not between", value1, value2, "cuDeleteAt");
             return (Criteria) this;
         }
+
+        public Criteria andCuGithubIsNull() {
+            addCriterion("cu_github is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubIsNotNull() {
+            addCriterion("cu_github is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubEqualTo(String value) {
+            addCriterion("cu_github =", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubNotEqualTo(String value) {
+            addCriterion("cu_github <>", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubGreaterThan(String value) {
+            addCriterion("cu_github >", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubGreaterThanOrEqualTo(String value) {
+            addCriterion("cu_github >=", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubLessThan(String value) {
+            addCriterion("cu_github <", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubLessThanOrEqualTo(String value) {
+            addCriterion("cu_github <=", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubLike(String value) {
+            addCriterion("cu_github like", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubNotLike(String value) {
+            addCriterion("cu_github not like", value, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubIn(List<String> values) {
+            addCriterion("cu_github in", values, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubNotIn(List<String> values) {
+            addCriterion("cu_github not in", values, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubBetween(String value1, String value2) {
+            addCriterion("cu_github between", value1, value2, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuGithubNotBetween(String value1, String value2) {
+            addCriterion("cu_github not between", value1, value2, "cuGithub");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogIsNull() {
+            addCriterion("cu_blog is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogIsNotNull() {
+            addCriterion("cu_blog is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogEqualTo(String value) {
+            addCriterion("cu_blog =", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogNotEqualTo(String value) {
+            addCriterion("cu_blog <>", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogGreaterThan(String value) {
+            addCriterion("cu_blog >", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogGreaterThanOrEqualTo(String value) {
+            addCriterion("cu_blog >=", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogLessThan(String value) {
+            addCriterion("cu_blog <", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogLessThanOrEqualTo(String value) {
+            addCriterion("cu_blog <=", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogLike(String value) {
+            addCriterion("cu_blog like", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogNotLike(String value) {
+            addCriterion("cu_blog not like", value, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogIn(List<String> values) {
+            addCriterion("cu_blog in", values, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogNotIn(List<String> values) {
+            addCriterion("cu_blog not in", values, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogBetween(String value1, String value2) {
+            addCriterion("cu_blog between", value1, value2, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuBlogNotBetween(String value1, String value2) {
+            addCriterion("cu_blog not between", value1, value2, "cuBlog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailIsNull() {
+            addCriterion("cu_email is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailIsNotNull() {
+            addCriterion("cu_email is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailEqualTo(String value) {
+            addCriterion("cu_email =", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailNotEqualTo(String value) {
+            addCriterion("cu_email <>", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailGreaterThan(String value) {
+            addCriterion("cu_email >", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailGreaterThanOrEqualTo(String value) {
+            addCriterion("cu_email >=", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailLessThan(String value) {
+            addCriterion("cu_email <", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailLessThanOrEqualTo(String value) {
+            addCriterion("cu_email <=", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailLike(String value) {
+            addCriterion("cu_email like", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailNotLike(String value) {
+            addCriterion("cu_email not like", value, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailIn(List<String> values) {
+            addCriterion("cu_email in", values, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailNotIn(List<String> values) {
+            addCriterion("cu_email not in", values, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailBetween(String value1, String value2) {
+            addCriterion("cu_email between", value1, value2, "cuEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andCuEmailNotBetween(String value1, String value2) {
+            addCriterion("cu_email not between", value1, value2, "cuEmail");
+            return (Criteria) this;
+        }
     }
 
     /**
