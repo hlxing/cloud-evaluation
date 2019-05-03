@@ -1,7 +1,6 @@
 package com.hlx.cloudevaluation.model.vo;
 
 import lombok.Data;
-
 import java.util.Date;
 
 /**
@@ -14,6 +13,10 @@ public class SkillVO {
     private Integer skillId;
 
     private String skillName;
+
+    private String skillType;
+
+    private String skillShortName;
 
     private Date skillCreateAt;
 

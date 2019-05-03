@@ -55,7 +55,7 @@ public class SkillController {
         return apiResult;
     }
 
-    @ApiOperation(value = "新建能力")
+    @ApiOperation(value = "修改能力")
     @PostMapping("/update")
     public ApiResult<String> add(@RequestBody @Valid SkillUpdateDTO skillUpdateDTO, HttpSession session) {
         skillService.update(skillUpdateDTO, (Integer) session.getAttribute("userId"));

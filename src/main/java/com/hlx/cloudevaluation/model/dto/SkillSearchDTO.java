@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @description: 技能信息搜索传输对象
@@ -15,6 +16,16 @@ public class SkillSearchDTO {
 
     @ApiModelProperty(notes = "技能名称", example = "博客")
     private String skillName;
+
+    @NotNull
+    @Size(min = 1, max = 50)
+    @ApiModelProperty(required = true, notes = "技能类型,最长50", example = "工程能力")
+    private String skillType;
+
+    @NotNull
+    @Size(min = 1, max = 10)
+    @ApiModelProperty(required = true, notes = "技能代号", example = "A")
+    private String skillShortName;
 
     @NotNull
     @Min(1)
