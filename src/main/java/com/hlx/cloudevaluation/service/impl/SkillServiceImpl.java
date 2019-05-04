@@ -14,6 +14,7 @@ import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
 import com.hlx.cloudevaluation.model.vo.SkillVO;
 import com.hlx.cloudevaluation.service.SkillService;
 import com.hlx.cloudevaluation.util.StringUtil;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,15 @@ public class SkillServiceImpl implements SkillService {
         skillSearchVO.setSkillVOList(skillVOList);
 
         return skillSearchVO;
+    }
+
+    @Override
+    public SkillVO getDetail(Integer skillId) {
+        SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(skillId);
+        if (sysSkill == null) {
+            throw new ApiException(SkillErrorEnum.SKILL_ID_NO_EXIST);
+        }
+        return modelMapper.map(sysSkill, SkillVO.class);
     }
 
     @Override
