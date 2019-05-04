@@ -43,4 +43,7 @@ public class ClassDetailVO {
     @ApiModelProperty(notes = "班级删除时间")
     private Date classDeleteAt;
 
+    @ApiModelProperty(notes = "班级状态")
+    private Boolean classExist;
+
 }

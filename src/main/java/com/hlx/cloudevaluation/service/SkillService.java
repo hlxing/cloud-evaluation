@@ -5,6 +5,7 @@ import com.hlx.cloudevaluation.model.dto.SkillAddDTO;
 import com.hlx.cloudevaluation.model.dto.SkillSearchDTO;
 import com.hlx.cloudevaluation.model.dto.SkillUpdateDTO;
 import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
+import com.hlx.cloudevaluation.model.vo.SkillVO;
 
 /**
  * @description: 技能服务接口
@@ -20,4 +21,5 @@ public interface SkillService {
 
     void update(SkillUpdateDTO skillUpdateDTO, Integer userId);
 
+    SkillVO getDetail(Integer skillId);
 }

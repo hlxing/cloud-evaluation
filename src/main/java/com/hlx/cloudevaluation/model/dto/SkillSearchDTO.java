@@ -19,11 +19,11 @@ public class SkillSearchDTO {
     private String skillName;
 
     @Size(min = 1, max = 50)
-    @ApiModelProperty(required = true, notes = "技能类型,最长50", example = "工程能力")
+    @ApiModelProperty(notes = "技能类型,最长50", example = "工程能力")
     private String skillType;
 
     @Size(min = 1, max = 10)
-    @ApiModelProperty(required = true, notes = "技能代号", example = "A")
+    @ApiModelProperty(notes = "技能代号", example = "A")
     private String skillShortName;
 
     @NotNull

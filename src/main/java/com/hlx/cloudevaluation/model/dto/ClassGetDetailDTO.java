@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ClassGetDetailDTO {
 
-    @ApiModelProperty(notes = "班级id", example = "1")
+    @ApiModelProperty(required = true, notes = "班级id", example = "1")
     private Integer classId;
 
     @NotNull

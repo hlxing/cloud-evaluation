@@ -14,10 +14,10 @@ import javax.validation.constraints.Size;
 public class ClassUpdateDTO {
 
     @Size(min = 1, max = 255)
-    @ApiModelProperty(required = true, notes = "班级名称,最长255", example = "2016软件工程四班")
+    @ApiModelProperty(notes = "班级名称,最长255", example = "2016软件工程四班")
     private String className;
 
-    @ApiModelProperty(required = true, notes = "班级团队信息是否可以修改", example = "true")
+    @ApiModelProperty(notes = "班级团队信息是否可以修改", example = "true")
     private Boolean classTeamEdit;
 
     @NotNull

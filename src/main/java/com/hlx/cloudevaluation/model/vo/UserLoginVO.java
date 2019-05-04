@@ -13,4 +13,8 @@ public class UserLoginVO {
 
     private String userName;
 
+    private Integer userRole;
+
+    private String userAccount;
+
 }

@@ -5,6 +5,7 @@ import com.hlx.cloudevaluation.model.dto.SkillSearchDTO;
 import com.hlx.cloudevaluation.model.dto.SkillUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
 import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
+import com.hlx.cloudevaluation.model.vo.SkillVO;
 import com.hlx.cloudevaluation.service.SkillService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,15 @@ public class SkillController {
         SkillSearchVO skillSearchVO = skillService.search(skillSearchDTO, (Integer) session.getAttribute("userId"));
         ApiResult<SkillSearchVO> apiResult = new ApiResult<>();
         apiResult.setData(skillSearchVO);
+        return apiResult;
+    }
+
+    @ApiOperation(value = "查询详细能力")
+    @GetMapping("/detail")
+    public ApiResult<SkillVO> getDetail(@RequestParam("skillId") Integer skillId) {
+        ApiResult<SkillVO> apiResult = new ApiResult<>();
+        SkillVO skillVO = skillService.getDetail(skillId);
+        apiResult.setData(skillVO);
         return apiResult;
     }
 
