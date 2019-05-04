@@ -76,8 +76,7 @@ public class ClassServiceImpl implements ClassService {
                 throw new ApiException(ClassErrorEnum.STU_EXIST);
             }
             //学生
-            ClassUser classUser = new ClassUser();
-            classUser.setClassId(classAuthDTO.getClassID());
+            ClassUser classUser = modelMapper.map(classAuthDTO, ClassUser.class);
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
             classUserMapper.insert(classUser);
@@ -164,7 +163,10 @@ public class ClassServiceImpl implements ClassService {
         List<ClassUserVO> classUserVOList = new ArrayList<>();
         for (ClassUser classUser : classUserList) {
             User user = userDao.get(classUser.getUserId());
-            ClassUserVO classUserVO = modelMapper.map(user, ClassUserVO.class);
+            ClassUserVO classUserVO = modelMapper.map(classUser, ClassUserVO.class);
+            classUserVO.setUserAccount(user.getUserAccount());
+            classUserVO.setUserName(user.getUserName());
+            classUserVO.setUserId(user.getUserId());
             classUserVOList.add(classUserVO);
         }
         classDetailVO.setClassUserVOList(classUserVOList);
@@ -179,6 +181,14 @@ public class ClassServiceImpl implements ClassService {
         sysClass.setClassCreateAt(new Date());
         sysClass.setClassAssistantToken(RandomUtil.get());
         sysClass.setClassStuToken(RandomUtil.get());
+        sysClass.setClassTeamEdit(true);
+        sysClass.setClassExist(true);
         sysClassMapper.insertSelective(sysClass);
+
+        ClassRole classRole = new ClassRole();
+        classRole.setClassId(sysClass.getClassId());
+        classRole.setUserId(userId);
+        classRole.setRoleName("teacher");
+        classRoleMapper.insert(classRole);
     }
 }
