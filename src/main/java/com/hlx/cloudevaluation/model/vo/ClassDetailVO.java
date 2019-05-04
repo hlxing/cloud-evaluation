@@ -25,6 +25,15 @@ public class ClassDetailVO {
     @ApiModelProperty(notes = "班级名称")
     private String className;
 
+    @ApiModelProperty(notes = "学生 Token")
+    private String classStuToken;
+
+    @ApiModelProperty(notes = "助教 Token")
+    private String classAssistantToken;
+
+    @ApiModelProperty(notes = "团队信息是否可编辑")
+    private Boolean classTeamEdit;
+
     @ApiModelProperty(notes = "班级创建时间")
     private Date classCreateAt;
 

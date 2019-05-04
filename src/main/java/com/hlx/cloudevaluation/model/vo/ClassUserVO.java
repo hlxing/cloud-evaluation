@@ -15,4 +15,10 @@ public class ClassUserVO {
 
     private String userName;
 
+    private String cuGithub;
+
+    private String cuBlog;
+
+    private String cuEmail;
+
 }

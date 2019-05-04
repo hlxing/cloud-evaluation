@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
-import com.hlx.cloudevaluation.mapper.ClassConfigMapper;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
@@ -19,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
@@ -33,14 +31,12 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
-    private ClassConfigMapper classConfigMapper;
-
     private UserDao userDao;
 
     @Autowired
     public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
                             ClassRoleMapper classRoleMapper, UserDao userDao,
-                            ClassConfigMapper classConfigMapper, ModelMapper modelMapper) {
+                            ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
@@ -81,8 +77,7 @@ public class ClassServiceImpl implements ClassService {
                 throw new ApiException(ClassErrorEnum.STU_EXIST);
             }
             //学生
-            ClassUser classUser = new ClassUser();
-            classUser.setClassId(classAuthDTO.getClassID());
+            ClassUser classUser = modelMapper.map(classAuthDTO, ClassUser.class);
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
             classUserMapper.insert(classUser);
@@ -171,17 +166,15 @@ public class ClassServiceImpl implements ClassService {
         List<ClassUserVO> classUserVOList = new ArrayList<>();
         for (ClassUser classUser : classUserList) {
             User user = userDao.get(classUser.getUserId());
-            ClassUserVO classUserVO = modelMapper.map(user, ClassUserVO.class);
+            ClassUserVO classUserVO = modelMapper.map(classUser, ClassUserVO.class);
+            classUserVO.setUserAccount(user.getUserAccount());
+            classUserVO.setUserName(user.getUserName());
+            classUserVO.setUserId(user.getUserId());
             classUserVOList.add(classUserVO);
         }
         classDetailVO.setClassUserVOList(classUserVOList);
 
         return classDetailVO;
-    }
-
-    @Override
-    public ClassConfigListVO getConfigList(String token) {
-        return null;
     }
 
     @Override
@@ -191,17 +184,14 @@ public class ClassServiceImpl implements ClassService {
         sysClass.setClassCreateAt(new Date());
         sysClass.setClassAssistantToken(RandomUtil.get());
         sysClass.setClassStuToken(RandomUtil.get());
+        sysClass.setClassTeamEdit(true);
+        sysClass.setClassExist(true);
         sysClassMapper.insertSelective(sysClass);
 
-        Integer classId = sysClass.getClassId();
-        List<String> classConfigs = classAddDTO.getClassConfigs();
-        if (classConfigs != null) {
-            for (String configName : classConfigs) {
-                ClassConfig classConfig = new ClassConfig();
-                classConfig.setClassId(classId);
-                classConfig.setClassConfigName(configName);
-
-            }
-        }
+        ClassRole classRole = new ClassRole();
+        classRole.setClassId(sysClass.getClassId());
+        classRole.setUserId(userId);
+        classRole.setRoleName("teacher");
+        classRoleMapper.insert(classRole);
     }
 }
