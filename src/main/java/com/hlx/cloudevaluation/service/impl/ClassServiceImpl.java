@@ -14,6 +14,7 @@ import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.ClassService;
 import com.hlx.cloudevaluation.util.RandomUtil;
+import com.hlx.cloudevaluation.util.StringUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +121,9 @@ public class ClassServiceImpl implements ClassService {
             SysClassExample sysClassExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = sysClassExample.createCriteria();
             classCriteria.andClassIdEqualTo(item.getClassId());
-            classCriteria.andClassNameLike("%" + classSearchDTO.getClassName() + "%");
+            if (StringUtil.isNotEmpty(classSearchDTO.getClassName())) {
+                classCriteria.andClassNameLike("%" + classSearchDTO.getClassName() + "%");
+            }
             List<SysClass> sysClassListItem = sysClassMapper.selectByExample(sysClassExample);
             if (sysClassListItem.size() > 0) {
                 classList.add(sysClassListItem.get(0));
