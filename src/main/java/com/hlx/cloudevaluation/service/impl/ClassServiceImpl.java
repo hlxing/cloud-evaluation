@@ -170,16 +170,11 @@ public class ClassServiceImpl implements ClassService {
 
         SysClass sysClass = sysClassMapper.selectByPrimaryKey(detailDTO.getClassId());
         ClassDetailVO classDetailVO = modelMapper.map(sysClass, ClassDetailVO.class);
-        PageHelper.startPage(detailDTO.getPageNum(), detailDTO.getPageSize());
 
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria classUserCriteria = classUserExample.createCriteria();
         classUserCriteria.andClassIdEqualTo(detailDTO.getClassId());
         List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
-
-        PageInfo info = new PageInfo<>(classUserList);
-        classDetailVO.setMaxPageNum(info.getPages());
-        classDetailVO.setPageNum(info.getPageNum());
 
         List<ClassUserVO> classUserVOList = new ArrayList<>();
         for (ClassUser classUser : classUserList) {
