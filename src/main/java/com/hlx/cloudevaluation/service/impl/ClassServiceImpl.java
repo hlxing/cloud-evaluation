@@ -72,14 +72,14 @@ public class ClassServiceImpl implements ClassService {
     public void auth(ClassAuthDTO classAuthDTO, Integer userId) {
         Integer stuOrAssistant = classAuthDTO.getAuthCode();
         if (stuOrAssistant.equals(0)) {
-            ClassUserExample example = new ClassUserExample();
-            ClassUserExample.Criteria criteria = example.createCriteria();
-
             //通过token拿class_id
             SysClassExample classExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = classExample.createCriteria();
             classCriteria.andClassStuTokenEqualTo(classAuthDTO.getToken());
             Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
+
+            ClassUserExample example = new ClassUserExample();
+            ClassUserExample.Criteria criteria = example.createCriteria();
             criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classUserMapper.selectByExample(example).size() > 0) {
@@ -102,10 +102,10 @@ public class ClassServiceImpl implements ClassService {
             SysClassExample classExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = classExample.createCriteria();
             classCriteria.andClassAssistantTokenEqualTo(classAuthDTO.getToken());
+            Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
 
             ClassRoleExample example = new ClassRoleExample();
             ClassRoleExample.Criteria criteria = example.createCriteria();
-            Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
             criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classRoleMapper.selectByExample(example).size() > 0) {
