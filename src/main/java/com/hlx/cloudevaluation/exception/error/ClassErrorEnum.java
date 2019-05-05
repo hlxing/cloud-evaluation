@@ -8,7 +8,9 @@ public enum ClassErrorEnum implements ApiError {
 
     CLASS_ID_INVALID(633, "CLASS_ID_INVALID"),
 
-    TOKEN_INVALID(634, "TOKEN_INVALID");
+    TOKEN_INVALID(634, "TOKEN_INVALID"),
+
+    STU_INFO_LACK(635, "STU_INFO_LACK");
 
     // 响应码
     private final int code;

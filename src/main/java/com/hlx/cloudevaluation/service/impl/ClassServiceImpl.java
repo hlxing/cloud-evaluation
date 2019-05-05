@@ -72,6 +72,10 @@ public class ClassServiceImpl implements ClassService {
     public void auth(ClassAuthDTO classAuthDTO, Integer userId) {
         Integer stuOrAssistant = classAuthDTO.getAuthCode();
         if (stuOrAssistant.equals(0)) {
+            if (StringUtil.isEmpty(classAuthDTO.getCuBlog()) || StringUtil.isEmpty(classAuthDTO.getCuEmail()) || StringUtil.isEmpty(classAuthDTO.getCuGithub())) {
+                throw new ApiException(ClassErrorEnum.STU_INFO_LACK);
+            }
+
             //通过token拿class_id
             SysClassExample classExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = classExample.createCriteria();
