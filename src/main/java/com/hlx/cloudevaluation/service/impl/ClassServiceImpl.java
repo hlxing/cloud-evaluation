@@ -82,6 +82,7 @@ public class ClassServiceImpl implements ClassService {
             classUser.setUserId(userId);
             classUserMapper.insert(classUser);
         } else {
+            //助教
             ClassRoleExample example = new ClassRoleExample();
             ClassRoleExample.Criteria criteria = example.createCriteria();
             criteria.andClassIdEqualTo(classAuthDTO.getClassID());
