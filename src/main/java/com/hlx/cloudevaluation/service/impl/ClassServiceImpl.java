@@ -79,7 +79,7 @@ public class ClassServiceImpl implements ClassService {
             criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classUserMapper.selectByExample(example).size() > 0) {
-                //学生已在这个班级,不用再添加
+                //学生权限已添加
                 throw new ApiException(ClassErrorEnum.EXIST_IN_CLASS_ROLE);
             }
             //学生
@@ -105,7 +105,7 @@ public class ClassServiceImpl implements ClassService {
             criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classRoleMapper.selectByExample(example).size() > 0) {
-                //权限已添加
+                //助教权限已添加
                 throw new ApiException(ClassErrorEnum.EXIST_IN_CLASS_ROLE);
             }
             ClassRole assist = new ClassRole();
