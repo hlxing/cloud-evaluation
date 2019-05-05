@@ -6,7 +6,9 @@ public enum ClassErrorEnum implements ApiError {
 
     EXIST_IN_CLASS_ROLE(632, "EXIST_IN_CLASS_ROLE"),
 
-    CLASS_ID_INVALID(633, "CLASS_ID_INVALID");
+    CLASS_ID_INVALID(633, "CLASS_ID_INVALID"),
+
+    TOKEN_INVALID(634, "TOKEN_INVALID");
 
     // 响应码
     private final int code;

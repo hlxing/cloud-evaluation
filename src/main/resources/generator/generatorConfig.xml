@@ -32,8 +32,8 @@
                              targetProject="src\main\java"/>
 
         <!--表名-->
-        <table tableName="sys_task">
-            <generatedKey column="task_id" sqlStatement="MySql"/>
+        <table tableName="task_skill">
+            <generatedKey column="id" sqlStatement="MySql"/>
             <!--<columnOverride column="task_content" jdbcType="VARCHAR"/>-->
         </table>
     </context>

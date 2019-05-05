@@ -72,6 +72,10 @@ public class ClassServiceImpl implements ClassService {
             SysClassExample classExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = classExample.createCriteria();
             classCriteria.andClassStuTokenEqualTo(classAuthDTO.getToken());
+            if (sysClassMapper.selectByExample(classExample).size() == 0) {
+                //token不存在
+                throw new ApiException(ClassErrorEnum.TOKEN_INVALID);
+            }
             Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
 
             ClassUserExample example = new ClassUserExample();
@@ -86,7 +90,8 @@ public class ClassServiceImpl implements ClassService {
             ClassUser classUser = modelMapper.map(classAuthDTO, ClassUser.class);
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
-            classUserMapper.insert(classUser);
+            classUser.setClassId(classId);
+            classUserMapper.insertSelective(classUser);
 
             ClassRole student = new ClassRole();
             student.setUserId(userId);
@@ -98,6 +103,10 @@ public class ClassServiceImpl implements ClassService {
             SysClassExample classExample = new SysClassExample();
             SysClassExample.Criteria classCriteria = classExample.createCriteria();
             classCriteria.andClassAssistantTokenEqualTo(classAuthDTO.getToken());
+            if (sysClassMapper.selectByExample(classExample).size() == 0) {
+                //token不存在
+                throw new ApiException(ClassErrorEnum.TOKEN_INVALID);
+            }
             Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
 
             ClassRoleExample example = new ClassRoleExample();

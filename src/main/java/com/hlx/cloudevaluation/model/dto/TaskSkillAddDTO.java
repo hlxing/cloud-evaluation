@@ -17,6 +17,10 @@ public class TaskSkillAddDTO {
     @ApiModelProperty(required = true, notes = "技能id")
     private Integer skillId;
 
+    @NotNull
+    @ApiModelProperty(required = true, notes = "taskId")
+    private Integer taskId;
+
 
     @NotNull
     @Min(0)
