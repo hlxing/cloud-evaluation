@@ -80,13 +80,13 @@ public class ClassServiceImpl implements ClassService {
             criteria.andUserIdEqualTo(userId);
             if (classUserMapper.selectByExample(example).size() > 0) {
                 //学生已在这个班级,不用再添加
-                throw new ApiException(ClassErrorEnum.STU_EXIST);
+                throw new ApiException(ClassErrorEnum.EXIST_IN_CLASS_ROLE);
             }
             //学生
             ClassUser classUser = modelMapper.map(classAuthDTO, ClassUser.class);
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
-            classUserMapper.insert(classUser);
+            classUserMapper.insertSelective(classUser);
 
             ClassRole student = new ClassRole();
             student.setUserId(userId);
