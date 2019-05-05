@@ -33,7 +33,7 @@ public class UserRegisterDTO {
     private String userName;
 
     @NotNull
-    @ApiModelProperty(required = true, notes = "0为老师,1为学生", example = "0")
+    @ApiModelProperty(required = true, notes = "0为学生,1为老师", example = "0")
     private Integer userRole;
 
 }
