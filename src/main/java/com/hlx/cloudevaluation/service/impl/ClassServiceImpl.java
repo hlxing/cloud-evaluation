@@ -70,7 +70,13 @@ public class ClassServiceImpl implements ClassService {
         if (stuOrAssistant.equals(0)) {
             ClassUserExample example = new ClassUserExample();
             ClassUserExample.Criteria criteria = example.createCriteria();
-            criteria.andClassIdEqualTo(classAuthDTO.getClassID());
+
+            //通过token拿class_id
+            SysClassExample classExample = new SysClassExample();
+            SysClassExample.Criteria classCriteria = classExample.createCriteria();
+            classCriteria.andClassStuTokenEqualTo(classAuthDTO.getToken());
+            Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
+            criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classUserMapper.selectByExample(example).size() > 0) {
                 //学生已在这个班级,不用再添加
@@ -81,21 +87,32 @@ public class ClassServiceImpl implements ClassService {
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
             classUserMapper.insert(classUser);
+
+            ClassRole student = new ClassRole();
+            student.setUserId(userId);
+            student.setRoleName("student");
+            student.setClassId(classId);
+            classRoleMapper.insertSelective(student);
         } else {
             //助教
+            SysClassExample classExample = new SysClassExample();
+            SysClassExample.Criteria classCriteria = classExample.createCriteria();
+            classCriteria.andClassAssistantTokenEqualTo(classAuthDTO.getToken());
+
             ClassRoleExample example = new ClassRoleExample();
             ClassRoleExample.Criteria criteria = example.createCriteria();
-            criteria.andClassIdEqualTo(classAuthDTO.getClassID());
+            Integer classId = sysClassMapper.selectByExample(classExample).get(0).getClassId();
+            criteria.andClassIdEqualTo(classId);
             criteria.andUserIdEqualTo(userId);
             if (classRoleMapper.selectByExample(example).size() > 0) {
                 //权限已添加
                 throw new ApiException(ClassErrorEnum.EXIST_IN_CLASS_ROLE);
             }
-            ClassRole classRole = new ClassRole();
-            classRole.setClassId(classAuthDTO.getClassID());
-            classRole.setUserId(userId);
-            classRole.setRoleName("assistant");
-            classRoleMapper.insert(classRole);
+            ClassRole assist = new ClassRole();
+            assist.setClassId(classId);
+            assist.setUserId(userId);
+            assist.setRoleName("assistant");
+            classRoleMapper.insertSelective(assist);
         }
     }
 
