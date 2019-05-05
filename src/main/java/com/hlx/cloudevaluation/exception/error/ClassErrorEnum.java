@@ -4,9 +4,6 @@ public enum ClassErrorEnum implements ApiError {
 
     CLASS_NO_EXIST(630, "CLASS_NO_EXIST"),
 
-    //学生已存在
-    STU_EXIST(631, "STU_EXIST"),
-
     EXIST_IN_CLASS_ROLE(632, "EXIST_IN_CLASS_ROLE"),
 
     CLASS_ID_INVALID(633, "CLASS_ID_INVALID");

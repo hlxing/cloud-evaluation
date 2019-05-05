@@ -34,7 +34,7 @@
         <!--表名-->
         <table tableName="sys_task">
             <generatedKey column="task_id" sqlStatement="MySql"/>
-            <columnOverride column="task_content" jdbcType="VARCHAR"/>
+            <!--<columnOverride column="task_content" jdbcType="VARCHAR"/>-->
         </table>
     </context>
 </generatorConfiguration>
