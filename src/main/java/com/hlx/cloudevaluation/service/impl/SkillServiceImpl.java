@@ -14,7 +14,6 @@ import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
 import com.hlx.cloudevaluation.model.vo.SkillVO;
 import com.hlx.cloudevaluation.service.SkillService;
 import com.hlx.cloudevaluation.util.StringUtil;
-import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

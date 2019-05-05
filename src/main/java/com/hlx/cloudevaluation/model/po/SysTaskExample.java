@@ -385,6 +385,76 @@ public class SysTaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andTaskContentIsNull() {
+            addCriterion("task_content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentIsNotNull() {
+            addCriterion("task_content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentEqualTo(String value) {
+            addCriterion("task_content =", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotEqualTo(String value) {
+            addCriterion("task_content <>", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentGreaterThan(String value) {
+            addCriterion("task_content >", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentGreaterThanOrEqualTo(String value) {
+            addCriterion("task_content >=", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLessThan(String value) {
+            addCriterion("task_content <", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLessThanOrEqualTo(String value) {
+            addCriterion("task_content <=", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLike(String value) {
+            addCriterion("task_content like", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotLike(String value) {
+            addCriterion("task_content not like", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentIn(List<String> values) {
+            addCriterion("task_content in", values, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotIn(List<String> values) {
+            addCriterion("task_content not in", values, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentBetween(String value1, String value2) {
+            addCriterion("task_content between", value1, value2, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotBetween(String value1, String value2) {
+            addCriterion("task_content not between", value1, value2, "taskContent");
+            return (Criteria) this;
+        }
+
         public Criteria andTaskCreateAtIsNull() {
             addCriterion("task_create_at is null");
             return (Criteria) this;
@@ -442,126 +512,6 @@ public class SysTaskExample {
 
         public Criteria andTaskCreateAtNotBetween(Date value1, Date value2) {
             addCriterion("task_create_at not between", value1, value2, "taskCreateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtIsNull() {
-            addCriterion("task_update_at is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtIsNotNull() {
-            addCriterion("task_update_at is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtEqualTo(Date value) {
-            addCriterion("task_update_at =", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtNotEqualTo(Date value) {
-            addCriterion("task_update_at <>", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtGreaterThan(Date value) {
-            addCriterion("task_update_at >", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtGreaterThanOrEqualTo(Date value) {
-            addCriterion("task_update_at >=", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtLessThan(Date value) {
-            addCriterion("task_update_at <", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtLessThanOrEqualTo(Date value) {
-            addCriterion("task_update_at <=", value, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtIn(List<Date> values) {
-            addCriterion("task_update_at in", values, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtNotIn(List<Date> values) {
-            addCriterion("task_update_at not in", values, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtBetween(Date value1, Date value2) {
-            addCriterion("task_update_at between", value1, value2, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskUpdateAtNotBetween(Date value1, Date value2) {
-            addCriterion("task_update_at not between", value1, value2, "taskUpdateAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtIsNull() {
-            addCriterion("task_delete_at is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtIsNotNull() {
-            addCriterion("task_delete_at is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtEqualTo(Date value) {
-            addCriterion("task_delete_at =", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtNotEqualTo(Date value) {
-            addCriterion("task_delete_at <>", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtGreaterThan(Date value) {
-            addCriterion("task_delete_at >", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtGreaterThanOrEqualTo(Date value) {
-            addCriterion("task_delete_at >=", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtLessThan(Date value) {
-            addCriterion("task_delete_at <", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtLessThanOrEqualTo(Date value) {
-            addCriterion("task_delete_at <=", value, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtIn(List<Date> values) {
-            addCriterion("task_delete_at in", values, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtNotIn(List<Date> values) {
-            addCriterion("task_delete_at not in", values, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtBetween(Date value1, Date value2) {
-            addCriterion("task_delete_at between", value1, value2, "taskDeleteAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskDeleteAtNotBetween(Date value1, Date value2) {
-            addCriterion("task_delete_at not between", value1, value2, "taskDeleteAt");
             return (Criteria) this;
         }
 
@@ -742,6 +692,126 @@ public class SysTaskExample {
 
         public Criteria andTaskClassNotBetween(Integer value1, Integer value2) {
             addCriterion("task_class not between", value1, value2, "taskClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtIsNull() {
+            addCriterion("task_update_at is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtIsNotNull() {
+            addCriterion("task_update_at is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtEqualTo(Date value) {
+            addCriterion("task_update_at =", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtNotEqualTo(Date value) {
+            addCriterion("task_update_at <>", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtGreaterThan(Date value) {
+            addCriterion("task_update_at >", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtGreaterThanOrEqualTo(Date value) {
+            addCriterion("task_update_at >=", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtLessThan(Date value) {
+            addCriterion("task_update_at <", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtLessThanOrEqualTo(Date value) {
+            addCriterion("task_update_at <=", value, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtIn(List<Date> values) {
+            addCriterion("task_update_at in", values, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtNotIn(List<Date> values) {
+            addCriterion("task_update_at not in", values, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtBetween(Date value1, Date value2) {
+            addCriterion("task_update_at between", value1, value2, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUpdateAtNotBetween(Date value1, Date value2) {
+            addCriterion("task_update_at not between", value1, value2, "taskUpdateAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtIsNull() {
+            addCriterion("task_delete_at is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtIsNotNull() {
+            addCriterion("task_delete_at is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtEqualTo(Date value) {
+            addCriterion("task_delete_at =", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtNotEqualTo(Date value) {
+            addCriterion("task_delete_at <>", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtGreaterThan(Date value) {
+            addCriterion("task_delete_at >", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtGreaterThanOrEqualTo(Date value) {
+            addCriterion("task_delete_at >=", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtLessThan(Date value) {
+            addCriterion("task_delete_at <", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtLessThanOrEqualTo(Date value) {
+            addCriterion("task_delete_at <=", value, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtIn(List<Date> values) {
+            addCriterion("task_delete_at in", values, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtNotIn(List<Date> values) {
+            addCriterion("task_delete_at not in", values, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtBetween(Date value1, Date value2) {
+            addCriterion("task_delete_at between", value1, value2, "taskDeleteAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskDeleteAtNotBetween(Date value1, Date value2) {
+            addCriterion("task_delete_at not between", value1, value2, "taskDeleteAt");
             return (Criteria) this;
         }
     }
