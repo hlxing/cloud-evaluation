@@ -17,9 +17,11 @@ public class TaskVO {
 
     private String taskCreatorName;
 
+    private String taskCreatorAccount;
+
     private String taskName;
 
-    private String taskContent;
+    private String taskUrl;
 
     private Date taskCreateAt;
 

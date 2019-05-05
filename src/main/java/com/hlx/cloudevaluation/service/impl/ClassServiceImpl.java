@@ -8,6 +8,7 @@ import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
 import com.hlx.cloudevaluation.mapper.ClassRoleMapper;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
 import com.hlx.cloudevaluation.mapper.SysClassMapper;
+import com.hlx.cloudevaluation.mapper.SysTaskMapper;
 import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
@@ -31,16 +32,19 @@ public class ClassServiceImpl implements ClassService {
 
     private ClassUserMapper classUserMapper;
 
+    private SysTaskMapper sysTaskMapper;
+
     private UserDao userDao;
 
     @Autowired
     public ClassServiceImpl(SysClassMapper sysClassMapper, ClassUserMapper classUserMapper,
                             ClassRoleMapper classRoleMapper, UserDao userDao,
-                            ModelMapper modelMapper) {
+                            SysTaskMapper sysTaskMapper, ModelMapper modelMapper) {
         this.sysClassMapper = sysClassMapper;
         this.classUserMapper = classUserMapper;
         this.classRoleMapper = classRoleMapper;
         this.modelMapper = modelMapper;
+        this.sysTaskMapper = sysTaskMapper;
         this.userDao = userDao;
     }
 
@@ -186,6 +190,20 @@ public class ClassServiceImpl implements ClassService {
             classUserVOList.add(classUserVO);
         }
         classDetailVO.setClassUserVOList(classUserVOList);
+
+        SysTaskExample taskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCriteria = taskExample.createCriteria();
+        taskCriteria.andTaskClassEqualTo(detailDTO.getClassId());
+        List<SysTask> taskList = sysTaskMapper.selectByExample(taskExample);
+        List<TaskVO> taskVOList = new ArrayList<>();
+        for (SysTask sysTask : taskList) {
+            TaskVO taskVO = modelMapper.map(sysTask, TaskVO.class);
+            User user = userDao.get(sysTask.getTaskCreator());
+            taskVO.setTaskCreatorName(user.getUserName());
+            taskVO.setTaskCreatorAccount(user.getUserAccount());
+            taskVOList.add(taskVO);
+        }
+        classDetailVO.setTaskVOList(taskVOList);
 
         return classDetailVO;
     }
