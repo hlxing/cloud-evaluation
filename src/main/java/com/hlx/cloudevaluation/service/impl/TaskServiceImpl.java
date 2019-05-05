@@ -38,9 +38,10 @@ public class TaskServiceImpl implements TaskService {
         sysTask.setTaskCreator(userId);
         sysTask.setTaskCreateAt(new Date());
         List<TaskSkillAddDTO> skillAddDTOList = taskAddDTO.getSkillList();
-        sysTaskMapper.insertSelective(sysTask);
+        sysTaskMapper.insert(sysTask);
         for (TaskSkillAddDTO item : skillAddDTOList) {
             TaskSkill taskSkill = modelMapper.map(item, TaskSkill.class);
+            taskSkill.setTaskId(sysTask.getTaskId());
             taskSkillMapper.insertSelective(taskSkill);
         }
     }
