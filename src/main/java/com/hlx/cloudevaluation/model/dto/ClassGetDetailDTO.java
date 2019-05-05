@@ -16,14 +16,4 @@ public class ClassGetDetailDTO {
     @ApiModelProperty(required = true, notes = "班级id", example = "1")
     private Integer classId;
 
-    @NotNull
-    @Min(1)
-    @ApiModelProperty(required = true, notes = "页数", example = "1")
-    private Integer pageNum;
-
-    @NotNull
-    @Min(1)
-    @ApiModelProperty(required = true, notes = "每页显示数量", example = "9")
-    private Integer pageSize;
-
 }

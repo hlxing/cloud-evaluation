@@ -16,11 +16,8 @@ public class ClassDetailVO {
     @ApiModelProperty(notes = "班级用户信息列表")
     private List<ClassUserVO> classUserVOList;
 
-    @ApiModelProperty(notes = "当前页数", example = "1")
-    private Integer pageNum;
-
-    @ApiModelProperty(notes = "最大页数", example = "5")
-    private Integer maxPageNum;
+    @ApiModelProperty(notes = "作业信息列表")
+    private List<TaskVO> taskVOList;
 
     @ApiModelProperty(notes = "班级名称")
     private String className;
