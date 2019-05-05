@@ -86,7 +86,7 @@ public class ClassServiceImpl implements ClassService {
             ClassUser classUser = modelMapper.map(classAuthDTO, ClassUser.class);
             classUser.setCuCreateAt(new Date());
             classUser.setUserId(userId);
-            classUserMapper.insertSelective(classUser);
+            classUserMapper.insert(classUser);
 
             ClassRole student = new ClassRole();
             student.setUserId(userId);

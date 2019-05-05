@@ -1,11 +1,9 @@
 package com.hlx.cloudevaluation.service;
 
 import com.hlx.cloudevaluation.model.dto.*;
-import com.hlx.cloudevaluation.model.vo.ClassConfigListVO;
 import com.hlx.cloudevaluation.model.vo.ClassDetailVO;
 import com.hlx.cloudevaluation.model.vo.ClassSearchVO;
 
-import javax.validation.Valid;
 /**
  * @description: 班级服务层
  * @author: hlx 2019-04-29

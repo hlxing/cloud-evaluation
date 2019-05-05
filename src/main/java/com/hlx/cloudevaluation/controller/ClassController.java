@@ -56,7 +56,6 @@ public class ClassController {
     }
 
     @ApiOperation(value = "班级查询")
-    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @PostMapping("/search")
     public ApiResult<ClassSearchVO> search(@RequestBody @Valid ClassSearchDTO classSearchDTO, HttpSession session) {
         ApiResult<ClassSearchVO> apiResult = new ApiResult<>();
@@ -66,7 +65,6 @@ public class ClassController {
     }
 
     @ApiOperation(value = "班级详情")
-    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @PostMapping("/detail")
     public ApiResult<ClassDetailVO> getDetail(@RequestBody @Valid ClassGetDetailDTO classGetDetailDTO, HttpSession session) {
         ApiResult<ClassDetailVO> apiResult = new ApiResult<>();
