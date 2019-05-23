@@ -10,7 +10,7 @@ public enum TeamErrorEnum implements ApiError {
     // 团队名重复
     TEAM_NAME_EXIST(730, "TEAM_NAME_EXIST"),
 
-    // 不存在活动班级
+    // 学生还未加入班级
     ACTIVE_CLASS_NOT_EXIST(731, "ACTIVE_CLASS_NOT_EXIST"),
 
     // 班级中团队信息不允许修改
