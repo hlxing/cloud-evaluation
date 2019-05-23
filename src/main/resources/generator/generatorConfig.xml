@@ -32,7 +32,7 @@
                              targetProject="src\main\java"/>
 
         <!--表名-->
-        <table tableName="task_skill">
+        <table tableName="team_user">
             <generatedKey column="id" sqlStatement="MySql"/>
             <!--<columnOverride column="task_content" jdbcType="VARCHAR"/>-->
         </table>

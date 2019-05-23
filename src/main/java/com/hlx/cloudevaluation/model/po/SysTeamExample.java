@@ -255,6 +255,76 @@ public class SysTeamExample {
             return (Criteria) this;
         }
 
+        public Criteria andTeamNameIsNull() {
+            addCriterion("team_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameIsNotNull() {
+            addCriterion("team_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameEqualTo(String value) {
+            addCriterion("team_name =", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameNotEqualTo(String value) {
+            addCriterion("team_name <>", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameGreaterThan(String value) {
+            addCriterion("team_name >", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameGreaterThanOrEqualTo(String value) {
+            addCriterion("team_name >=", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameLessThan(String value) {
+            addCriterion("team_name <", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameLessThanOrEqualTo(String value) {
+            addCriterion("team_name <=", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameLike(String value) {
+            addCriterion("team_name like", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameNotLike(String value) {
+            addCriterion("team_name not like", value, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameIn(List<String> values) {
+            addCriterion("team_name in", values, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameNotIn(List<String> values) {
+            addCriterion("team_name not in", values, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameBetween(String value1, String value2) {
+            addCriterion("team_name between", value1, value2, "teamName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamNameNotBetween(String value1, String value2) {
+            addCriterion("team_name not between", value1, value2, "teamName");
+            return (Criteria) this;
+        }
+
         public Criteria andTeamTokenIsNull() {
             addCriterion("team_token is null");
             return (Criteria) this;
