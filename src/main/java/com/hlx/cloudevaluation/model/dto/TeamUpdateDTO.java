@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -12,6 +13,10 @@ import javax.validation.constraints.Size;
  **/
 @Data
 public class TeamUpdateDTO {
+
+    @NotNull
+    @ApiModelProperty(required = true, notes = "团队id", example = "10001")
+    private Integer teamId;
 
     @Size(min = 1, max = 64)
     @ApiModelProperty(required = true, notes = "团队名,最长64位", example = "不知道叫啥队")
@@ -26,5 +31,8 @@ public class TeamUpdateDTO {
 
     @ApiModelProperty(required = true, notes = "团队是否可编辑,0不可编辑,1可编辑", example = "0")
     private Boolean teamEdit;
+
+    @ApiModelProperty(required = true, notes = "团队队长id", example = "0")
+    private Integer teamCaptain;
 
 }
