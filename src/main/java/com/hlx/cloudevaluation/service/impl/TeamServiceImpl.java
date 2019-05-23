@@ -4,6 +4,7 @@ import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
 import com.hlx.cloudevaluation.exception.error.TeamErrorEnum;
 import com.hlx.cloudevaluation.mapper.ClassUserMapper;
+import com.hlx.cloudevaluation.mapper.SysClassMapper;
 import com.hlx.cloudevaluation.mapper.SysTeamMapper;
 import com.hlx.cloudevaluation.mapper.TeamUserMapper;
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
@@ -32,6 +33,9 @@ public class TeamServiceImpl implements TeamService {
 
     private ClassUserMapper classUserMapper;
 
+    @Autowired
+    private SysClassMapper sysClassMapper;
+
     private UserDao userDao;
 
     @Autowired
@@ -47,6 +51,15 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public String add(TeamAddDTO teamAddDTO, Integer userId) {
+        String teamName = teamAddDTO.getTeamName();
+        SysTeamExample teamExample = new SysTeamExample();
+        SysTeamExample.Criteria teamCri = teamExample.createCriteria();
+        teamCri.andTeamNameEqualTo(teamName);
+        if (sysTeamMapper.selectByExample(teamExample).size() > 0) {
+            //团队名存在
+            throw new ApiException(TeamErrorEnum.TEAM_NAME_EXIST);
+        }
+
         SysTeam sysTeam = modelMapper.map(teamAddDTO, SysTeam.class);
         sysTeam.setTeamCaptain(userId);
         sysTeam.setTeamCreateAt(new Date());
@@ -70,7 +83,29 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void join(String token, Integer userId) {
-
+        SysTeamExample tokenExample = new SysTeamExample();
+        SysTeamExample.Criteria tokenCriteria = tokenExample.createCriteria();
+        tokenCriteria.andTeamTokenEqualTo(token);
+        List<SysTeam> teamList = sysTeamMapper.selectByExample(tokenExample);
+        if (teamList.size() == 0) {
+            //token无效
+            throw new ApiException(TeamErrorEnum.TOKEN_INVALID);
+        } else {
+            Integer teamId = teamList.get(0).getTeamId();
+            Integer max = teamList.get(0).getTeamLimit();
+            SysTeamExample limitExample = new SysTeamExample();
+            SysTeamExample.Criteria limitCriteria = limitExample.createCriteria();
+            limitCriteria.andTeamIdEqualTo(teamId);
+            List<SysTeam> limitList = sysTeamMapper.selectByExample(limitExample);
+            if (limitList.size() >= max) {
+                //人数到达上限
+                throw new ApiException(TeamErrorEnum.TEAM_NUMBER_LIMIT);
+            } else {
+                TeamUser teamUser = new TeamUser();
+                teamUser.setTeamId(teamId);
+                teamUserMapper.insert(teamUser);
+            }
+        }
     }
 
     @Override
@@ -112,7 +147,21 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void update(TeamUpdateDTO teamUpdateDTO, Integer userId) {
+        SysTeam sysTeam = modelMapper.map(teamUpdateDTO, SysTeam.class);
 
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria criteria = classUserExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        if (sysClassMapper.selectByPrimaryKey(classUserMapper.selectByExample(classUserExample).get(0).getClassId()).getClassTeamEdit() == false) {
+            throw new ApiException(TeamErrorEnum.CLASS_TEAM_EDIT_LIMIT);
+        }
+        if (sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamEdit() == false) {
+            throw new ApiException(TeamErrorEnum.TEAM_EDIT_LIMIT);
+        }
+        SysTeamExample example = new SysTeamExample();
+        SysTeamExample.Criteria criteria1 = example.createCriteria();
+        criteria1.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
+        sysTeamMapper.updateByExample(sysTeam, example);
     }
 
     @Override
