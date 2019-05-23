@@ -16,7 +16,6 @@ public enum SkillErrorEnum implements ApiError {
     //skill被非法用户操作
     SKILL_INVALID(532, "SKILL_INVALID");
 
-
     // 响应码
     private final int code;
 

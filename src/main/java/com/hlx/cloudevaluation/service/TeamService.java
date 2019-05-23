@@ -1,14 +1,8 @@
 package com.hlx.cloudevaluation.service;
 
 
-import com.hlx.cloudevaluation.model.dto.SkillAddDTO;
-import com.hlx.cloudevaluation.model.dto.SkillSearchDTO;
-import com.hlx.cloudevaluation.model.dto.SkillUpdateDTO;
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
-import com.hlx.cloudevaluation.model.vo.SkillSearchVO;
-import com.hlx.cloudevaluation.model.vo.SkillVO;
-
-import javax.validation.Valid;
+import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
 
 /**
  * @description: 团队服务接口
@@ -18,4 +12,7 @@ public interface TeamService {
 
     String add(TeamAddDTO teamAddDTO, Integer userId);
 
+    void join(String token, Integer userId);
+
+    TeamDetailVO getDetail(Integer userId);
 }
