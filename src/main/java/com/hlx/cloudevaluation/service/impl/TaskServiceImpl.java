@@ -9,10 +9,8 @@ import com.hlx.cloudevaluation.model.po.TaskSkill;
 import com.hlx.cloudevaluation.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
-
 /**
  * @description: 作业服务实现层
  * @author: hlx 2019-05-05
@@ -40,9 +38,12 @@ public class TaskServiceImpl implements TaskService {
         List<TaskSkillAddDTO> skillAddDTOList = taskAddDTO.getSkillList();
         sysTaskMapper.insert(sysTask);
         for (TaskSkillAddDTO item : skillAddDTOList) {
-            TaskSkill taskSkill = modelMapper.map(item, TaskSkill.class);
+            TaskSkill taskSkill = new TaskSkill();
+            taskSkill.setSkillId(item.getSkillId());
+            taskSkill.setSkillNumber(item.getSkillNumber());
             taskSkill.setTaskId(sysTask.getTaskId());
             taskSkillMapper.insertSelective(taskSkill);
         }
     }
+
 }

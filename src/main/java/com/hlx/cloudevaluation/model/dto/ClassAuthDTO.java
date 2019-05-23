@@ -20,7 +20,7 @@ public class ClassAuthDTO {
     private String token;
 
     @NotNull
-    @ApiModelProperty(required = true, notes = "授权代码", example = "0为学生,1为助教")
+    @ApiModelProperty(required = true, notes = "授权代码,0为学生,1为助教", example = "0")
     private Integer authCode;
 
     @Size(min = 1, max = 50)
