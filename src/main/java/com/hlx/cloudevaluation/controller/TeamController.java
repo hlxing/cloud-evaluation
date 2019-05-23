@@ -63,5 +63,12 @@ public class TeamController {
         return new ApiResult<>("update team success");
     }
 
+    @ApiOperation(value = "退出团队", notes = "队长退出即解散团队")
+    @GetMapping("/exit")
+    public ApiResult<String> exit(HttpSession session) {
+        teamService.exit((Integer) session.getAttribute("userId"));
+        return new ApiResult<>("exit team success");
+    }
+
 
 }
