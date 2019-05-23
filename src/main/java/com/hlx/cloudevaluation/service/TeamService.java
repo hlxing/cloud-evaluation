@@ -2,7 +2,10 @@ package com.hlx.cloudevaluation.service;
 
 
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
+import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
+
+import javax.validation.Valid;
 
 /**
  * @description: 团队服务接口
@@ -15,4 +18,6 @@ public interface TeamService {
     void join(String token, Integer userId);
 
     TeamDetailVO getDetail(Integer userId);
+
+    void update(TeamUpdateDTO teamUpdateDTO, Integer userId);
 }

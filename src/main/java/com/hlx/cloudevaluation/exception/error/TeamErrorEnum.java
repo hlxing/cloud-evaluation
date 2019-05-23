@@ -14,13 +14,19 @@ public enum TeamErrorEnum implements ApiError {
     ACTIVE_CLASS_NOT_EXIST(731, "ACTIVE_CLASS_NOT_EXIST"),
 
     // 班级中团队信息不允许修改
-    CLASS_TEAM_LIMIT(732, "CLASS_TEAM_LIMIT"),
+    CLASS_TEAM_EDIT_LIMIT(732, "CLASS_TEAM_EDIT_LIMIT"),
 
     // token 非法
     TOKEN_INVALID(733, "TOKEN_INVALID"),
 
     // 团队已存在
-    TEAM_EXIST(734, "TEAM_EXIST");
+    TEAM_EXIST(734, "TEAM_EXIST"),
+
+    // 团队人数限制
+    TEAM_NUMBER_LIMIT(735, "TEAM_NUMBER_LIMIT"),
+
+    // 团队中团队信息不允许修改
+    TEAM_EDIT_LIMIT(736, "TEAM_EDIT_LIMIT");
 
     // 响应码
     private final int code;
