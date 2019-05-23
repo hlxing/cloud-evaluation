@@ -120,7 +120,12 @@ public class TeamServiceImpl implements TeamService {
         TeamUserExample teamUserExample = new TeamUserExample();
         TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
         teamUserCriteria.andUserIdEqualTo(userId);
-        Integer teamId = teamUserMapper.selectByExample(teamUserExample).get(0).getTeamId();
+        List<TeamUser> temp = teamUserMapper.selectByExample(teamUserExample);
+        if (temp == null || temp.size() == 0) {
+            return new TeamDetailVO();
+        }
+        Integer teamId = temp.get(0).getTeamId();
+
 
         // 获取团队信息
         SysTeam sysTeam = sysTeamMapper.selectByPrimaryKey(teamId);
