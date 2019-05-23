@@ -90,7 +90,7 @@ public class ApiExceptionResolver {
 
     // Api Exception异常处理(业务相关错误)
     @ExceptionHandler(value = ApiException.class)
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ApiResult<String> resolveApiException(ApiException ex) {
         ApiResult<String> apiResult = new ApiResult<>();
