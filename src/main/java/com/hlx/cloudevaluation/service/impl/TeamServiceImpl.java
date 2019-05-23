@@ -81,6 +81,10 @@ public class TeamServiceImpl implements TeamService {
         teamUserCriteria.andUserIdEqualTo(userId);
         Integer teamId = teamUserMapper.selectByExample(teamUserExample).get(0).getTeamId();
 
+        if (teamId == null) {
+            throw new ApiException(TeamErrorEnum.TEAM_NOT_EXIST);
+        }
+
         // 获取团队信息
         SysTeam sysTeam = sysTeamMapper.selectByPrimaryKey(teamId);
         TeamDetailVO teamDetailVO = modelMapper.map(sysTeam, TeamDetailVO.class);
