@@ -85,7 +85,7 @@ public class TeamServiceImpl implements TeamService {
             List<SysTeam> limitList = sysTeamMapper.selectByExample(limitExample);
             if (limitList.size() >= max) {
                 //人数到达上限
-                throw new ApiException(TeamErrorEnum.CLASS_TEAM_LIMIT);
+                throw new ApiException(TeamErrorEnum.TEAM_NUMBER_LIMIT);
             } else {
                 TeamUser teamUser = new TeamUser();
                 teamUser.setTeamId(teamId);

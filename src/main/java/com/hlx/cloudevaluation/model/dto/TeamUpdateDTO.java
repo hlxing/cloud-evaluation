@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 /**
  * @description: 团队修改传输对象
@@ -12,6 +13,11 @@ import javax.validation.constraints.Size;
  **/
 @Data
 public class TeamUpdateDTO {
+
+    @NotNull
+    @ApiModelProperty(required = true, notes = "团队id", example = "10001")
+    private Integer teamId;
+
 
     @Size(min = 1, max = 64)
     @ApiModelProperty(required = true, notes = "团队名,最长64位", example = "不知道叫啥队")
