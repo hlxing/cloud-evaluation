@@ -9,9 +9,11 @@ import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
 import com.hlx.cloudevaluation.model.po.ClassUser;
 import com.hlx.cloudevaluation.model.po.ClassUserExample;
 import com.hlx.cloudevaluation.model.po.SysTeam;
+import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
 import com.hlx.cloudevaluation.service.TeamService;
 import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,6 +30,7 @@ public class TeamServiceImpl implements TeamService {
 
     private ClassUserMapper classUserMapper;
 
+    @Autowired
     public TeamServiceImpl(ModelMapper modelMapper, TeamUserMapper teamUserMapper,
                            SysTeamMapper sysTeamMapper, ClassUserMapper classUserMapper) {
         this.modelMapper = modelMapper;
@@ -57,5 +60,15 @@ public class TeamServiceImpl implements TeamService {
         sysTeam.setTeamExit(true);
         sysTeamMapper.insertSelective(sysTeam);
         return token;
+    }
+
+    @Override
+    public void join(String token, Integer userId) {
+
+    }
+
+    @Override
+    public TeamDetailVO getDetail(Integer userId) {
+        return null;
     }
 }

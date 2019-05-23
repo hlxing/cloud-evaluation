@@ -1,6 +1,7 @@
 package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
+import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
 import com.hlx.cloudevaluation.service.TeamService;
@@ -53,6 +54,13 @@ public class TeamController {
         ApiResult<TeamDetailVO> apiResult = new ApiResult<>();
         apiResult.setData(teamDetailVO);
         return apiResult;
+    }
+
+    @ApiOperation(value = "修改团队信息")
+    @PostMapping("/update")
+    public ApiResult<String> update(@Valid TeamUpdateDTO teamUpdateDTO, HttpSession session) {
+        teamService.update(teamUpdateDTO, (Integer) session.getAttribute("userId"));
+        return new ApiResult<>("update team success");
     }
 
 
