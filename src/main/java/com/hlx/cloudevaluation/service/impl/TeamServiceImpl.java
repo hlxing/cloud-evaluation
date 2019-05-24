@@ -161,13 +161,21 @@ public class TeamServiceImpl implements TeamService {
     public void update(TeamUpdateDTO teamUpdateDTO, Integer userId) {
         SysTeam sysTeam = modelMapper.map(teamUpdateDTO, SysTeam.class);
 
+        if (sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamName().equals(teamUpdateDTO.getTeamName())) {
+            //团队名已经存在
+            throw new ApiException(TeamErrorEnum.TEAM_NAME_EXIST);
+        }
+
+
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria criteria = classUserExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
         if (sysClassMapper.selectByPrimaryKey(classUserMapper.selectByExample(classUserExample).get(0).getClassId()).getClassTeamEdit() == false) {
+            //学生下的班级的团队不许编辑
             throw new ApiException(TeamErrorEnum.CLASS_TEAM_EDIT_LIMIT);
         }
         if (sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamEdit() == false) {
+            //团队信息不允许编辑
             throw new ApiException(TeamErrorEnum.TEAM_EDIT_LIMIT);
         }
         SysTeamExample example = new SysTeamExample();
