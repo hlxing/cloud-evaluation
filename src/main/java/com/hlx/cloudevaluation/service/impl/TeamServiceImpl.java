@@ -112,6 +112,7 @@ public class TeamServiceImpl implements TeamService {
             } else {
                 TeamUser teamUser = new TeamUser();
                 teamUser.setTeamId(teamId);
+                teamUser.setUserId(userId);
                 teamUserMapper.insert(teamUser);
             }
         }
