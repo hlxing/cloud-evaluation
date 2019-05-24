@@ -185,7 +185,7 @@ public class TeamServiceImpl implements TeamService {
         SysTeamExample example = new SysTeamExample();
         SysTeamExample.Criteria criteria1 = example.createCriteria();
         criteria1.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
-        sysTeamMapper.updateByExample(sysTeam, example);
+        sysTeamMapper.updateByExampleSelective(sysTeam, example);
     }
 
     @Override
