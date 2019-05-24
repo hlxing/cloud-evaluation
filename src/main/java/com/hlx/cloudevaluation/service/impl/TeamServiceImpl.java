@@ -76,13 +76,14 @@ public class TeamServiceImpl implements TeamService {
             sysTeam.setTeamClass(classUserList.get(0).getClassId());
             sysTeam.setTeamCaptain(userId);
         }
-        sysTeam.setTeamExit(true);
+        sysTeam.setTeamEdit(true);
         sysTeamMapper.insert(sysTeam);
 
         //队长创建团队后默认加入团队
         TeamUser teamUser = new TeamUser();
         teamUser.setUserId(userId);
         teamUser.setTeamId(sysTeam.getTeamId());
+        teamUserMapper.insert(teamUser);
 
         return token;
     }
