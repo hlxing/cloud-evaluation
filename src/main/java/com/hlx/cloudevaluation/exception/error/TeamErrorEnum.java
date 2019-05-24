@@ -29,7 +29,12 @@ public enum TeamErrorEnum implements ApiError {
     TEAM_EDIT_LIMIT(736, "TEAM_EDIT_LIMIT"),
 
     // 学生不存在团队
-    TEAM_NOT_EXIST(737, "TEAM_NOT_EXIST");
+    TEAM_NOT_EXIST(737, "TEAM_NOT_EXIST"),
+
+    //非队长修改团队信息
+    NOT_CAPTAIN_UPDATE(738, "NOT_CAPTAIN_UPDATE");
+
+
 
     // 响应码
     private final int code;

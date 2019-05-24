@@ -166,6 +166,10 @@ public class TeamServiceImpl implements TeamService {
             throw new ApiException(TeamErrorEnum.TEAM_NAME_EXIST);
         }
 
+        if (!sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamCaptain().equals(userId)) {
+            //非队长修改团队信息
+            throw new ApiException(TeamErrorEnum.NOT_CAPTAIN_UPDATE);
+        }
 
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria criteria = classUserExample.createCriteria();
