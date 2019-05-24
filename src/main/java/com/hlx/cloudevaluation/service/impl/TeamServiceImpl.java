@@ -33,7 +33,6 @@ public class TeamServiceImpl implements TeamService {
 
     private ClassUserMapper classUserMapper;
 
-    @Autowired
     private SysClassMapper sysClassMapper;
 
     private UserDao userDao;
@@ -41,11 +40,12 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     public TeamServiceImpl(ModelMapper modelMapper, TeamUserMapper teamUserMapper,
                            SysTeamMapper sysTeamMapper, ClassUserMapper classUserMapper,
-                           UserDao userDao) {
+                           SysClassMapper sysClassMapper, UserDao userDao) {
         this.modelMapper = modelMapper;
         this.teamUserMapper = teamUserMapper;
         this.sysTeamMapper = sysTeamMapper;
         this.classUserMapper = classUserMapper;
+        this.sysClassMapper = sysClassMapper;
         this.userDao = userDao;
     }
 
@@ -76,6 +76,8 @@ public class TeamServiceImpl implements TeamService {
             sysTeam.setTeamClass(classUserList.get(0).getClassId());
             sysTeam.setTeamCaptain(userId);
         }
+
+        sysTeam.setTeamExit(false);
         sysTeam.setTeamEdit(true);
         sysTeamMapper.insert(sysTeam);
 
@@ -164,16 +166,16 @@ public class TeamServiceImpl implements TeamService {
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria criteria = classUserExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        if (sysClassMapper.selectByPrimaryKey(classUserMapper.selectByExample(classUserExample).get(0).getClassId()).getClassTeamEdit() == false) {
+        if (!sysClassMapper.selectByPrimaryKey(classUserMapper.selectByExample(classUserExample).get(0).getClassId()).getClassTeamEdit()) {
             throw new ApiException(TeamErrorEnum.CLASS_TEAM_EDIT_LIMIT);
         }
-        if (sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamEdit() == false) {
+        if (!sysTeamMapper.selectByPrimaryKey(teamUpdateDTO.getTeamId()).getTeamEdit()) {
             throw new ApiException(TeamErrorEnum.TEAM_EDIT_LIMIT);
         }
         SysTeamExample example = new SysTeamExample();
         SysTeamExample.Criteria criteria1 = example.createCriteria();
         criteria1.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
-        sysTeamMapper.updateByExample(sysTeam, example);
+        sysTeamMapper.updateByExampleSelective(sysTeam, example);
     }
 
     @Override
