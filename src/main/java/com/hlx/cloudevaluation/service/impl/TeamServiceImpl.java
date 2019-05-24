@@ -173,6 +173,12 @@ public class TeamServiceImpl implements TeamService {
             throw new ApiException(TeamErrorEnum.NOT_CAPTAIN_UPDATE);
         }
 
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria teamUserCri = teamUserExample.createCriteria();
+        teamUserCri.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
+        List<TeamUser> teamUsers = teamUserMapper.selectByExample(teamUserExample);
+
+
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria criteria = classUserExample.createCriteria();
         criteria.andUserIdEqualTo(userId);

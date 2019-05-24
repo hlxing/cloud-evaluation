@@ -32,7 +32,10 @@ public enum TeamErrorEnum implements ApiError {
     TEAM_NOT_EXIST(737, "TEAM_NOT_EXIST"),
 
     //非队长修改团队信息
-    NOT_CAPTAIN_UPDATE(738, "NOT_CAPTAIN_UPDATE");
+    NOT_CAPTAIN_UPDATE(738, "NOT_CAPTAIN_UPDATE"),
+
+    //非本队成员成为队长
+    CAPTAIN_NOT_IN_TEAM(739, "CAPTAIN_NOT_IN_TEAM");
 
 
 
