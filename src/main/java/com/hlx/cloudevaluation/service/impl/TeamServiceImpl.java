@@ -213,6 +213,16 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void exit(Integer userId) {
-
+        SysTeamExample teamExample = new SysTeamExample();
+        SysTeamExample.Criteria teamCriteria = teamExample.createCriteria();
+        teamCriteria.andTeamCaptainEqualTo(userId);
+        List<SysTeam> temp = sysTeamMapper.selectByExample(teamExample);
+        if (temp.size() != 0) {
+            throw new ApiException(TeamErrorEnum.TEAM_CAPTAIN_EXIT_ERROR);
+        }
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
+        teamUserCriteria.andUserIdEqualTo(userId);
+        teamUserMapper.deleteByExample(teamUserExample);
     }
 }
