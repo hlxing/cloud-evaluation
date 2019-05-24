@@ -174,26 +174,18 @@ public class TeamServiceImpl implements TeamService {
             throw new ApiException(TeamErrorEnum.NOT_CAPTAIN_UPDATE);
         }
 
-        TeamUserExample teamUserExample = new TeamUserExample();
-        TeamUserExample.Criteria teamUserCri = teamUserExample.createCriteria();
-        teamUserCri.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
-        List<TeamUser> teamUsers = teamUserMapper.selectByExample(teamUserExample);
-        boolean flag = false;
-        if (teamUpdateDTO.getTeamCaptain() == null) {
-            flag = true;
-        } else {
-            for (TeamUser item : teamUsers) {
-                if (item.getUserId().equals(teamUpdateDTO.getTeamCaptain())) {
-                    flag = true;
-                    break;
-                }
+        if (teamUpdateDTO.getTeamCaptain() != null) {
+            TeamUserExample teamUserExample = new TeamUserExample();
+            TeamUserExample.Criteria teamUserCri = teamUserExample.createCriteria();
+            teamUserCri.andTeamIdEqualTo(teamUpdateDTO.getTeamId());
+            teamUserCri.andUserIdEqualTo(teamUpdateDTO.getTeamCaptain());
+            List<TeamUser> teamUsers = teamUserMapper.selectByExample(teamUserExample);
+            if (teamUsers.size() == 0) {
+                //非本队成员成为队长
+                throw new ApiException(TeamErrorEnum.CAPTAIN_NOT_IN_TEAM);
             }
         }
 
-        if (!flag) {
-            ////非本队成员成为队长
-            throw new ApiException(TeamErrorEnum.CAPTAIN_NOT_IN_TEAM);
-        }
 
         ClassUserExample classUserExample = new ClassUserExample();
         ClassUserExample.Criteria criteria = classUserExample.createCriteria();
