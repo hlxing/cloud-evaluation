@@ -14,7 +14,7 @@ import java.util.List;
 public class TeamDetailVO {
 
     @ApiModelProperty(notes = "班级用户信息列表")
-    private List<ClassUserVO> classUserVOList;
+    private List<TeamUserVO> classUserVOList;
 
     @ApiModelProperty(notes = "团队id")
     private Integer teamId;

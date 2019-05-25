@@ -10,8 +10,8 @@ import com.hlx.cloudevaluation.mapper.TeamUserMapper;
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
 import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.po.*;
-import com.hlx.cloudevaluation.model.vo.ClassUserVO;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
+import com.hlx.cloudevaluation.model.vo.TeamUserVO;
 import com.hlx.cloudevaluation.service.TeamService;
 import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
@@ -140,7 +140,7 @@ public class TeamServiceImpl implements TeamService {
         TeamUserExample.Criteria teamUserCriteria2 = teamUserExample.createCriteria();
         teamUserCriteria2.andTeamIdEqualTo(teamId);
         List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
-        List<ClassUserVO> classUserVOList = new ArrayList<>();
+        List<TeamUserVO> teamUserVOList = new ArrayList<>();
 
         for (TeamUser teamUser : teamUserList) {
             ClassUserExample classUserExample = new ClassUserExample();
@@ -149,14 +149,14 @@ public class TeamServiceImpl implements TeamService {
             ClassUser classUser = classUserMapper.selectByExample(classUserExample).get(0);
 
             User user = userDao.get(classUser.getUserId());
-            ClassUserVO classUserVO = modelMapper.map(classUser, ClassUserVO.class);
-            classUserVO.setUserAccount(user.getUserAccount());
-            classUserVO.setUserName(user.getUserName());
-            classUserVO.setUserId(user.getUserId());
+            TeamUserVO teamUserVO = modelMapper.map(classUser, TeamUserVO.class);
+            teamUserVO.setUserAccount(user.getUserAccount());
+            teamUserVO.setUserName(user.getUserName());
+            teamUserVO.setUserId(user.getUserId());
+            teamUserVO.setIsCaptain(user.getUserId().equals(sysTeam.getTeamCaptain()));
 
-            classUserVOList.add(classUserVO);
         }
-        teamDetailVO.setClassUserVOList(classUserVOList);
+        teamDetailVO.setClassUserVOList(teamUserVOList);
         return teamDetailVO;
     }
 
