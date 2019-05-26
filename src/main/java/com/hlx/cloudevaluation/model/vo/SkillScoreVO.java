@@ -11,7 +11,7 @@ import lombok.Data;
 public class SkillScoreVO {
 
     @ApiModelProperty(value = "技能id")
-    private Integer skillId;
+    private Integer taskId;
 
     @ApiModelProperty(value = "技能名称")
     private String skillName;

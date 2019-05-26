@@ -4,6 +4,7 @@ import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
 import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
+import com.hlx.cloudevaluation.model.vo.TeamSearchVO;
 import com.hlx.cloudevaluation.service.TeamService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -77,5 +78,13 @@ public class TeamController {
         return new ApiResult<>("clear team success");
     }
 
+    @ApiOperation(value = "团队搜索，获取班级所有团队")
+    @GetMapping("/search")
+    public ApiResult<TeamSearchVO> search(@RequestParam("classId") Integer classId, HttpSession session) {
+        TeamSearchVO teamSearchVO = teamService.search(classId, (Integer) session.getAttribute("userId"));
+        ApiResult<TeamSearchVO> apiResult = new ApiResult<>();
+        apiResult.setData(teamSearchVO);
+        return apiResult;
+    }
 
 }
