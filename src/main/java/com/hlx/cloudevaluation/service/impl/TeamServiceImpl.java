@@ -92,6 +92,15 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void join(String token, Integer userId) {
+        ClassUserExample example = new ClassUserExample();
+        ClassUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<ClassUser> classUserList = classUserMapper.selectByExample(example);
+        if (classUserList.size() == 0) {
+            //学生未加入班级
+            throw new ApiException(TeamErrorEnum.ACTIVE_CLASS_NOT_EXIST);
+        }
+
         SysTeamExample tokenExample = new SysTeamExample();
         SysTeamExample.Criteria tokenCriteria = tokenExample.createCriteria();
         tokenCriteria.andTeamTokenEqualTo(token);
@@ -155,6 +164,7 @@ public class TeamServiceImpl implements TeamService {
             teamUserVO.setUserId(user.getUserId());
             teamUserVO.setIsCaptain(user.getUserId().equals(sysTeam.getTeamCaptain()));
 
+            teamUserVOList.add(teamUserVO);
         }
         teamDetailVO.setClassUserVOList(teamUserVOList);
         return teamDetailVO;
