@@ -69,4 +69,13 @@ public class TeamController {
         teamService.exit((Integer) session.getAttribute("userId"));
         return new ApiResult<>("exit team success");
     }
+
+    @ApiOperation(value = "团队解散", notes = "队长才能解散")
+    @GetMapping("/clear")
+    public ApiResult<String> clear(HttpSession session) {
+        teamService.clear((Integer) session.getAttribute("userId"));
+        return new ApiResult<>("clear team success");
+    }
+
+
 }

@@ -18,4 +18,6 @@ public interface TeamService {
     void update(TeamUpdateDTO teamUpdateDTO, Integer userId);
 
     void exit(Integer userId);
+
+    void clear(Integer userId);
 }
