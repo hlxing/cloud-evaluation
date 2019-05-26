@@ -11,7 +11,7 @@ import lombok.Data;
 public class TaskSkillDTO {
 
     @ApiModelProperty(value = "技能id")
-    private Integer taskId;
+    private Integer skillId;
 
     @ApiModelProperty(value = "技能在团队的得分")
     private Double ssScore;

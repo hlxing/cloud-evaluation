@@ -187,7 +187,7 @@ public class TaskServiceImpl implements TaskService {
         Integer teamId = taskEvaluateDTO.getTeamId();
         Double teamScoreVal = 0.0;
         for (TaskSkillDTO taskSkillDTO : taskSkillDTOList) {
-            skillScoreMap.put(taskSkillDTO.getTaskId(), taskSkillDTO.getSsScore());
+            skillScoreMap.put(taskSkillDTO.getSkillId(), taskSkillDTO.getSsScore());
             teamScoreVal += taskSkillDTO.getSsScore();
         }
         TeamScore teamScore = new TeamScore();
