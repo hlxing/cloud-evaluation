@@ -1,14 +1,12 @@
 package com.hlx.cloudevaluation.service.impl;
 
+import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.mapper.*;
 import com.hlx.cloudevaluation.model.dto.TaskAddDTO;
 import com.hlx.cloudevaluation.model.dto.TaskEvaluateDTO;
 import com.hlx.cloudevaluation.model.dto.TaskSkillAddDTO;
 import com.hlx.cloudevaluation.model.po.*;
-import com.hlx.cloudevaluation.model.vo.TaskStatusItemVO;
-import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
-import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
-import com.hlx.cloudevaluation.model.vo.UserContributeVO;
+import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -35,15 +33,29 @@ public class TaskServiceImpl implements TaskService {
 
     private TeamUserMapper teamUserMapper;
 
+    private UserScoreMapper userScoreMapper;
+
+    private UserDao userDao;
+
+    private SkillScoreMapper skillScoreMapper;
+
+    private SysSkillMapper sysSkillMapper;
+
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
-                           TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper) {
+                           TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
+                           UserDao userDao, UserScoreMapper userScoreMapper, SkillScoreMapper skillScoreMapper,
+                           SysSkillMapper sysSkillMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
         this.sysTeamMapper = sysTeamMapper;
         this.teamScoreMapper = teamScoreMapper;
         this.teamUserMapper = teamUserMapper;
+        this.userDao = userDao;
+        this.userScoreMapper = userScoreMapper;
+        this.skillScoreMapper = skillScoreMapper;
+        this.sysSkillMapper = sysSkillMapper;
     }
 
     @Override
@@ -94,22 +106,61 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskTeamStatusVO getTeamStatus(Integer taskId, Integer teamId) {
-//        TaskStatusVO taskStatusVO = new TaskStatusVO();
-//
-//        List<UserContributeVO> contributeVOList =new ArrayList<>();
-//        TeamUserExample teamUserExample = new TeamUserExample();
-//        TeamUserExample.Criteria tuCri = teamUserExample.createCriteria();
-//        tuCri.andTeamIdEqualTo(teamId);
-//        List<TeamUser> users = teamUserMapper.selectByExample(teamUserExample);
-//        for(TeamUser userItem : users){
-//            UserContributeVO userVo = new UserContributeVO();
-//            userVo.setUserId(userItem.getUserId());
-//            userVo.setUserName();
-//
-//        }
-        return null;
+        TaskTeamStatusVO taskTeamStatusVO = new TaskTeamStatusVO();
 
+        List<UserContributeVO> contributeVOList = new ArrayList<>();
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria tuCri = teamUserExample.createCriteria();
+        tuCri.andTeamIdEqualTo(teamId);
+        List<TeamUser> users = teamUserMapper.selectByExample(teamUserExample);
 
+        //判断是否已经打分
+        TeamScoreExample teamScoreExample = new TeamScoreExample();
+        TeamScoreExample.Criteria tsCir = teamScoreExample.createCriteria();
+        tsCir.andTaskIdEqualTo(taskId);
+        tsCir.andTeamIdEqualTo(teamId);
+        if (teamScoreMapper.selectByExample(teamScoreExample).size() == 0) {
+            //未打分
+            taskTeamStatusVO.setSkillVOList(null);
+            taskTeamStatusVO.setUserContributeVOList(null);
+            return taskTeamStatusVO;
+        }
+
+        for (TeamUser userItem : users) {
+            UserContributeVO userContributeVo = new UserContributeVO();
+            userContributeVo.setUserId(userItem.getUserId());
+            userContributeVo.setUserName(userDao.get(userItem.getUserId()).getUserName());
+
+            UserScoreExample userScoreExample = new UserScoreExample();
+            UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
+            usCri.andTaskIdEqualTo(taskId);
+            usCri.andUserIdEqualTo(userItem.getTeamId());
+            List<UserScore> userScores = userScoreMapper.selectByExample(userScoreExample);
+            userContributeVo.setUsContribute(userScores.get(0).getUsContribute());
+            contributeVOList.add(userContributeVo);
+        }
+        taskTeamStatusVO.setUserContributeVOList(contributeVOList);
+
+        List<SkillScoreVO> skillScoreVOList = new ArrayList<>();
+
+        //根据队长查团队的能力指标
+        Integer captain = sysTeamMapper.selectByPrimaryKey(teamId).getTeamCaptain();
+
+        SkillScoreExample skillScoreExample = new SkillScoreExample();
+        SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+        ssCri.andUserIdEqualTo(captain);
+        ssCri.andTaskIdEqualTo(taskId);
+        List<SkillScore> skillScores = skillScoreMapper.selectByExample(skillScoreExample);
+
+        for (SkillScore ssItem : skillScores) {
+            SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(ssItem.getSkillId());
+            SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
+            skillScoreVO.setSsScore(ssItem.getSsScore());
+            skillScoreVOList.add(skillScoreVO);
+        }
+        taskTeamStatusVO.setSkillVOList(skillScoreVOList);
+
+        return taskTeamStatusVO;
     }
 
     @Override
