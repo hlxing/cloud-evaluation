@@ -23,6 +23,9 @@ public class SkillScoreVO {
     private String skillShortName;
 
     @ApiModelProperty(value = "技能在团队的得分")
-    private Integer ssScore;
+    private Double ssScore;
+
+    @ApiModelProperty(value = "技能根据贡献度计算后的实际得分")
+    private Double ssRealScore;
 
 }
