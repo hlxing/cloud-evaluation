@@ -69,6 +69,4 @@ public class TeamController {
         teamService.exit((Integer) session.getAttribute("userId"));
         return new ApiResult<>("exit team success");
     }
-
-
 }
