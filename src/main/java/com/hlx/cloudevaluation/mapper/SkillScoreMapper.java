@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.SkillScore;
 import com.hlx.cloudevaluation.model.po.SkillScoreExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;

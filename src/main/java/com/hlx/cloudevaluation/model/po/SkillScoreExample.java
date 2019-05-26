@@ -493,6 +493,66 @@ public class SkillScoreExample {
             addCriterion("ss_score not between", value1, value2, "ssScore");
             return (Criteria) this;
         }
+
+        public Criteria andSsRealScoreIsNull() {
+            addCriterion("ss_real_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreIsNotNull() {
+            addCriterion("ss_real_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreEqualTo(Double value) {
+            addCriterion("ss_real_score =", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreNotEqualTo(Double value) {
+            addCriterion("ss_real_score <>", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreGreaterThan(Double value) {
+            addCriterion("ss_real_score >", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("ss_real_score >=", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreLessThan(Double value) {
+            addCriterion("ss_real_score <", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreLessThanOrEqualTo(Double value) {
+            addCriterion("ss_real_score <=", value, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreIn(List<Double> values) {
+            addCriterion("ss_real_score in", values, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreNotIn(List<Double> values) {
+            addCriterion("ss_real_score not in", values, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreBetween(Double value1, Double value2) {
+            addCriterion("ss_real_score between", value1, value2, "ssRealScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSsRealScoreNotBetween(Double value1, Double value2) {
+            addCriterion("ss_real_score not between", value1, value2, "ssRealScore");
+            return (Criteria) this;
+        }
     }
 
     /**
