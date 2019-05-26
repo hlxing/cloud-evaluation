@@ -43,6 +43,7 @@ public class TaskServiceImpl implements TaskService {
         this.skillScoreMapper = skillScoreMapper;
         this.userScoreMapper = userScoreMapper;
         this.teamScoreMapper = teamScoreMapper;
+        this.teamUserMapper = teamUserMapper;
     }
 
     @Override
@@ -86,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
         teamScore.setTaskId(taskId);
         teamScore.setTeamId(teamId);
         teamScore.setTeamScore(teamScoreVal);
+        teamScoreMapper.insertSelective(teamScore);
 
         Double averageContribute = 0.0;
         List<TaskContributeDTO> taskContributeDTOList = taskEvaluateDTO.getTaskContributeDTOList();
@@ -101,6 +103,7 @@ public class TaskServiceImpl implements TaskService {
         teamUserCriteria.andTeamIdEqualTo(taskEvaluateDTO.getTeamId());
         List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
         for (TeamUser teamUser : teamUserList) {
+            UserScore userScore = new UserScore();
             Integer userId = teamUser.getUserId();
             Double finalScore = 0.0;
             Double contributeRate = 1 + userContributeMap.get(userId) - averageContribute;
@@ -110,11 +113,16 @@ public class TaskServiceImpl implements TaskService {
                 skillScore.setTaskId(taskId);
                 skillScore.setUserId(userId);
                 skillScore.setSsScore(skillScoreMap.get(skillId));
-
+                skillScore.setSsRealScore(skillScoreMap.get(skillId) * contributeRate);
+                finalScore += skillScore.getSsRealScore();
+                skillScoreMapper.insertSelective(skillScore);
             }
+            userScore.setTaskId(taskId);
+            userScore.setUsContribute(userContributeMap.get(userId));
+            userScore.setUserId(userId);
+            userScore.setUsFinalScore(finalScore);
+            userScoreMapper.insertSelective(userScore);
         }
-
-
     }
 
 }
