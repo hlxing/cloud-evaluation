@@ -86,6 +86,7 @@ public class TaskServiceImpl implements TaskService {
         for (SysTeam item : teamList) {
             TaskStatusItemVO v = new TaskStatusItemVO();
             v.setTeamName(item.getTeamName());
+            v.setTeamId(item.getTeamId());
             TeamScoreExample teamScoreExample = new TeamScoreExample();
             TeamScoreExample.Criteria tsCir = teamScoreExample.createCriteria();
             tsCir.andTaskIdEqualTo(taskId);
