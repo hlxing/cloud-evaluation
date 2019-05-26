@@ -1,7 +1,7 @@
 package com.hlx.cloudevaluation.model.vo;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 
 /**
  * @description: 技能得分视图
@@ -26,3 +26,4 @@ public class SkillScoreVO {
     private Integer ssScore;
 
 }
+

@@ -5,8 +5,6 @@ import com.hlx.cloudevaluation.model.dto.TaskEvaluateDTO;
 import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
 import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
 
-import javax.validation.Valid;
-
 
 /**
  * @description: 作业服务层

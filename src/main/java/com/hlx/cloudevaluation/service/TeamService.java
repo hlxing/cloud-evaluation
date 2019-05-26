@@ -3,6 +3,8 @@ package com.hlx.cloudevaluation.service;
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
 import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
+import com.hlx.cloudevaluation.model.vo.TeamSearchVO;
+
 /**
  * @description: 团队服务接口
  * @author: hlx 2019-01-20
@@ -20,4 +22,6 @@ public interface TeamService {
     void exit(Integer userId);
 
     void clear(Integer teamId, Integer userId);
+
+    TeamSearchVO search(Integer userId);
 }

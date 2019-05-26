@@ -228,4 +228,16 @@ public class TeamServiceImpl implements TeamService {
         teamUserCriteria.andUserIdEqualTo(userId);
         teamUserMapper.deleteByExample(teamUserExample);
     }
+
+    @Override
+    public void clear(Integer teamId, Integer userId) {
+        if (!sysTeamMapper.selectByPrimaryKey(teamId).getTeamCaptain().equals(userId)) {
+            //不是队长不能解散团队
+            throw new ApiException(TeamErrorEnum.NOT_CAPTAIN_CLEAR_TEAM);
+        }
+        TeamUserExample example = new TeamUserExample();
+        TeamUserExample.Criteria criteria = example.createCriteria();
+        criteria.andTeamIdEqualTo(teamId);
+        teamUserMapper.deleteByExample(example);
+    }
 }
