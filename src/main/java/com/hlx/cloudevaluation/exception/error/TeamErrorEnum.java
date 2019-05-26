@@ -38,9 +38,10 @@ public enum TeamErrorEnum implements ApiError {
     CAPTAIN_NOT_IN_TEAM(739, "CAPTAIN_NOT_IN_TEAM"),
 
     //队长离开团队错误
-    TEAM_CAPTAIN_EXIT_ERROR(740, "TEAM_CAPTAIN_EXIT_ERROR");
+    TEAM_CAPTAIN_EXIT_ERROR(740, "TEAM_CAPTAIN_EXIT_ERROR"),
 
-
+    //非队长解散团队
+    NOT_CAPTAIN_CLEAR_TEAM(741, "NOT_CAPTAIN_CLEAR_TEAM");
 
     // 响应码
     private final int code;
