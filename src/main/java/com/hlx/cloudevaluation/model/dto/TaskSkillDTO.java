@@ -14,6 +14,6 @@ public class TaskSkillDTO {
     private Integer taskId;
 
     @ApiModelProperty(value = "技能在团队的得分")
-    private Integer ssScore;
+    private Double ssScore;
 
 }

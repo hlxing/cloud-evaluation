@@ -1,16 +1,18 @@
 package com.hlx.cloudevaluation.service.impl;
 
-import com.hlx.cloudevaluation.mapper.SysTaskMapper;
-import com.hlx.cloudevaluation.mapper.TaskSkillMapper;
-import com.hlx.cloudevaluation.model.dto.TaskAddDTO;
-import com.hlx.cloudevaluation.model.dto.TaskSkillAddDTO;
-import com.hlx.cloudevaluation.model.po.SysTask;
-import com.hlx.cloudevaluation.model.po.TaskSkill;
+import com.hlx.cloudevaluation.mapper.*;
+import com.hlx.cloudevaluation.model.dto.*;
+import com.hlx.cloudevaluation.model.po.*;
+import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
+import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
 import com.hlx.cloudevaluation.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @description: 作业服务实现层
  * @author: hlx 2019-05-05
@@ -22,12 +24,25 @@ public class TaskServiceImpl implements TaskService {
 
     private TaskSkillMapper taskSkillMapper;
 
+    private SkillScoreMapper skillScoreMapper;
+
+    private UserScoreMapper userScoreMapper;
+
+    private TeamScoreMapper teamScoreMapper;
+
+    private TeamUserMapper teamUserMapper;
+
     private ModelMapper modelMapper;
 
-    public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper, ModelMapper modelMapper) {
+    public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper, ModelMapper modelMapper,
+                           SkillScoreMapper skillScoreMapper, UserScoreMapper userScoreMapper, TeamScoreMapper teamScoreMapper,
+                           TeamUserMapper teamUserMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
+        this.skillScoreMapper = skillScoreMapper;
+        this.userScoreMapper = userScoreMapper;
+        this.teamScoreMapper = teamScoreMapper;
     }
 
     @Override
@@ -44,6 +59,62 @@ public class TaskServiceImpl implements TaskService {
             taskSkill.setTaskId(sysTask.getTaskId());
             taskSkillMapper.insertSelective(taskSkill);
         }
+    }
+
+    @Override
+    public TaskStatusVO getStatus(Integer taskId) {
+        return null;
+    }
+
+    @Override
+    public TaskTeamStatusVO getTeamStatus(Integer taskId, Integer teamId) {
+        return null;
+    }
+
+    @Override
+    public void evaluate(TaskEvaluateDTO taskEvaluateDTO) {
+        List<TaskSkillDTO> taskSkillDTOList = taskEvaluateDTO.getTaskSkillDTOList();
+        Map<Integer, Double> skillScoreMap = new HashMap<>();
+        Integer taskId = taskEvaluateDTO.getTaskId();
+        Integer teamId = taskEvaluateDTO.getTeamId();
+        Double teamScoreVal = 0.0;
+        for (TaskSkillDTO taskSkillDTO : taskSkillDTOList) {
+            skillScoreMap.put(taskSkillDTO.getTaskId(), taskSkillDTO.getSsScore());
+            teamScoreVal += taskSkillDTO.getSsScore();
+        }
+        TeamScore teamScore = new TeamScore();
+        teamScore.setTaskId(taskId);
+        teamScore.setTeamId(teamId);
+        teamScore.setTeamScore(teamScoreVal);
+
+        Double averageContribute = 0.0;
+        List<TaskContributeDTO> taskContributeDTOList = taskEvaluateDTO.getTaskContributeDTOList();
+        Map<Integer, Double> userContributeMap = new HashMap<>();
+        for (TaskContributeDTO taskContributeDTO : taskContributeDTOList) {
+            userContributeMap.put(taskContributeDTO.getUserId(), taskContributeDTO.getUsContribute());
+            averageContribute += taskContributeDTO.getUsContribute();
+        }
+        averageContribute = averageContribute / taskContributeDTOList.size();
+
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
+        teamUserCriteria.andTeamIdEqualTo(taskEvaluateDTO.getTeamId());
+        List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
+        for (TeamUser teamUser : teamUserList) {
+            Integer userId = teamUser.getUserId();
+            Double finalScore = 0.0;
+            Double contributeRate = 1 + userContributeMap.get(userId) - averageContribute;
+            for (Integer skillId : skillScoreMap.keySet()) {
+                SkillScore skillScore = new SkillScore();
+                skillScore.setSkillId(skillId);
+                skillScore.setTaskId(taskId);
+                skillScore.setUserId(userId);
+                skillScore.setSsScore(skillScoreMap.get(skillId));
+
+            }
+        }
+
+
     }
 
 }
