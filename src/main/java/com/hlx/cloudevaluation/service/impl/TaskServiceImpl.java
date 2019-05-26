@@ -116,24 +116,26 @@ public class TaskServiceImpl implements TaskService {
         TeamScoreExample.Criteria tsCir = teamScoreExample.createCriteria();
         tsCir.andTaskIdEqualTo(taskId);
         tsCir.andTeamIdEqualTo(teamId);
-        if (teamScoreMapper.selectByExample(teamScoreExample).size() == 0) {
-            //未打分
-            taskTeamStatusVO.setSkillVOList(null);
-            taskTeamStatusVO.setUserContributeVOList(null);
-            return taskTeamStatusVO;
+        boolean flag = false;
+        if (teamScoreMapper.selectByExample(teamScoreExample).size() > 0) {
+            //有打分
+            flag = true;
         }
 
         for (TeamUser userItem : users) {
             UserContributeVO userContributeVo = new UserContributeVO();
             userContributeVo.setUserId(userItem.getUserId());
             userContributeVo.setUserName(userDao.get(userItem.getUserId()).getUserName());
-
-            UserScoreExample userScoreExample = new UserScoreExample();
-            UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
-            usCri.andTaskIdEqualTo(taskId);
-            usCri.andUserIdEqualTo(userItem.getTeamId());
-            List<UserScore> userScores = userScoreMapper.selectByExample(userScoreExample);
-            userContributeVo.setUsContribute(userScores.get(0).getUsContribute());
+            if (flag) {
+                UserScoreExample userScoreExample = new UserScoreExample();
+                UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
+                usCri.andTaskIdEqualTo(taskId);
+                usCri.andUserIdEqualTo(userItem.getTeamId());
+                List<UserScore> userScores = userScoreMapper.selectByExample(userScoreExample);
+                userContributeVo.setUsContribute(userScores.get(0).getUsContribute());
+            } else {
+                userContributeVo.setUsContribute(null);
+            }
             contributeVOList.add(userContributeVo);
         }
         taskTeamStatusVO.setUserContributeVOList(contributeVOList);
@@ -152,7 +154,11 @@ public class TaskServiceImpl implements TaskService {
         for (SkillScore ssItem : skillScores) {
             SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(ssItem.getSkillId());
             SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
-            skillScoreVO.setSsScore(ssItem.getSsScore());
+            if (flag) {
+                skillScoreVO.setSsScore(ssItem.getSsScore());
+            } else {
+                skillScoreVO.setSsScore(null);
+            }
             skillScoreVOList.add(skillScoreVO);
         }
         taskTeamStatusVO.setSkillVOList(skillScoreVOList);
