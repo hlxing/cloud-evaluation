@@ -1,6 +1,8 @@
 package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.dao.UserDao;
+import com.hlx.cloudevaluation.exception.error.ApiException;
+import com.hlx.cloudevaluation.exception.error.TeamErrorEnum;
 import com.hlx.cloudevaluation.mapper.*;
 import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
@@ -75,6 +77,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskStatusVO getStatus(Integer taskId) {
         SysTask sysTask = sysTaskMapper.selectByPrimaryKey(taskId);
+        if (sysTask == null) {
+            throw new ApiException(TeamErrorEnum.TASK_ID_INVALID);
+        }
         TaskStatusVO taskStatusVO = modelMapper.map(sysTask, TaskStatusVO.class);
 
         SysTeamExample teamExample = new SysTeamExample();
@@ -132,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
                 UserScoreExample userScoreExample = new UserScoreExample();
                 UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
                 usCri.andTaskIdEqualTo(taskId);
-                usCri.andUserIdEqualTo(userItem.getTeamId());
+                usCri.andUserIdEqualTo(userItem.getUserId());
                 List<UserScore> userScores = userScoreMapper.selectByExample(userScoreExample);
                 userContributeVo.setUsContribute(userScores.get(0).getUsContribute());
             } else {
