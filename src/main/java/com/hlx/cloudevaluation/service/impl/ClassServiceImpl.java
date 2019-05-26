@@ -88,7 +88,7 @@ public class ClassServiceImpl implements ClassService {
 
             ClassUserExample example = new ClassUserExample();
             ClassUserExample.Criteria criteria = example.createCriteria();
-            criteria.andClassIdEqualTo(classId);
+            //一个学生不能加多个班级
             criteria.andUserIdEqualTo(userId);
             if (classUserMapper.selectByExample(example).size() > 0) {
                 //学生权限已添加
