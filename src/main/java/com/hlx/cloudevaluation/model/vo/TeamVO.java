@@ -28,4 +28,7 @@ public class TeamVO {
     @ApiModelProperty(notes = "团队队长名称")
     private String teamCaptain;
 
+    @NotNull
+    @ApiModelProperty(notes = "团队类型")
+    private Integer teamType;
 }

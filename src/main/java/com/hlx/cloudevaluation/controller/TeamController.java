@@ -78,10 +78,10 @@ public class TeamController {
         return new ApiResult<>("clear team success");
     }
 
-    @ApiOperation(value = "团队搜索，获取班级所有团队", notes = "需要老师或助教权限")
+    @ApiOperation(value = "团队搜索，获取班级所有团队")
     @GetMapping("/search")
-    public ApiResult<TeamSearchVO> search(HttpSession session) {
-        TeamSearchVO teamSearchVO = teamService.search((Integer) session.getAttribute("userId"));
+    public ApiResult<TeamSearchVO> search(@RequestParam("classId") Integer classId, HttpSession session) {
+        TeamSearchVO teamSearchVO = teamService.search(classId, (Integer) session.getAttribute("userId"));
         ApiResult<TeamSearchVO> apiResult = new ApiResult<>();
         apiResult.setData(teamSearchVO);
         return apiResult;

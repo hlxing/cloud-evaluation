@@ -23,5 +23,5 @@ public interface TeamService {
 
     void clear(Integer teamId, Integer userId);
 
-    TeamSearchVO search(Integer userId);
+    TeamSearchVO search(Integer classId, Integer userId);
 }

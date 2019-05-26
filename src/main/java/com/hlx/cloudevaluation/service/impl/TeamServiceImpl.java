@@ -2,16 +2,16 @@ package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
+import com.hlx.cloudevaluation.exception.error.ClassErrorEnum;
 import com.hlx.cloudevaluation.exception.error.TeamErrorEnum;
-import com.hlx.cloudevaluation.mapper.ClassUserMapper;
-import com.hlx.cloudevaluation.mapper.SysClassMapper;
-import com.hlx.cloudevaluation.mapper.SysTeamMapper;
-import com.hlx.cloudevaluation.mapper.TeamUserMapper;
+import com.hlx.cloudevaluation.mapper.*;
 import com.hlx.cloudevaluation.model.dto.TeamAddDTO;
 import com.hlx.cloudevaluation.model.dto.TeamUpdateDTO;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.TeamDetailVO;
+import com.hlx.cloudevaluation.model.vo.TeamSearchVO;
 import com.hlx.cloudevaluation.model.vo.TeamUserVO;
+import com.hlx.cloudevaluation.model.vo.TeamVO;
 import com.hlx.cloudevaluation.service.TeamService;
 import com.hlx.cloudevaluation.util.RandomUtil;
 import org.modelmapper.ModelMapper;
@@ -35,17 +35,21 @@ public class TeamServiceImpl implements TeamService {
 
     private SysClassMapper sysClassMapper;
 
+    private ClassRoleMapper classRoleMapper;
+
     private UserDao userDao;
 
     @Autowired
     public TeamServiceImpl(ModelMapper modelMapper, TeamUserMapper teamUserMapper,
                            SysTeamMapper sysTeamMapper, ClassUserMapper classUserMapper,
-                           SysClassMapper sysClassMapper, UserDao userDao) {
+                           SysClassMapper sysClassMapper, ClassRoleMapper classRoleMapper,
+                           UserDao userDao) {
         this.modelMapper = modelMapper;
         this.teamUserMapper = teamUserMapper;
         this.sysTeamMapper = sysTeamMapper;
         this.classUserMapper = classUserMapper;
         this.sysClassMapper = sysClassMapper;
+        this.classRoleMapper = classRoleMapper;
         this.userDao = userDao;
     }
 
@@ -239,5 +243,39 @@ public class TeamServiceImpl implements TeamService {
         TeamUserExample.Criteria criteria = example.createCriteria();
         criteria.andTeamIdEqualTo(teamId);
         teamUserMapper.deleteByExample(example);
+    }
+
+    @Override
+    public TeamSearchVO search(Integer classId, Integer userId) {
+        ClassRoleExample classRoleExample = new ClassRoleExample();
+        ClassRoleExample.Criteria classRoleCriterion = classRoleExample.createCriteria();
+        classRoleCriterion.andUserIdEqualTo(userId);
+        classRoleCriterion.andClassIdEqualTo(classId);
+        List<ClassRole> classRoleList = classRoleMapper.selectByExample(classRoleExample);
+        if (classRoleList.size() == 0) {
+            throw new ApiException(ClassErrorEnum.CLASS_ID_INVALID);
+        }
+
+        SysTeamExample teamExample = new SysTeamExample();
+        SysTeamExample.Criteria teamCriteria = teamExample.createCriteria();
+        teamCriteria.andTeamClassEqualTo(classId);
+        List<SysTeam> teamList = sysTeamMapper.selectByExample(teamExample);
+        List<TeamVO> teamVOList = new ArrayList<>();
+        for (SysTeam team : teamList) {
+            TeamVO teamVO = modelMapper.map(team, TeamVO.class);
+            teamVO.setTeamCaptain(userDao.get(team.getTeamCaptain()).getUserName());
+
+            TeamUserExample teamUserExample = new TeamUserExample();
+            TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
+            teamUserCriteria.andTeamIdEqualTo(team.getTeamId());
+            List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
+            teamVO.setTeamSize(teamUserList.size());
+            teamVOList.add(teamVO);
+        }
+
+        TeamSearchVO teamSearchVO = new TeamSearchVO();
+        teamSearchVO.setTeamVOList(teamVOList);
+
+        return teamSearchVO;
     }
 }

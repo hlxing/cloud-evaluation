@@ -31,16 +31,16 @@ public enum TeamErrorEnum implements ApiError {
     // 学生不存在团队
     TEAM_NOT_EXIST(737, "TEAM_NOT_EXIST"),
 
-    //非队长修改团队信息
+    // 非队长修改团队信息
     NOT_CAPTAIN_UPDATE(738, "NOT_CAPTAIN_UPDATE"),
 
-    //非本队成员成为队长
+    // 非本队成员成为队长
     CAPTAIN_NOT_IN_TEAM(739, "CAPTAIN_NOT_IN_TEAM"),
 
-    //队长离开团队错误
+    // 队长离开团队错误
     TEAM_CAPTAIN_EXIT_ERROR(740, "TEAM_CAPTAIN_EXIT_ERROR"),
 
-    //非队长解散团队
+    // 非队长解散团队
     NOT_CAPTAIN_CLEAR_TEAM(741, "NOT_CAPTAIN_CLEAR_TEAM");
 
     // 响应码
