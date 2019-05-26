@@ -38,6 +38,7 @@ public class TaskServiceImpl implements TaskService {
 
     private SysSkillMapper sysSkillMapper;
 
+
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
                            TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
@@ -143,25 +144,36 @@ public class TaskServiceImpl implements TaskService {
 
         List<SkillScoreVO> skillScoreVOList = new ArrayList<>();
 
-        //根据队长查团队的能力指标
-        Integer captain = sysTeamMapper.selectByPrimaryKey(teamId).getTeamCaptain();
+        if (flag) {
+            //根据队长查团队的能力指标
+            Integer captain = sysTeamMapper.selectByPrimaryKey(teamId).getTeamCaptain();
+            SkillScoreExample skillScoreExample = new SkillScoreExample();
+            SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+            ssCri.andUserIdEqualTo(captain);
+            ssCri.andTaskIdEqualTo(taskId);
+            List<SkillScore> skillScores = skillScoreMapper.selectByExample(skillScoreExample);
 
-        SkillScoreExample skillScoreExample = new SkillScoreExample();
-        SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
-        ssCri.andUserIdEqualTo(captain);
-        ssCri.andTaskIdEqualTo(taskId);
-        List<SkillScore> skillScores = skillScoreMapper.selectByExample(skillScoreExample);
-
-        for (SkillScore ssItem : skillScores) {
-            SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(ssItem.getSkillId());
-            SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
-            if (flag) {
+            for (SkillScore ssItem : skillScores) {
+                SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(ssItem.getSkillId());
+                SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
                 skillScoreVO.setSsScore(ssItem.getSsScore());
-            } else {
-                skillScoreVO.setSsScore(null);
+
+                skillScoreVOList.add(skillScoreVO);
             }
-            skillScoreVOList.add(skillScoreVO);
+        } else {
+            TaskSkillExample taskSkillExample = new TaskSkillExample();
+            TaskSkillExample.Criteria tsCri = taskSkillExample.createCriteria();
+            tsCri.andTaskIdEqualTo(taskId);
+            List<TaskSkill> taskSkills = taskSkillMapper.selectByExample(taskSkillExample);
+            for (TaskSkill skillItem : taskSkills) {
+                SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(skillItem.getSkillId());
+                SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
+                skillScoreVO.setSsScore(null);
+
+                skillScoreVOList.add(skillScoreVO);
+            }
         }
+
         taskTeamStatusVO.setSkillVOList(skillScoreVOList);
 
         return taskTeamStatusVO;
