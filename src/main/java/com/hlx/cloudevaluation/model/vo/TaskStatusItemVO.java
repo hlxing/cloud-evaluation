@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class TaskStatusItemVO {
 
+    @ApiModelProperty(notes = "团队id", example = "...")
+    private Integer teamId;
+
     @ApiModelProperty(notes = "团队名称", example = "...")
     private String teamName;
 
