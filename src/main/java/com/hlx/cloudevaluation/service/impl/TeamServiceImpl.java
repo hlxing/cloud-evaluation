@@ -228,4 +228,9 @@ public class TeamServiceImpl implements TeamService {
         teamUserCriteria.andUserIdEqualTo(userId);
         teamUserMapper.deleteByExample(teamUserExample);
     }
+
+    @Override
+    public void clear(Integer userId) {
+
+    }
 }
