@@ -19,5 +19,5 @@ public interface TeamService {
 
     void exit(Integer userId);
 
-    void clear(Integer userId);
+    void clear(Integer teamId, Integer userId);
 }
