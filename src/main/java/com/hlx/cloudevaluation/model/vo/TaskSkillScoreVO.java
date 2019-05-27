@@ -4,11 +4,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @description: 技能得分视图
+ * @description: 作业技能得分视图
  * @author: hlx 2019-05-26
  **/
 @Data
-public class SkillScoreVO {
+public class TaskSkillScoreVO {
 
     @ApiModelProperty(value = "技能id")
     private Integer skillId;
@@ -24,8 +24,5 @@ public class SkillScoreVO {
 
     @ApiModelProperty(value = "技能在团队的得分")
     private Double ssScore;
-
-    @ApiModelProperty(value = "根据贡献度映射后的实际得分")
-    private Double ssRealScore;
 
 }

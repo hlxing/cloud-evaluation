@@ -147,7 +147,7 @@ public class TaskServiceImpl implements TaskService {
         }
         taskTeamStatusVO.setUserContributeVOList(contributeVOList);
 
-        List<SkillScoreVO> skillScoreVOList = new ArrayList<>();
+        List<TaskSkillScoreVO> skillScoreVOList = new ArrayList<>();
 
         if (flag) {
             //根据队长查团队的能力指标
@@ -160,7 +160,7 @@ public class TaskServiceImpl implements TaskService {
 
             for (SkillScore ssItem : skillScores) {
                 SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(ssItem.getSkillId());
-                SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
+                TaskSkillScoreVO skillScoreVO = modelMapper.map(sysSkill, TaskSkillScoreVO.class);
                 skillScoreVO.setSsScore(ssItem.getSsScore());
 
                 skillScoreVOList.add(skillScoreVO);
@@ -172,7 +172,7 @@ public class TaskServiceImpl implements TaskService {
             List<TaskSkill> taskSkills = taskSkillMapper.selectByExample(taskSkillExample);
             for (TaskSkill skillItem : taskSkills) {
                 SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(skillItem.getSkillId());
-                SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
+                TaskSkillScoreVO skillScoreVO = modelMapper.map(sysSkill, TaskSkillScoreVO.class);
                 skillScoreVO.setSsScore(null);
 
                 skillScoreVOList.add(skillScoreVO);
@@ -198,6 +198,7 @@ public class TaskServiceImpl implements TaskService {
         teamScore.setTaskId(taskId);
         teamScore.setTeamId(teamId);
         teamScore.setTeamScore(teamScoreVal);
+
         teamScoreMapper.insertSelective(teamScore);
 
         Double averageContribute = 0.0;
@@ -208,6 +209,7 @@ public class TaskServiceImpl implements TaskService {
             averageContribute += taskContributeDTO.getUsContribute();
         }
         averageContribute = averageContribute / taskContributeDTOList.size();
+
 
         TeamUserExample teamUserExample = new TeamUserExample();
         TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
@@ -234,5 +236,20 @@ public class TaskServiceImpl implements TaskService {
             userScore.setUsFinalScore(finalScore);
             userScoreMapper.insertSelective(userScore);
         }
+    }
+
+    @Override
+    public TaskSearchVO search(Integer userId) {
+        return null;
+    }
+
+    @Override
+    public TaskScoreVO getScore(String taskId, Integer userId) {
+        return null;
+    }
+
+    @Override
+    public void delete(Integer taskId) {
+
     }
 }

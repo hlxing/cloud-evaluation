@@ -16,6 +16,6 @@ public class TaskTeamStatusVO {
     private List<UserContributeVO> userContributeVOList;
 
     @ApiModelProperty(value = "技能得分列表")
-    private List<SkillScoreVO> skillVOList;
+    private List<TaskSkillScoreVO> skillVOList;
 
 }
