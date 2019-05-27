@@ -14,6 +14,9 @@ import java.util.List;
 @Data
 public class TaskUpdateDTO {
 
+    @ApiModelProperty(notes = "作业id")
+    private Integer taskId;
+
     @Size(min = 1, max = 100)
     @ApiModelProperty(notes = "作业名称,最长100", example = "结对编程作业")
     private String taskName;

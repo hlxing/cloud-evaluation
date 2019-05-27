@@ -326,4 +326,17 @@ public class TaskServiceImpl implements TaskService {
         }
         sysTaskMapper.deleteByPrimaryKey(taskId);
     }
+
+    @Override
+    public void update(TaskUpdateDTO taskUpdateDTO) {
+        SysTask sysTask = modelMapper.map(taskUpdateDTO, SysTask.class);
+        sysTaskMapper.updateByPrimaryKeySelective(sysTask);
+        for (TaskSkillAddDTO item : taskUpdateDTO.getSkillList()) {
+            TaskSkill taskSkill = new TaskSkill();
+            taskSkill.setTaskId(taskUpdateDTO.getTaskId());
+            taskSkill.setSkillId(item.getSkillId());
+            taskSkill.setSkillNumber(item.getSkillNumber());
+            taskSkillMapper.insert(taskSkill);
+        }
+    }
 }
