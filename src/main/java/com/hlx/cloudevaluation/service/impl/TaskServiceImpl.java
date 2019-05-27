@@ -2,12 +2,14 @@ package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.dao.UserDao;
 import com.hlx.cloudevaluation.exception.error.ApiException;
+import com.hlx.cloudevaluation.exception.error.TaskErrorEnum;
 import com.hlx.cloudevaluation.exception.error.TeamErrorEnum;
 import com.hlx.cloudevaluation.mapper.*;
 import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.TaskService;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -244,12 +246,60 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskScoreVO getScore(String taskId, Integer userId) {
-        return null;
+    public TaskScoreVO getScore(Integer taskId, Integer userId) {
+        TaskScoreVO taskScoreVO = new TaskScoreVO();
+
+        UserScoreExample userScoreExample = new UserScoreExample();
+        UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
+        usCri.andTaskIdEqualTo(taskId);
+        usCri.andUserIdEqualTo(userId);
+        List<UserScore> userScores = userScoreMapper.selectByExample(userScoreExample);
+        if (userScores.size() > 0) {
+            taskScoreVO.setUsContribute(userScores.get(0).getUsContribute());
+            taskScoreVO.setUsFinalScore(userScores.get(0).getUsFinalScore());
+
+            TeamUserExample teamUserExample = new TeamUserExample();
+            TeamUserExample.Criteria tuCri = teamUserExample.createCriteria();
+            tuCri.andUserIdEqualTo(userId);
+            Integer teamId = teamUserMapper.selectByExample(teamUserExample).get(0).getTeamId();
+
+            TeamScoreExample teamScoreExample = new TeamScoreExample();
+            TeamScoreExample.Criteria tsCri = teamScoreExample.createCriteria();
+            tsCri.andTeamIdEqualTo(teamId);
+            tsCri.andTaskIdEqualTo(taskId);
+            Double average = teamScoreMapper.selectByExample(teamScoreExample).get(0).getAverageContribute();
+
+            taskScoreVO.setAverageContribute(average);
+
+            SkillScoreExample skillScoreExample = new SkillScoreExample();
+            SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+            ssCri.andUserIdEqualTo(userId);
+            ssCri.andTaskIdEqualTo(taskId);
+            List<SkillScore> skillScores = skillScoreMapper.selectByExample(skillScoreExample);
+            List<SkillScoreVO> skillScoreVOList = new ArrayList<>();
+            for (SkillScore item : skillScores) {
+                SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(item.getSkillId());
+                SkillScoreVO skillScoreVO = modelMapper.map(sysSkill, SkillScoreVO.class);
+                skillScoreVO.setSsScore(item.getSsScore());
+                skillScoreVO.setSsRealScore(item.getSsRealScore());
+
+                skillScoreVOList.add(skillScoreVO);
+            }
+            taskScoreVO.setSkillScoreVOList(skillScoreVOList);
+
+            return taskScoreVO;
+        }
+        return new TaskScoreVO();
     }
 
     @Override
     public void delete(Integer taskId) {
-
+        SkillScoreExample skillScoreExample = new SkillScoreExample();
+        SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+        ssCri.andTaskIdEqualTo(taskId);
+        if (skillScoreMapper.selectByExample(skillScoreExample).size() > 0) {
+            throw new ApiException(TaskErrorEnum.NOT_DELETE_AFTER_SCORE);
+        }
+        sysTaskMapper.deleteByPrimaryKey(taskId);
     }
 }

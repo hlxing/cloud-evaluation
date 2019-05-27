@@ -24,7 +24,7 @@ public interface TaskService {
 
     TaskSearchVO search(Integer userId);
 
-    TaskScoreVO getScore(String taskId, Integer userId);
+    TaskScoreVO getScore(Integer taskId, Integer userId);
 
     void delete(Integer taskId);
 }

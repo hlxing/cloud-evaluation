@@ -1,20 +1,9 @@
 package com.hlx.cloudevaluation.exception.error;
 
+public enum TaskErrorEnum implements ApiError {
 
-/**
- * @description: 用户错误枚举
- * @author: hlx 2018-10-02
- **/
-public enum UserErrorEnum implements ApiError {
-
-    // 用户名存在
-    NICKNAME_EXIST(430, "ACCOUNT_EXIST"),
-
-    // 密码错误
-    PASSWORD_ERROR(431,"PASSWORD_ERROR"),
-
-    // 用户不存在
-    USER_NO_EXIST(432, "USER_NO_EXIST");
+    //评分后不能删除作业
+    NOT_DELETE_AFTER_SCORE(800, "NOT_DELETE_AFTER_SCORE");
 
     // 响应码
     private final int code;
@@ -22,7 +11,7 @@ public enum UserErrorEnum implements ApiError {
     // 提示信息
     private final String message;
 
-    UserErrorEnum(int code, String message) {
+    TaskErrorEnum(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -36,5 +25,4 @@ public enum UserErrorEnum implements ApiError {
     public Integer getCode() {
         return code;
     }
-
 }
