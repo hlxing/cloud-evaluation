@@ -433,6 +433,66 @@ public class TeamScoreExample {
             addCriterion("team_score not between", value1, value2, "teamScore");
             return (Criteria) this;
         }
+
+        public Criteria andAverageContributeIsNull() {
+            addCriterion("average_contribute is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeIsNotNull() {
+            addCriterion("average_contribute is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeEqualTo(Double value) {
+            addCriterion("average_contribute =", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeNotEqualTo(Double value) {
+            addCriterion("average_contribute <>", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeGreaterThan(Double value) {
+            addCriterion("average_contribute >", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeGreaterThanOrEqualTo(Double value) {
+            addCriterion("average_contribute >=", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeLessThan(Double value) {
+            addCriterion("average_contribute <", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeLessThanOrEqualTo(Double value) {
+            addCriterion("average_contribute <=", value, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeIn(List<Double> values) {
+            addCriterion("average_contribute in", values, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeNotIn(List<Double> values) {
+            addCriterion("average_contribute not in", values, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeBetween(Double value1, Double value2) {
+            addCriterion("average_contribute between", value1, value2, "averageContribute");
+            return (Criteria) this;
+        }
+
+        public Criteria andAverageContributeNotBetween(Double value1, Double value2) {
+            addCriterion("average_contribute not between", value1, value2, "averageContribute");
+            return (Criteria) this;
+        }
     }
 
     /**

@@ -2,7 +2,6 @@ package com.hlx.cloudevaluation.mapper;
 
 import com.hlx.cloudevaluation.model.po.TeamScore;
 import com.hlx.cloudevaluation.model.po.TeamScoreExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
