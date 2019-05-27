@@ -199,7 +199,7 @@ public class TaskServiceImpl implements TaskService {
         teamScore.setTeamId(teamId);
         teamScore.setTeamScore(teamScoreVal);
 
-        teamScoreMapper.insertSelective(teamScore);
+
 
         Double averageContribute = 0.0;
         List<TaskContributeDTO> taskContributeDTOList = taskEvaluateDTO.getTaskContributeDTOList();
@@ -209,6 +209,9 @@ public class TaskServiceImpl implements TaskService {
             averageContribute += taskContributeDTO.getUsContribute();
         }
         averageContribute = averageContribute / taskContributeDTOList.size();
+
+        teamScore.setAverageContribute(averageContribute);
+        teamScoreMapper.insertSelective(teamScore);
 
 
         TeamUserExample teamUserExample = new TeamUserExample();
