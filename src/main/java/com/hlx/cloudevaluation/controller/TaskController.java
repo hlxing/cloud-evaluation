@@ -2,6 +2,7 @@ package com.hlx.cloudevaluation.controller;
 
 import com.hlx.cloudevaluation.model.dto.TaskAddDTO;
 import com.hlx.cloudevaluation.model.dto.TaskEvaluateDTO;
+import com.hlx.cloudevaluation.model.dto.TaskUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
 import com.hlx.cloudevaluation.model.vo.TaskScoreVO;
 import com.hlx.cloudevaluation.model.vo.TaskSearchVO;
@@ -69,10 +70,17 @@ public class TaskController {
         return new ApiResult<>("evaluate success");
     }
 
-    @ApiOperation(value = "作业修改")
+    @ApiOperation(value = "作业删除")
     @GetMapping("/delete")
     public ApiResult<String> delete(@RequestParam("taskId") Integer taskId) {
         taskService.delete(taskId);
+        return new ApiResult<>("delete task success");
+    }
+
+    @ApiOperation(value = "作业修改")
+    @GetMapping("/update")
+    public ApiResult<String> update(@Valid @RequestBody TaskUpdateDTO taskUpdateDTO) {
+        taskService.update(taskUpdateDTO);
         return new ApiResult<>("delete task success");
     }
 
@@ -88,7 +96,7 @@ public class TaskController {
 
     @ApiOperation(value = "作业打分查看")
     @GetMapping("/score")
-    public ApiResult<TaskScoreVO> getScore(@RequestParam("taskId") String taskId, HttpSession session) {
+    public ApiResult<TaskScoreVO> getScore(@RequestParam("taskId") Integer taskId, HttpSession session) {
         TaskScoreVO taskScoreVO = taskService.getScore(taskId, (Integer) session.getAttribute("userId"));
         ApiResult<TaskScoreVO> apiResult = new ApiResult<>();
         apiResult.setData(taskScoreVO);

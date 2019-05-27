@@ -2,10 +2,13 @@ package com.hlx.cloudevaluation.service;
 
 import com.hlx.cloudevaluation.model.dto.TaskAddDTO;
 import com.hlx.cloudevaluation.model.dto.TaskEvaluateDTO;
+import com.hlx.cloudevaluation.model.dto.TaskUpdateDTO;
 import com.hlx.cloudevaluation.model.vo.TaskScoreVO;
 import com.hlx.cloudevaluation.model.vo.TaskSearchVO;
 import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
 import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
+
+import javax.validation.Valid;
 
 
 /**
@@ -27,4 +30,6 @@ public interface TaskService {
     TaskScoreVO getScore(Integer taskId, Integer userId);
 
     void delete(Integer taskId);
+
+    void update(TaskUpdateDTO taskUpdateDTO);
 }

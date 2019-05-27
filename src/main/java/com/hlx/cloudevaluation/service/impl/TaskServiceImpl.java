@@ -11,6 +11,7 @@ import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.TaskService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,12 +43,15 @@ public class TaskServiceImpl implements TaskService {
 
     private SysSkillMapper sysSkillMapper;
 
+    private ClassUserMapper classUserMapper;
+
 
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
                            TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
-                           UserDao userDao, UserScoreMapper userScoreMapper, SkillScoreMapper skillScoreMapper,
-                           SysSkillMapper sysSkillMapper) {
+                           UserDao userDao, UserScoreMapper userScoreMapper,
+                           SkillScoreMapper skillScoreMapper, SysSkillMapper sysSkillMapper,
+                           ClassUserMapper classUserMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
@@ -58,6 +62,7 @@ public class TaskServiceImpl implements TaskService {
         this.userScoreMapper = userScoreMapper;
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
+        this.classUserMapper = classUserMapper;
     }
 
     @Override
@@ -201,7 +206,7 @@ public class TaskServiceImpl implements TaskService {
         teamScore.setTeamId(teamId);
         teamScore.setTeamScore(teamScoreVal);
 
-        teamScoreMapper.insertSelective(teamScore);
+
 
         Double averageContribute = 0.0;
         List<TaskContributeDTO> taskContributeDTOList = taskEvaluateDTO.getTaskContributeDTOList();
@@ -211,6 +216,9 @@ public class TaskServiceImpl implements TaskService {
             averageContribute += taskContributeDTO.getUsContribute();
         }
         averageContribute = averageContribute / taskContributeDTOList.size();
+
+        teamScore.setAverageContribute(averageContribute);
+        teamScoreMapper.insertSelective(teamScore);
 
 
         TeamUserExample teamUserExample = new TeamUserExample();
@@ -242,7 +250,23 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskSearchVO search(Integer userId) {
-        return null;
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria classUserCriteria = classUserExample.createCriteria();
+        classUserCriteria.andUserIdEqualTo(userId);
+        List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
+        Integer classId = classUserList.get(0).getClassId();
+
+        SysTaskExample taskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCriteria = taskExample.createCriteria();
+        taskCriteria.andTaskClassEqualTo(classId);
+        List<SysTask> taskList = sysTaskMapper.selectByExample(taskExample);
+        List<TaskVO> taskVOList = modelMapper.map(taskList, new TypeToken<List<TaskVO>>() {
+        }.getType());
+
+        TaskSearchVO taskSearchVO = new TaskSearchVO();
+        taskSearchVO.setTaskVOList(taskVOList);
+
+        return taskSearchVO;
     }
 
     @Override
