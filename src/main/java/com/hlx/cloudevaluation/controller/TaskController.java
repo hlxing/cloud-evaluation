@@ -96,7 +96,7 @@ public class TaskController {
 
     @ApiOperation(value = "作业打分查看")
     @GetMapping("/score")
-    public ApiResult<TaskScoreVO> getScore(@RequestParam("taskId") String taskId, HttpSession session) {
+    public ApiResult<TaskScoreVO> getScore(@RequestParam("taskId") Integer taskId, HttpSession session) {
         TaskScoreVO taskScoreVO = taskService.getScore(taskId, (Integer) session.getAttribute("userId"));
         ApiResult<TaskScoreVO> apiResult = new ApiResult<>();
         apiResult.setData(taskScoreVO);

@@ -268,7 +268,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskScoreVO getScore(String taskId, Integer userId) {
+    public TaskScoreVO getScore(Integer taskId, Integer userId) {
         return null;
     }
 
