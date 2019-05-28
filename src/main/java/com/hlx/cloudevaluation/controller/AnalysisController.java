@@ -31,7 +31,7 @@ public class AnalysisController {
         this.analysisService = analysisService;
     }
 
-    @ApiOperation(value = "单次作业分析", notes = "每个同学的总分的横向条形图")
+    @ApiOperation(value = "老师-单次作业分析", notes = "每个同学的总分的横向条形图")
     @GetMapping("/task/total")
     public ApiResult<AnalysisTaskTotalVO> getTaskTotal(@RequestParam("taskId") Integer taskId, HttpSession session) {
         AnalysisTaskTotalVO taskTotalVO = analysisService.getTaskTotal(taskId, (Integer) session.getAttribute("userId"));
@@ -40,7 +40,7 @@ public class AnalysisController {
         return apiResult;
     }
 
-    @ApiOperation(value = "单次作业分析", notes = "每个同学的不同分类的分数的横向条形图")
+    @ApiOperation(value = "老师-单次作业分析", notes = "每个同学的不同分类的分数的横向条形图")
     @GetMapping("/task/skill")
     public ApiResult<AnalysisTaskSkillVO> getTaskDetail(@RequestParam("taskId") Integer taskId,
                                                         @RequestParam("skillId") Integer skillId, HttpSession session) {
@@ -50,7 +50,7 @@ public class AnalysisController {
         return apiResult;
     }
 
-    @ApiOperation(value = "单次作业分析", notes = "每个评分维度的平均得分率")
+    @ApiOperation(value = "老师-单次作业分析", notes = "每个评分维度的平均得分率")
     @GetMapping("/task/skillAverage")
     public ApiResult<AnalysisTaskSkillAverageVO> getTaskSkillAverage(@RequestParam("taskId") Integer taskId, HttpSession session) {
         AnalysisTaskSkillAverageVO taskSkillAverageVO = analysisService.getTaskSkillAverage(taskId, (Integer) session.getAttribute("userId"));
@@ -59,7 +59,7 @@ public class AnalysisController {
         return apiResult;
     }
 
-    @ApiOperation(value = "班级的分析统计", notes = "整个班级而言，每一次作业、不同的评分维度的平均得分率的折线统计图")
+    @ApiOperation(value = "老师-班级的分析统计", notes = "整个班级而言，每一次作业、不同的评分维度的平均得分率的折线统计图")
     @GetMapping("/class/skillAverage")
     public ApiResult<AnalysisClassSkillAverageVO> getClassSkillAverage(@RequestParam("classId") Integer classId, @RequestParam("skillId") Integer skillId) {
         AnalysisClassSkillAverageVO classSkillAverageVO = analysisService.getClassSkillAverage(classId, skillId);
@@ -68,7 +68,7 @@ public class AnalysisController {
         return apiResult;
     }
 
-    @ApiOperation(value = "班级的分析统计", notes = "全班同学的总分变化折线统计图")
+    @ApiOperation(value = "老师-班级的分析统计", notes = "全班同学的总分变化折线统计图")
     @GetMapping("/class/total")
     public ApiResult<AnalysisClassTotalVO> getClassTotalVO(@RequestParam("classId") Integer classId) {
         AnalysisClassTotalVO classTotalVO = analysisService.getClassTotal(classId);
@@ -77,6 +77,23 @@ public class AnalysisController {
         return apiResult;
     }
 
+    @ApiOperation(value = "学生-单次作业的分析统计", notes = "本次作业的总分的平均分、学生的总分排名、学生的总分分数")
+    @GetMapping("/task/sum")
+    public ApiResult<AnalysisTaskSumVO> getTaskSum(@RequestParam("taskId") Integer taskId, HttpSession session) {
+        AnalysisTaskSumVO taskSumVO = analysisService.getTaskSum(taskId, (Integer) session.getAttribute("userId"));
+        ApiResult<AnalysisTaskSumVO> apiResult = new ApiResult<>();
+        apiResult.setData(taskSumVO);
+        return apiResult;
+    }
+
+    @ApiOperation(value = "学生-单次作业的分析统计", notes = "每个评分维度的平均分、学生的该维度排名、学生的该维度分数")
+    @GetMapping("/skill/sum")
+    public ApiResult<AnalysisSkillSumVO> getSkillSum(@RequestParam("taskId") Integer taskId, HttpSession session) {
+        AnalysisSkillSumVO skillSumVO = analysisService.getSkillSum(taskId, (Integer) session.getAttribute("userId"));
+        ApiResult<AnalysisSkillSumVO> apiResult = new ApiResult<>();
+        apiResult.setData(skillSumVO);
+        return apiResult;
+    }
 
 
 

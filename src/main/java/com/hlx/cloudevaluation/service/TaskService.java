@@ -30,4 +30,6 @@ public interface TaskService {
     void update(TaskUpdateDTO taskUpdateDTO);
 
     TaskSearchVO getList(Integer userId);
+
+    TaskSearchVO getClassTask(Integer classId, Integer userId);
 }
