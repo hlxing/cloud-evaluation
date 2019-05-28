@@ -8,7 +8,7 @@ import lombok.Data;
  * @author: hlx 2019-05-28
  **/
 @Data
-public class TeacherTaskTotalItemVO {
+public class AnalysisTaskTotalItemVO {
 
     @ApiModelProperty(notes = "学号")
     private String userAccount;
