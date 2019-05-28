@@ -19,7 +19,4 @@ public class AnalysisClassTotalItemVO {
     @ApiModelProperty(notes = "总分，作业得分的累加和")
     private Double totalScore;
 
-    @ApiModelProperty(notes = "学号")
-    private String userAccount;
-
 }
