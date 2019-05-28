@@ -48,8 +48,8 @@ public class TaskController {
     @ApiOperation(value = "老师作业列表")
     @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @GetMapping("/list")
-    public ApiResult<TaskSearchVO> getList() {
-        TaskSearchVO taskSearchVO = taskService.getList();
+    public ApiResult<TaskSearchVO> getList(HttpSession session) {
+        TaskSearchVO taskSearchVO = taskService.getList((Integer) session.getAttribute("userId"));
         ApiResult<TaskSearchVO> apiResult = new ApiResult<>();
         apiResult.setData(taskSearchVO);
         return apiResult;
