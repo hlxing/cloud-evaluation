@@ -43,13 +43,15 @@ public class TaskServiceImpl implements TaskService {
 
     private ClassUserMapper classUserMapper;
 
+    private SysClassMapper sysClassMapper;
+
 
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
                            TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
                            UserDao userDao, UserScoreMapper userScoreMapper,
                            SkillScoreMapper skillScoreMapper, SysSkillMapper sysSkillMapper,
-                           ClassUserMapper classUserMapper) {
+                           ClassUserMapper classUserMapper, SysClassMapper sysClassMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
@@ -61,6 +63,7 @@ public class TaskServiceImpl implements TaskService {
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
         this.classUserMapper = classUserMapper;
+        this.sysClassMapper = sysClassMapper;
     }
 
     @Override
@@ -267,8 +270,9 @@ public class TaskServiceImpl implements TaskService {
             User user = userDao.get(taskVO.getTaskId());
             taskVO.setTaskCreatorName(user.getUserName());
             taskVO.setTaskCreatorAccount(user.getUserAccount());
-
-
+            // 查找班级id对应班级名称
+            SysClass sysClass = sysClassMapper.selectByPrimaryKey(task.getTaskClass());
+            taskVO.setTaskClassName(sysClass.getClassName());
             taskVOList.add(taskVO);
         }
 
