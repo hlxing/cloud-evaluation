@@ -43,13 +43,18 @@ public class TaskServiceImpl implements TaskService {
 
     private ClassUserMapper classUserMapper;
 
+    private SysClassMapper sysClassMapper;
+
+    private ClassRoleMapper classRoleMapper;
+
 
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
                            TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
                            UserDao userDao, UserScoreMapper userScoreMapper,
                            SkillScoreMapper skillScoreMapper, SysSkillMapper sysSkillMapper,
-                           ClassUserMapper classUserMapper) {
+                           ClassUserMapper classUserMapper, SysClassMapper sysClassMapper,
+                           ClassRoleMapper classRoleMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
@@ -61,6 +66,8 @@ public class TaskServiceImpl implements TaskService {
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
         this.classUserMapper = classUserMapper;
+        this.sysClassMapper = sysClassMapper;
+        this.classRoleMapper = classRoleMapper;
     }
 
     @Override
@@ -267,8 +274,8 @@ public class TaskServiceImpl implements TaskService {
             User user = userDao.get(taskVO.getTaskId());
             taskVO.setTaskCreatorName(user.getUserName());
             taskVO.setTaskCreatorAccount(user.getUserAccount());
-
-
+            String taskClassName = sysClassMapper.selectByPrimaryKey(task.getTaskClass()).getClassName();
+            taskVO.setTaskClassName(taskClassName);
             taskVOList.add(taskVO);
         }
 
