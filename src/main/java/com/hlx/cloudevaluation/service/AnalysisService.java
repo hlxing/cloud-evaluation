@@ -1,9 +1,7 @@
 package com.hlx.cloudevaluation.service;
 
 
-import com.hlx.cloudevaluation.model.vo.AnalysisTaskSkillAverageVO;
-import com.hlx.cloudevaluation.model.vo.AnalysisTaskSkillVO;
-import com.hlx.cloudevaluation.model.vo.AnalysisTaskTotalVO;
+import com.hlx.cloudevaluation.model.vo.*;
 
 /**
  * @description: 统计服务层
@@ -17,4 +15,7 @@ public interface AnalysisService {
 
     AnalysisTaskSkillAverageVO getTaskSkillAverage(Integer taskId, Integer userId);
 
+    AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId);
+
+    AnalysisClassTotalVO getClassTotal(Integer classId);
 }
