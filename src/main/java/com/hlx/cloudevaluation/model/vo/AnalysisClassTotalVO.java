@@ -14,6 +14,6 @@ import java.util.Map;
 public class AnalysisClassTotalVO {
 
     @ApiModelProperty(notes = "作业-得分链表")
-    private Map<Integer, List<AnalysisClassTotalItemVO>> classTaskTotalMap;
+    private Map<String, List<AnalysisClassTotalItemVO>> classTaskTotalMap;
 
 }

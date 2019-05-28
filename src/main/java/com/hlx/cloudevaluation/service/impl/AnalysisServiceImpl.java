@@ -5,6 +5,7 @@ import com.hlx.cloudevaluation.mapper.*;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.AnalysisService;
+import org.apache.commons.collections.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +33,19 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private TaskSkillMapper taskSkillMapper;
 
+    private ClassUserMapper classUserMapper;
+
     @Autowired
     public AnalysisServiceImpl(UserScoreMapper userScoreMapper, UserDao userDao, SkillScoreMapper skillScoreMapper,
-                               SysSkillMapper sysSkillMapper, SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper) {
+                               SysSkillMapper sysSkillMapper, SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
+                               ClassUserMapper classUserMapper) {
         this.userScoreMapper = userScoreMapper;
         this.userDao = userDao;
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
+        this.classUserMapper = classUserMapper;
     }
 
     @Override
@@ -121,7 +126,7 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     public AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId) {
         AnalysisClassSkillAverageVO analysisClassSkillAverageVO = new AnalysisClassSkillAverageVO();
-        List<AnalysisClasSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
+        List<AnalysisClassSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
 
         SysTaskExample sysTaskExample = new SysTaskExample();
         SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
@@ -129,7 +134,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
 
         for (SysTask task : taskList) {
-            AnalysisClasSkillAverageItemVO analysisClasSkillAverageItemVO = new AnalysisClasSkillAverageItemVO();
+            AnalysisClassSkillAverageItemVO analysisClasSkillAverageItemVO = new AnalysisClassSkillAverageItemVO();
 
             TaskSkillExample taskSkillExample = new TaskSkillExample();
             TaskSkillExample.Criteria tsCri = taskSkillExample.createCriteria();
@@ -165,21 +170,64 @@ public class AnalysisServiceImpl implements AnalysisService {
     public AnalysisClassTotalVO getClassTotal(Integer classId) {
 
         AnalysisClassTotalVO analysisClassTotalVO = new AnalysisClassTotalVO();
-        List<AnalysisClassTotalItemVO> analysisClassTotalItemVOList = new ArrayList<>();
+        Map<String, List<AnalysisClassTotalItemVO>> map = new HashMap<>();
+
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria cuCri = classUserExample.createCriteria();
+        cuCri.andClassIdEqualTo(classId);
+        //班级下有哪些学生
+        List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
 
         SysTaskExample sysTaskExample = new SysTaskExample();
         SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
         taskCri.andTaskClassEqualTo(classId);
         sysTaskExample.setOrderByClause("task_create_at ASC");
         List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
-        Integer order = 1;
-        for (SysTask task : taskList) {
-            AnalysisClassTotalItemVO analysisClassTotalItemVO = new AnalysisClassTotalItemVO();
-            analysisClassTotalItemVO.setTaskCode(order++);
-            analysisClassTotalItemVO.setTaskName(task.getTaskName());
-            analysisClassTotalItemVO
 
-
+        for (ClassUser classUser : classUserList) {
+            for (SysTask task : taskList) {
+                AnalysisClassTotalItemVO analysisClassTotalItemVO = new AnalysisClassTotalItemVO();
+                UserScoreExample userScoreExample = new UserScoreExample();
+                UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
+                usCri.andTaskIdEqualTo(task.getTaskId());
+                usCri.andUserIdEqualTo(classUser.getUserId());
+                List<UserScore> userScoreList = userScoreMapper.selectByExample(userScoreExample);
+                if (userScoreList.size() == 0) {
+                    //这个学生的这次作业没评分
+                    analysisClassTotalItemVO.setTotalScore(0.0);
+                } else {
+                    analysisClassTotalItemVO.setTotalScore(userScoreList.get(0).getUsFinalScore());
+                }
+                analysisClassTotalItemVO.setTaskName(task.getTaskName());
+                String account = userDao.get(classUser.getUserId()).getUserAccount();
+                List<AnalysisClassTotalItemVO> add = map.get(account);
+                add.add(analysisClassTotalItemVO);
+                map.put(account, add);
+            }
         }
+
+        //累加处理
+        for (String account : map.keySet()) {
+            List<AnalysisClassTotalItemVO> add = map.get(account);
+            for (int i = 1; i < add.size(); ++i) {
+                Double pre = add.get(i - 1).getTotalScore();
+                AnalysisClassTotalItemVO temp = add.get(i);
+                temp.setTotalScore(temp.getTotalScore() + pre);
+                add.set(i, temp);
+            }
+        }
+        analysisClassTotalVO.setClassTaskTotalMap(map);
+
+        return analysisClassTotalVO;
+    }
+
+    @Override
+    public AnalysisTaskSumVO getTaskSum(Integer taskId, Integer userId) {
+        return null;
+    }
+
+    @Override
+    public AnalysisSkillSumVO getSkillSum(Integer taskId, Integer userId) {
+        return null;
     }
 }
