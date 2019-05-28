@@ -18,4 +18,8 @@ public interface AnalysisService {
     AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId);
 
     AnalysisClassTotalVO getClassTotal(Integer classId);
+
+    AnalysisTaskSumVO getTaskSum(Integer taskId, Integer userId);
+
+    AnalysisSkillSumVO getSkillSum(Integer taskId, Integer userId);
 }

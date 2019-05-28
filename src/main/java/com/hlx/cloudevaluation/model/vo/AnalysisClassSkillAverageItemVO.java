@@ -8,7 +8,10 @@ import lombok.Data;
  * @author: hlx 2019-05-28
  **/
 @Data
-public class AnalysisClasSkillAverageItemVO {
+public class AnalysisClassSkillAverageItemVO {
+
+    @ApiModelProperty(notes = "作业编号，0开始，根据发布时间递增")
+    private Integer taskCode;
 
     @ApiModelProperty(notes = "作业id")
     private Integer taskId;

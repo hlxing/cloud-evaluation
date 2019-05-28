@@ -55,6 +55,15 @@ public class TaskController {
         return apiResult;
     }
 
+    @ApiOperation(value = "某班级的作业列表")
+    @GetMapping("/classTask")
+    public ApiResult<TaskSearchVO> getClassTask(@RequestParam("classId") Integer classId, HttpSession session) {
+        TaskSearchVO taskSearchVO = taskService.getClassTask(classId, (Integer) session.getAttribute("userId"));
+        ApiResult<TaskSearchVO> apiResult = new ApiResult<>();
+        apiResult.setData(taskSearchVO);
+        return apiResult;
+    }
+
 
     @ApiOperation(value = "作业打分状态")
     @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)

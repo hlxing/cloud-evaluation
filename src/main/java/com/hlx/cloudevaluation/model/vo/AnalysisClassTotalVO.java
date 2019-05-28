@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 全班同学的总分视图
@@ -13,6 +14,6 @@ import java.util.List;
 public class AnalysisClassTotalVO {
 
     @ApiModelProperty(notes = "作业-得分链表")
-    private List<AnalysisClassTotalItemVO> classTaskTotalItemVOList;
+    private Map<Integer, List<AnalysisClassTotalItemVO>> classTaskTotalMap;
 
 }
