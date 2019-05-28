@@ -267,6 +267,8 @@ public class TaskServiceImpl implements TaskService {
             User user = userDao.get(taskVO.getTaskId());
             taskVO.setTaskCreatorName(user.getUserName());
             taskVO.setTaskCreatorAccount(user.getUserAccount());
+
+
             taskVOList.add(taskVO);
         }
 

@@ -23,7 +23,7 @@ public class TaskVO {
 
     private String taskUrl;
 
-    private String taskClass;
+    private String taskClassName;
 
     private Date taskCreateAt;
 

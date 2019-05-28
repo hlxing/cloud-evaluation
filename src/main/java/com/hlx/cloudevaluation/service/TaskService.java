@@ -29,5 +29,5 @@ public interface TaskService {
 
     void update(TaskUpdateDTO taskUpdateDTO);
 
-    TaskSearchVO getList();
+    TaskSearchVO getList(Integer userId);
 }
