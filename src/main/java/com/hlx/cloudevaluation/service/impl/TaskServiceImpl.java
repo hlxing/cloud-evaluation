@@ -43,15 +43,13 @@ public class TaskServiceImpl implements TaskService {
 
     private ClassUserMapper classUserMapper;
 
-    private SysClassMapper sysClassMapper;
-
 
     public TaskServiceImpl(SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
                            ModelMapper modelMapper, SysTeamMapper sysTeamMapper,
                            TeamScoreMapper teamScoreMapper, TeamUserMapper teamUserMapper,
                            UserDao userDao, UserScoreMapper userScoreMapper,
                            SkillScoreMapper skillScoreMapper, SysSkillMapper sysSkillMapper,
-                           ClassUserMapper classUserMapper, SysClassMapper sysClassMapper) {
+                           ClassUserMapper classUserMapper) {
         this.sysTaskMapper = sysTaskMapper;
         this.taskSkillMapper = taskSkillMapper;
         this.modelMapper = modelMapper;
@@ -63,7 +61,6 @@ public class TaskServiceImpl implements TaskService {
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
         this.classUserMapper = classUserMapper;
-        this.sysClassMapper = sysClassMapper;
     }
 
     @Override
@@ -270,9 +267,8 @@ public class TaskServiceImpl implements TaskService {
             User user = userDao.get(taskVO.getTaskId());
             taskVO.setTaskCreatorName(user.getUserName());
             taskVO.setTaskCreatorAccount(user.getUserAccount());
-            // 查找班级id对应班级名称
-            SysClass sysClass = sysClassMapper.selectByPrimaryKey(task.getTaskClass());
-            taskVO.setTaskClassName(sysClass.getClassName());
+
+
             taskVOList.add(taskVO);
         }
 
@@ -351,5 +347,32 @@ public class TaskServiceImpl implements TaskService {
             taskSkill.setSkillNumber(item.getSkillNumber());
             taskSkillMapper.insert(taskSkill);
         }
+    }
+
+    @Override
+    public TaskSearchVO getList(Integer userId) {
+        ClassRoleExample classRoleExample = new ClassRoleExample();
+        ClassRoleExample.Criteria crCri = classRoleExample.createCriteria();
+        crCri.andUserIdEqualTo(userId);
+        List<ClassRole> classRoles = classRoleMapper.selectByExample(classRoleExample);
+        TaskSearchVO taskSearchVO = new TaskSearchVO();
+
+        List<TaskVO> taskVOS = new ArrayList<>();
+
+        for (ClassRole classRole : classRoles) {
+            //一个老师有多个班级
+            Integer classId = classRole.getClassId();
+            SysTaskExample taskExample = new SysTaskExample();
+            SysTaskExample.Criteria taskCri = taskExample.createCriteria();
+            taskCri.andTaskClassEqualTo(classId);
+            List<SysTask> tasks = sysTaskMapper.selectByExample(taskExample);
+            for (SysTask taskItem : tasks) {
+                TaskVO taskVO = modelMapper.map(taskItem, TaskVO.class);
+                taskVO.setTaskClassName(sysClassMapper.selectByPrimaryKey(classId).getClassName());
+                taskVOS.add(taskVO);
+            }
+        }
+        taskSearchVO.setTaskVOList(taskVOS);
+        return taskSearchVO;
     }
 }
