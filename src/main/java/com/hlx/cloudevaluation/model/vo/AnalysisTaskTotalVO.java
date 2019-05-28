@@ -10,9 +10,9 @@ import java.util.List;
  * @author: hlx 2019-05-28
  **/
 @Data
-public class TeacherTaskTotalVO {
+public class AnalysisTaskTotalVO {
 
     @ApiModelProperty(notes = "学号-总分链表")
-    private List<TeacherTaskTotalItemVO> taskTotalItemVOList;
+    private List<AnalysisTaskTotalItemVO> taskTotalItemVOList;
 
 }
