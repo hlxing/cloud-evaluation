@@ -1,13 +1,8 @@
 package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.dao.UserDao;
-import com.hlx.cloudevaluation.mapper.SkillScoreMapper;
-import com.hlx.cloudevaluation.mapper.SysSkillMapper;
-import com.hlx.cloudevaluation.mapper.UserScoreMapper;
-import com.hlx.cloudevaluation.model.po.SkillScore;
-import com.hlx.cloudevaluation.model.po.SkillScoreExample;
-import com.hlx.cloudevaluation.model.po.UserScore;
-import com.hlx.cloudevaluation.model.po.UserScoreExample;
+import com.hlx.cloudevaluation.mapper.*;
+import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +28,19 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private SysSkillMapper sysSkillMapper;
 
+    private SysTaskMapper sysTaskMapper;
+
+    private TaskSkillMapper taskSkillMapper;
+
     @Autowired
     public AnalysisServiceImpl(UserScoreMapper userScoreMapper, UserDao userDao, SkillScoreMapper skillScoreMapper,
-                               SysSkillMapper sysSkillMapper) {
+                               SysSkillMapper sysSkillMapper, SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper) {
         this.userScoreMapper = userScoreMapper;
         this.userDao = userDao;
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
+        this.sysTaskMapper = sysTaskMapper;
+        this.taskSkillMapper = taskSkillMapper;
     }
 
     @Override
@@ -115,5 +116,70 @@ public class AnalysisServiceImpl implements AnalysisService {
         }
         analysisTaskSkillAverageVO.setSkillAverageItemVOList(analysisTaskSkillAverageItemVOList);
         return analysisTaskSkillAverageVO;
+    }
+
+    @Override
+    public AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId) {
+        AnalysisClassSkillAverageVO analysisClassSkillAverageVO = new AnalysisClassSkillAverageVO();
+        List<AnalysisClasSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
+
+        SysTaskExample sysTaskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
+        taskCri.andTaskClassEqualTo(classId);
+        List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
+
+        for (SysTask task : taskList) {
+            AnalysisClasSkillAverageItemVO analysisClasSkillAverageItemVO = new AnalysisClasSkillAverageItemVO();
+
+            TaskSkillExample taskSkillExample = new TaskSkillExample();
+            TaskSkillExample.Criteria tsCri = taskSkillExample.createCriteria();
+            tsCri.andTaskIdEqualTo(task.getTaskId());
+            tsCri.andSkillIdEqualTo(skillId);
+            List<TaskSkill> taskSkillList = taskSkillMapper.selectByExample(taskSkillExample);
+            if (taskSkillList.size() == 0) {
+                //这个作业没有这个能力指标
+                analysisClasSkillAverageItemVO.setScore(0.0);
+            } else {
+                //这个作业有这个能力指标
+                SkillScoreExample skillScoreExample = new SkillScoreExample();
+                SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+                ssCri.andSkillIdEqualTo(skillId);
+                ssCri.andTaskIdEqualTo(task.getTaskId());
+                List<SkillScore> skillScoreList = skillScoreMapper.selectByExample(skillScoreExample);
+                Double total = 0.0;
+                for (SkillScore skillScore : skillScoreList) {
+                    total += skillScore.getSsRealScore();
+                }
+                analysisClasSkillAverageItemVO.setScore(total / skillScoreList.size());
+            }
+            analysisClasSkillAverageItemVO.setTaskId(task.getTaskId());
+            analysisClasSkillAverageItemVO.setTaskName(task.getTaskName());
+            analysisClasSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
+        }
+
+        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClasSkillAverageItemVOList);
+        return analysisClassSkillAverageVO;
+    }
+
+    @Override
+    public AnalysisClassTotalVO getClassTotal(Integer classId) {
+
+        AnalysisClassTotalVO analysisClassTotalVO = new AnalysisClassTotalVO();
+        List<AnalysisClassTotalItemVO> analysisClassTotalItemVOList = new ArrayList<>();
+
+        SysTaskExample sysTaskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
+        taskCri.andTaskClassEqualTo(classId);
+        sysTaskExample.setOrderByClause("task_create_at ASC");
+        List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
+        Integer order = 1;
+        for (SysTask task : taskList) {
+            AnalysisClassTotalItemVO analysisClassTotalItemVO = new AnalysisClassTotalItemVO();
+            analysisClassTotalItemVO.setTaskCode(order++);
+            analysisClassTotalItemVO.setTaskName(task.getTaskName());
+            analysisClassTotalItemVO
+
+
+        }
     }
 }
