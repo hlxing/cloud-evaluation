@@ -13,6 +13,6 @@ import java.util.List;
 public class AnalysisTaskSkillAverageVO {
 
     @ApiModelProperty(notes = "维度-平均得分链表")
-    private List<AnalysisTaskSkillItemVO> skillItemVOList;
+    private List<AnalysisTaskSkillAverageItemVO> skillAverageItemVOList;
 
 }
