@@ -9,9 +9,7 @@ import com.hlx.cloudevaluation.model.dto.*;
 import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.TaskService;
-import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -254,14 +252,23 @@ public class TaskServiceImpl implements TaskService {
         ClassUserExample.Criteria classUserCriteria = classUserExample.createCriteria();
         classUserCriteria.andUserIdEqualTo(userId);
         List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
+        if (classUserList.size() == 0) {
+            return new TaskSearchVO();
+        }
         Integer classId = classUserList.get(0).getClassId();
 
         SysTaskExample taskExample = new SysTaskExample();
         SysTaskExample.Criteria taskCriteria = taskExample.createCriteria();
         taskCriteria.andTaskClassEqualTo(classId);
         List<SysTask> taskList = sysTaskMapper.selectByExample(taskExample);
-        List<TaskVO> taskVOList = modelMapper.map(taskList, new TypeToken<List<TaskVO>>() {
-        }.getType());
+        List<TaskVO> taskVOList = new ArrayList<>();
+        for (SysTask task : taskList) {
+            TaskVO taskVO = modelMapper.map(task, TaskVO.class);
+            User user = userDao.get(taskVO.getTaskId());
+            taskVO.setTaskCreatorName(user.getUserName());
+            taskVO.setTaskCreatorAccount(user.getUserAccount());
+            taskVOList.add(taskVO);
+        }
 
         TaskSearchVO taskSearchVO = new TaskSearchVO();
         taskSearchVO.setTaskVOList(taskVOList);

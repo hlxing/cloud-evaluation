@@ -48,7 +48,7 @@ public class TeamController {
         return new ApiResult<>("join success");
     }
 
-    @ApiOperation(value = "获取团队信息")
+    @ApiOperation(value = "学生获取自己的团队信息")
     @GetMapping("/detail")
     public ApiResult<TeamDetailVO> getDetail(HttpSession session) {
         TeamDetailVO teamDetailVO = teamService.getDetail((Integer) session.getAttribute("userId"));
@@ -59,7 +59,7 @@ public class TeamController {
 
     @ApiOperation(value = "修改团队信息")
     @PostMapping("/update")
-    public ApiResult<String> update(@Valid TeamUpdateDTO teamUpdateDTO, HttpSession session) {
+    public ApiResult<String> update(@Valid @RequestBody TeamUpdateDTO teamUpdateDTO, HttpSession session) {
         teamService.update(teamUpdateDTO, (Integer) session.getAttribute("userId"));
         return new ApiResult<>("update team success");
     }

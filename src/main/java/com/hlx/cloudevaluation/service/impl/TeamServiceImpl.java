@@ -224,6 +224,7 @@ public class TeamServiceImpl implements TeamService {
         SysTeamExample.Criteria teamCriteria = teamExample.createCriteria();
         teamCriteria.andTeamCaptainEqualTo(userId);
         List<SysTeam> temp = sysTeamMapper.selectByExample(teamExample);
+        // 队长不能离开
         if (temp.size() != 0) {
             throw new ApiException(TeamErrorEnum.TEAM_CAPTAIN_EXIT_ERROR);
         }
@@ -243,6 +244,14 @@ public class TeamServiceImpl implements TeamService {
         TeamUserExample.Criteria criteria = example.createCriteria();
         criteria.andTeamIdEqualTo(teamId);
         teamUserMapper.deleteByExample(example);
+
+        // 修改团队解散标志位
+        SysTeam team = new SysTeam();
+        team.setTeamExit(true);
+        SysTeamExample teamExample = new SysTeamExample();
+        SysTeamExample.Criteria teamCriteria = teamExample.createCriteria();
+        teamCriteria.andTeamIdEqualTo(teamId);
+        sysTeamMapper.updateByExampleSelective(team, teamExample);
     }
 
     @Override
@@ -262,6 +271,8 @@ public class TeamServiceImpl implements TeamService {
         List<SysTeam> teamList = sysTeamMapper.selectByExample(teamExample);
         List<TeamVO> teamVOList = new ArrayList<>();
         for (SysTeam team : teamList) {
+            // 团队已经解散
+            if (team.getTeamExit()) continue;
             TeamVO teamVO = modelMapper.map(team, TeamVO.class);
             teamVO.setTeamCaptain(userDao.get(team.getTeamCaptain()).getUserName());
 

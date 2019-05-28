@@ -7,10 +7,6 @@ import com.hlx.cloudevaluation.model.vo.TaskScoreVO;
 import com.hlx.cloudevaluation.model.vo.TaskSearchVO;
 import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
 import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
-
-import javax.validation.Valid;
-
-
 /**
  * @description: 作业服务层
  * @author: hlx 2019-05-05
@@ -32,4 +28,6 @@ public interface TaskService {
     void delete(Integer taskId);
 
     void update(TaskUpdateDTO taskUpdateDTO);
+
+    TaskSearchVO getList();
 }

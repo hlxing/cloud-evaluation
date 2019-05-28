@@ -45,7 +45,19 @@ public class TaskController {
         return new ApiResult<>("add task success");
     }
 
+    @ApiOperation(value = "老师作业列表")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
+    @GetMapping("/list")
+    public ApiResult<TaskSearchVO> getList() {
+        TaskSearchVO taskSearchVO = taskService.getList();
+        ApiResult<TaskSearchVO> apiResult = new ApiResult<>();
+        apiResult.setData(taskSearchVO);
+        return apiResult;
+    }
+
+
     @ApiOperation(value = "作业打分状态")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @GetMapping("/status")
     public ApiResult<TaskStatusVO> getStatus(@RequestParam("taskId") Integer taskId) {
         TaskStatusVO taskStatusVO = taskService.getStatus(taskId);
@@ -55,6 +67,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "作业团队打分状态")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @GetMapping("/team/status")
     public ApiResult<TaskTeamStatusVO> getTeamStatus(@RequestParam("taskId") Integer taskId, @RequestParam("teamId") Integer teamId) {
         TaskTeamStatusVO taskTeamStatusVO = taskService.getTeamStatus(taskId, teamId);
@@ -64,6 +77,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "作业打分")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @PostMapping("/evaluate")
     public ApiResult<String> evaluate(@Valid @RequestBody TaskEvaluateDTO taskEvaluateDTO) {
         taskService.evaluate(taskEvaluateDTO);
@@ -71,6 +85,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "作业删除")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @GetMapping("/delete")
     public ApiResult<String> delete(@RequestParam("taskId") Integer taskId) {
         taskService.delete(taskId);
@@ -78,14 +93,14 @@ public class TaskController {
     }
 
     @ApiOperation(value = "作业修改")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
     @GetMapping("/update")
     public ApiResult<String> update(@Valid @RequestBody TaskUpdateDTO taskUpdateDTO) {
         taskService.update(taskUpdateDTO);
         return new ApiResult<>("delete task success");
     }
 
-
-    @ApiOperation(value = "作业查看")
+    @ApiOperation(value = "学生作业查看")
     @GetMapping("/search")
     public ApiResult<TaskSearchVO> search(HttpSession session) {
         TaskSearchVO taskSearchVO = taskService.search((Integer) session.getAttribute("userId"));
@@ -94,7 +109,7 @@ public class TaskController {
         return apiResult;
     }
 
-    @ApiOperation(value = "作业打分查看")
+    @ApiOperation(value = "学生作业打分查看")
     @GetMapping("/score")
     public ApiResult<TaskScoreVO> getScore(@RequestParam("taskId") Integer taskId, HttpSession session) {
         TaskScoreVO taskScoreVO = taskService.getScore(taskId, (Integer) session.getAttribute("userId"));
