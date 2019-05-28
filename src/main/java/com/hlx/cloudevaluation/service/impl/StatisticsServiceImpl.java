@@ -1,5 +1,6 @@
 package com.hlx.cloudevaluation.service.impl;
 
+import com.hlx.cloudevaluation.model.vo.TeacherTaskTotalVO;
 import com.hlx.cloudevaluation.service.StatisticsService;
 
 /**
@@ -7,6 +8,8 @@ import com.hlx.cloudevaluation.service.StatisticsService;
  * @author: hlx 2019-05-28
  **/
 public class StatisticsServiceImpl implements StatisticsService {
-
-
+    @Override
+    public TeacherTaskTotalVO getTeacherTaskTotal(Integer taskId, Integer userId) {
+        return null;
+    }
 }
