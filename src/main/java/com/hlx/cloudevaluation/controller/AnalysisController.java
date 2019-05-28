@@ -70,7 +70,7 @@ public class AnalysisController {
 
     @ApiOperation(value = "班级的分析统计", notes = "全班同学的总分变化折线统计图")
     @GetMapping("/class/total")
-    public ApiResult<AnalysisClassTotalVO> ClassTotalVO(@RequestParam("classId") Integer classId) {
+    public ApiResult<AnalysisClassTotalVO> getClassTotalVO(@RequestParam("classId") Integer classId) {
         AnalysisClassTotalVO classTotalVO = analysisService.getClassTotal(classId);
         ApiResult<AnalysisClassTotalVO> apiResult = new ApiResult<>();
         apiResult.setData(classTotalVO);
