@@ -1,13 +1,8 @@
 package com.hlx.cloudevaluation.service.impl;
 
 import com.hlx.cloudevaluation.dao.UserDao;
-import com.hlx.cloudevaluation.mapper.SkillScoreMapper;
-import com.hlx.cloudevaluation.mapper.SysSkillMapper;
-import com.hlx.cloudevaluation.mapper.UserScoreMapper;
-import com.hlx.cloudevaluation.model.po.SkillScore;
-import com.hlx.cloudevaluation.model.po.SkillScoreExample;
-import com.hlx.cloudevaluation.model.po.UserScore;
-import com.hlx.cloudevaluation.model.po.UserScoreExample;
+import com.hlx.cloudevaluation.mapper.*;
+import com.hlx.cloudevaluation.model.po.*;
 import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +28,23 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private SysSkillMapper sysSkillMapper;
 
+    private SysTaskMapper sysTaskMapper;
+
+    private TaskSkillMapper taskSkillMapper;
+
+    private ClassUserMapper classUserMapper;
+
     @Autowired
     public AnalysisServiceImpl(UserScoreMapper userScoreMapper, UserDao userDao, SkillScoreMapper skillScoreMapper,
-                               SysSkillMapper sysSkillMapper) {
+                               SysSkillMapper sysSkillMapper, SysTaskMapper sysTaskMapper, TaskSkillMapper taskSkillMapper,
+                               ClassUserMapper classUserMapper) {
         this.userScoreMapper = userScoreMapper;
         this.userDao = userDao;
         this.skillScoreMapper = skillScoreMapper;
         this.sysSkillMapper = sysSkillMapper;
+        this.sysTaskMapper = sysTaskMapper;
+        this.taskSkillMapper = taskSkillMapper;
+        this.classUserMapper = classUserMapper;
     }
 
     @Override
@@ -145,4 +150,107 @@ public class AnalysisServiceImpl implements AnalysisService {
         return taskSumVO;
     }
 
+
+    @Override
+    public AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId) {
+        AnalysisClassSkillAverageVO analysisClassSkillAverageVO = new AnalysisClassSkillAverageVO();
+        List<AnalysisClassSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
+
+        SysTaskExample sysTaskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
+        taskCri.andTaskClassEqualTo(classId);
+        List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
+
+        for (SysTask task : taskList) {
+            AnalysisClassSkillAverageItemVO analysisClasSkillAverageItemVO = new AnalysisClassSkillAverageItemVO();
+
+            TaskSkillExample taskSkillExample = new TaskSkillExample();
+            TaskSkillExample.Criteria tsCri = taskSkillExample.createCriteria();
+            tsCri.andTaskIdEqualTo(task.getTaskId());
+            tsCri.andSkillIdEqualTo(skillId);
+            List<TaskSkill> taskSkillList = taskSkillMapper.selectByExample(taskSkillExample);
+            if (taskSkillList.size() == 0) {
+                //这个作业没有这个能力指标
+                analysisClasSkillAverageItemVO.setScore(0.0);
+            } else {
+                //这个作业有这个能力指标
+                SkillScoreExample skillScoreExample = new SkillScoreExample();
+                SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+                ssCri.andSkillIdEqualTo(skillId);
+                ssCri.andTaskIdEqualTo(task.getTaskId());
+                List<SkillScore> skillScoreList = skillScoreMapper.selectByExample(skillScoreExample);
+                Double total = 0.0;
+                for (SkillScore skillScore : skillScoreList) {
+                    total += skillScore.getSsRealScore();
+                }
+                analysisClasSkillAverageItemVO.setScore(total / skillScoreList.size());
+            }
+            analysisClasSkillAverageItemVO.setTaskId(task.getTaskId());
+            analysisClasSkillAverageItemVO.setTaskName(task.getTaskName());
+            analysisClasSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
+        }
+
+        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClasSkillAverageItemVOList);
+        return analysisClassSkillAverageVO;
+    }
+
+    @Override
+    public AnalysisClassTotalVO getClassTotal(Integer classId) {
+
+        AnalysisClassTotalVO analysisClassTotalVO = new AnalysisClassTotalVO();
+        Map<String, List<AnalysisClassTotalItemVO>> map = new HashMap<>();
+
+        ClassUserExample classUserExample = new ClassUserExample();
+        ClassUserExample.Criteria cuCri = classUserExample.createCriteria();
+        cuCri.andClassIdEqualTo(classId);
+        //班级下有哪些学生
+        List<ClassUser> classUserList = classUserMapper.selectByExample(classUserExample);
+
+        SysTaskExample sysTaskExample = new SysTaskExample();
+        SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
+        taskCri.andTaskClassEqualTo(classId);
+        sysTaskExample.setOrderByClause("task_create_at ASC");
+        List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
+
+        for (ClassUser classUser : classUserList) {
+            for (SysTask task : taskList) {
+                AnalysisClassTotalItemVO analysisClassTotalItemVO = new AnalysisClassTotalItemVO();
+                UserScoreExample userScoreExample = new UserScoreExample();
+                UserScoreExample.Criteria usCri = userScoreExample.createCriteria();
+                usCri.andTaskIdEqualTo(task.getTaskId());
+                usCri.andUserIdEqualTo(classUser.getUserId());
+                List<UserScore> userScoreList = userScoreMapper.selectByExample(userScoreExample);
+                if (userScoreList.size() == 0) {
+                    //这个学生的这次作业没评分
+                    analysisClassTotalItemVO.setTotalScore(0.0);
+                } else {
+                    analysisClassTotalItemVO.setTotalScore(userScoreList.get(0).getUsFinalScore());
+                }
+                analysisClassTotalItemVO.setTaskName(task.getTaskName());
+                String account = userDao.get(classUser.getUserId()).getUserAccount();
+                List<AnalysisClassTotalItemVO> add = map.get(account);
+                add.add(analysisClassTotalItemVO);
+                map.put(account, add);
+            }
+        }
+
+        //累加处理
+        for (String account : map.keySet()) {
+            List<AnalysisClassTotalItemVO> add = map.get(account);
+            for (int i = 1; i < add.size(); ++i) {
+                Double pre = add.get(i - 1).getTotalScore();
+                AnalysisClassTotalItemVO temp = add.get(i);
+                temp.setTotalScore(temp.getTotalScore() + pre);
+                add.set(i, temp);
+            }
+        }
+        analysisClassTotalVO.setClassTaskTotalMap(map);
+
+        return analysisClassTotalVO;
+    }
+
+    @Override
+    public AnalysisSkillSumVO getSkillSum(Integer taskId, Integer userId) {
+        return null;
+    }
 }
