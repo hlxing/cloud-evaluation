@@ -98,4 +98,6 @@ public interface SkillScoreMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SkillScore record);
+
+    int getRankBySkill(@Param("score") Double score, @Param("task") Integer task, @Param("skill") Integer skill);
 }

@@ -228,6 +228,50 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public AnalysisSkillSumVO getSkillSum(Integer taskId, Integer userId) {
-        return null;
+        AnalysisSkillSumVO analysisSkillSumVO = new AnalysisSkillSumVO();
+        List<AnalysisSkillSumItemVO> analysisSkillSumItemVOList = new ArrayList<>();
+
+        TaskSkillExample taskSkillExample = new TaskSkillExample();
+        TaskSkillExample.Criteria tsCri = taskSkillExample.createCriteria();
+        tsCri.andTaskIdEqualTo(taskId);
+        List<TaskSkill> taskSkillList = taskSkillMapper.selectByExample(taskSkillExample);
+
+        for (TaskSkill taskSkill : taskSkillList) {
+            AnalysisSkillSumItemVO analysisSkillSumItemVO = new AnalysisSkillSumItemVO();
+
+            SysSkill skill = sysSkillMapper.selectByPrimaryKey(taskSkill.getSkillId());
+            analysisSkillSumItemVO.setSkillName(skill.getSkillName());
+
+            SkillScoreExample skillScoreExample = new SkillScoreExample();
+            SkillScoreExample.Criteria ssCri = skillScoreExample.createCriteria();
+            ssCri.andTaskIdEqualTo(taskId);
+            ssCri.andSkillIdEqualTo(taskSkill.getSkillId());
+            ssCri.andUserIdEqualTo(userId);
+
+            List<SkillScore> skillScoreList = skillScoreMapper.selectByExample(skillScoreExample);
+            if (skillScoreList.size() == 0) {
+                //未评分
+                analysisSkillSumItemVO.setScore(0.0);
+            } else {
+                analysisSkillSumItemVO.setScore(skillScoreList.get(0).getSsRealScore());
+            }
+            Integer rank = skillScoreMapper.getRankBySkill(skillScoreList.get(0).getSsRealScore(), taskId, taskSkill.getSkillId()) + 1;
+            analysisSkillSumItemVO.setRank(rank);
+
+            SkillScoreExample averageExample = new SkillScoreExample();
+            SkillScoreExample.Criteria averageCri = averageExample.createCriteria();
+            averageCri.andSkillIdEqualTo(taskSkill.getSkillId());
+            averageCri.andTaskIdEqualTo(taskId);
+            List<SkillScore> skillScores = skillScoreMapper.selectByExample(averageExample);
+            Double sum = 0.0;
+            for (SkillScore skillScore : skillScores) {
+                sum += skillScore.getSsRealScore();
+            }
+            analysisSkillSumItemVO.setAverageScore(sum / skillScores.size());
+
+            analysisSkillSumItemVOList.add(analysisSkillSumItemVO);
+        }
+        analysisSkillSumVO.setSkillSumItemVOList(analysisSkillSumItemVOList);
+        return analysisSkillSumVO;
     }
 }
