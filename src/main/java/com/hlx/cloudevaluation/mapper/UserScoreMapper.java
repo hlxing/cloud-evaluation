@@ -99,4 +99,10 @@ public interface UserScoreMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(UserScore record);
+
+    // 获取作业评分的总和
+    double selectSumScoreByTaskId(@Param("taskId") Integer taskId);
+
+    // 获取大于评分的作业数量
+    int selectCountByScore(@Param("score") Double score);
 }
