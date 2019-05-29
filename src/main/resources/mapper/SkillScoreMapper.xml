@@ -291,4 +291,10 @@
         ss_real_score = #{ssRealScore,jdbcType=DOUBLE}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <select id="getRankBySkill" resultType="java.lang.Integer">
+        select count(id)
+        from skill_score
+        where ss_real_score > score and task_id = task and skill_id = skill
+    </select>
 </mapper>
