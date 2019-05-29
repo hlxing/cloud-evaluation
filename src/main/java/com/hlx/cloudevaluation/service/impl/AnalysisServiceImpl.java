@@ -154,7 +154,7 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     public AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId) {
         AnalysisClassSkillAverageVO analysisClassSkillAverageVO = new AnalysisClassSkillAverageVO();
-        List<AnalysisClassSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
+        List<AnalysisClassSkillAverageItemVO> analysisClassSkillAverageItemVOList = new ArrayList<>();
 
         SysTaskExample sysTaskExample = new SysTaskExample();
         SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
@@ -187,10 +187,10 @@ public class AnalysisServiceImpl implements AnalysisService {
             }
             analysisClasSkillAverageItemVO.setTaskId(task.getTaskId());
             analysisClasSkillAverageItemVO.setTaskName(task.getTaskName());
-            analysisClasSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
+            analysisClassSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
         }
 
-        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClasSkillAverageItemVOList);
+        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClassSkillAverageItemVOList);
         return analysisClassSkillAverageVO;
     }
 
