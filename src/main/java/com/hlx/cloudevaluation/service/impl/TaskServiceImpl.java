@@ -397,7 +397,7 @@ public class TaskServiceImpl implements TaskService {
             for (SysTask taskItem : tasks) {
                 TaskVO taskVO = modelMapper.map(taskItem, TaskVO.class);
                 taskVO.setTaskClassName(sysClassMapper.selectByPrimaryKey(classId).getClassName());
-                User user = userDao.get(taskVO.getTaskId());
+                User user = userDao.get(userId);
                 taskVO.setTaskCreatorName(user.getUserName());
                 taskVO.setTaskCreatorAccount(user.getUserAccount());
                 taskVOS.add(taskVO);
