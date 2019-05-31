@@ -122,10 +122,39 @@ public class AnalysisServiceImpl implements AnalysisService {
         return analysisTaskSkillAverageVO;
     }
 
+
+    @Override
+    public AnalysisTaskSumVO getTaskSum(Integer taskId, Integer userId) {
+        UserScoreExample userScoreExample = new UserScoreExample();
+        UserScoreExample.Criteria userScoreCriteria = userScoreExample.createCriteria();
+        userScoreCriteria.andTaskIdEqualTo(taskId);
+        Integer taskNum = userScoreMapper.countByExample(userScoreExample);
+        if (taskNum == 0) {
+            return new AnalysisTaskSumVO();
+        }
+        AnalysisTaskSumVO taskSumVO = new AnalysisTaskSumVO();
+        Double sumScore = userScoreMapper.selectSumScoreByTaskId(taskId);
+        taskSumVO.setAverageScore(sumScore / taskNum);
+
+        Double totalScore = 0.0;
+        userScoreExample.clear();
+        userScoreCriteria.andTaskIdEqualTo(taskId);
+        userScoreCriteria.andUserIdEqualTo(userId);
+        List<UserScore> userScoreList = userScoreMapper.selectByExample(userScoreExample);
+        if (userScoreList.size() > 0) {
+            totalScore = userScoreList.get(0).getUsFinalScore();
+        }
+        Integer rank = userScoreMapper.selectCountByScore(totalScore) + 1;
+        taskSumVO.setRank(rank);
+        taskSumVO.setTotalScore(totalScore);
+        return taskSumVO;
+    }
+
+
     @Override
     public AnalysisClassSkillAverageVO getClassSkillAverage(Integer classId, Integer skillId) {
         AnalysisClassSkillAverageVO analysisClassSkillAverageVO = new AnalysisClassSkillAverageVO();
-        List<AnalysisClassSkillAverageItemVO> analysisClasSkillAverageItemVOList = new ArrayList<>();
+        List<AnalysisClassSkillAverageItemVO> analysisClassSkillAverageItemVOList = new ArrayList<>();
 
         SysTaskExample sysTaskExample = new SysTaskExample();
         SysTaskExample.Criteria taskCri = sysTaskExample.createCriteria();
@@ -158,10 +187,10 @@ public class AnalysisServiceImpl implements AnalysisService {
             }
             analysisClasSkillAverageItemVO.setTaskId(task.getTaskId());
             analysisClasSkillAverageItemVO.setTaskName(task.getTaskName());
-            analysisClasSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
+            analysisClassSkillAverageItemVOList.add(analysisClasSkillAverageItemVO);
         }
 
-        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClasSkillAverageItemVOList);
+        analysisClassSkillAverageVO.setClassTaskSkillAverageItemVOList(analysisClassSkillAverageItemVOList);
         return analysisClassSkillAverageVO;
     }
 
@@ -226,11 +255,6 @@ public class AnalysisServiceImpl implements AnalysisService {
         analysisClassTotalVO.setClassTaskTotalMap(map);
 
         return analysisClassTotalVO;
-    }
-
-    @Override
-    public AnalysisTaskSumVO getTaskSum(Integer taskId, Integer userId) {
-        return null;
     }
 
     @Override
