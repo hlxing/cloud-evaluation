@@ -183,6 +183,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         sysTaskExample.setOrderByClause("task_create_at ASC");
         List<SysTask> taskList = sysTaskMapper.selectByExample(sysTaskExample);
 
+        Integer index = 0;
         for (ClassUser classUser : classUserList) {
             for (SysTask task : taskList) {
                 AnalysisClassTotalItemVO analysisClassTotalItemVO = new AnalysisClassTotalItemVO();
@@ -197,11 +198,18 @@ public class AnalysisServiceImpl implements AnalysisService {
                 } else {
                     analysisClassTotalItemVO.setTotalScore(userScoreList.get(0).getUsFinalScore());
                 }
+                analysisClassTotalItemVO.setTaskCode(++index);
                 analysisClassTotalItemVO.setTaskName(task.getTaskName());
                 String account = userDao.get(classUser.getUserId()).getUserAccount();
-                List<AnalysisClassTotalItemVO> add = map.get(account);
-                add.add(analysisClassTotalItemVO);
-                map.put(account, add);
+                if (map.get(account) != null) {
+                    List<AnalysisClassTotalItemVO> add = map.get(account);
+                    add.add(analysisClassTotalItemVO);
+                    map.put(account, add);
+                } else {
+                    List<AnalysisClassTotalItemVO> add = new ArrayList<>();
+                    add.add(analysisClassTotalItemVO);
+                    map.put(account, add);
+                }
             }
         }
 
