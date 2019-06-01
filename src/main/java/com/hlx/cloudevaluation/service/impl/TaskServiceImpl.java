@@ -109,10 +109,13 @@ public class TaskServiceImpl implements TaskService {
             TeamScoreExample.Criteria tsCir = teamScoreExample.createCriteria();
             tsCir.andTaskIdEqualTo(taskId);
             tsCir.andTeamIdEqualTo(item.getTeamId());
-            if (teamScoreMapper.selectByExample(teamScoreExample).size() > 0) {
+            List<TeamScore> teamScoreList = teamScoreMapper.selectByExample(teamScoreExample);
+            if (teamScoreList.size() > 0) {
                 v.setStatus(true);
+                v.setTeamScore(teamScoreList.get(0).getTeamScore());
             } else {
                 v.setStatus(false);
+                v.setTeamScore(0.0);
             }
             statusDatas.add(v);
         }

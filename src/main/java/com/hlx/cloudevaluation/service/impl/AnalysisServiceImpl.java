@@ -305,7 +305,6 @@ public class AnalysisServiceImpl implements AnalysisService {
             } else {
                 analysisSkillSumItemVO.setAverageScore(0.0);
             }
-
             analysisSkillSumItemVOList.add(analysisSkillSumItemVO);
         }
         analysisSkillSumVO.setSkillSumItemVOList(analysisSkillSumItemVOList);
