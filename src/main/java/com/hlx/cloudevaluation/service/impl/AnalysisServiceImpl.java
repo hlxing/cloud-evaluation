@@ -300,7 +300,11 @@ public class AnalysisServiceImpl implements AnalysisService {
             for (SkillScore skillScore : skillScores) {
                 sum += skillScore.getSsRealScore();
             }
-            analysisSkillSumItemVO.setAverageScore(sum / skillScores.size());
+            if (skillScores.size() > 0) {
+                analysisSkillSumItemVO.setAverageScore(sum / skillScores.size());
+            } else {
+                analysisSkillSumItemVO.setAverageScore(0.0);
+            }
 
             analysisSkillSumItemVOList.add(analysisSkillSumItemVO);
         }
