@@ -99,5 +99,5 @@ public interface SkillScoreMapper {
      */
     int updateByPrimaryKey(SkillScore record);
 
-    int getRankBySkill(@Param("score") Double score, @Param("task") Integer task, @Param("skill") Integer skill);
+    int getRankBySkill(@Param("realScore") Double score, @Param("task") Integer task, @Param("skill") Integer skill);
 }
