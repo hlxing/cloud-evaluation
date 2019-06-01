@@ -295,6 +295,6 @@
     <select id="getRankBySkill" resultType="java.lang.Integer">
         select count(id)
         from skill_score
-        where ss_real_score > score and task_id = task and skill_id = skill
+        where ss_real_score > #{realScore} and task_id = #{task} and skill_id = #{skill}
     </select>
 </mapper>
