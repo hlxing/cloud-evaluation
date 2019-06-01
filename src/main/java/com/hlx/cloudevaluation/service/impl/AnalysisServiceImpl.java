@@ -280,13 +280,15 @@ public class AnalysisServiceImpl implements AnalysisService {
             ssCri.andUserIdEqualTo(userId);
 
             List<SkillScore> skillScoreList = skillScoreMapper.selectByExample(skillScoreExample);
+            Integer rank = 0;
             if (skillScoreList.size() == 0) {
                 //未评分
                 analysisSkillSumItemVO.setScore(0.0);
             } else {
                 analysisSkillSumItemVO.setScore(skillScoreList.get(0).getSsRealScore());
+                rank = skillScoreMapper.getRankBySkill(skillScoreList.get(0).getSsRealScore(), taskId, taskSkill.getSkillId()) + 1;
             }
-            Integer rank = skillScoreMapper.getRankBySkill(skillScoreList.get(0).getSsRealScore(), taskId, taskSkill.getSkillId()) + 1;
+
             analysisSkillSumItemVO.setRank(rank);
 
             SkillScoreExample averageExample = new SkillScoreExample();

@@ -406,9 +406,4 @@ public class TaskServiceImpl implements TaskService {
         taskSearchVO.setTaskVOList(taskVOS);
         return taskSearchVO;
     }
-
-    @Override
-    public TaskSearchVO getClassTask(Integer classId, Integer userId) {
-        return null;
-    }
 }
