@@ -155,7 +155,7 @@ public class ClassServiceImpl implements ClassService {
                 classCriteria.andClassNameLike("%" + classSearchDTO.getClassName() + "%");
             }
             List<SysClass> sysClassListItem = sysClassMapper.selectByExample(sysClassExample);
-            if (sysClassListItem.size() > 0) {
+            if (sysClassListItem.size() > 0 && sysClassListItem.get(0).getClassExist()) {
                 classList.add(sysClassListItem.get(0));
             }
         }
