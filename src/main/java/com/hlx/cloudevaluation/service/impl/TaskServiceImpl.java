@@ -142,6 +142,48 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public TaskDetailVO getDetail(Integer taskId, Integer userId) {
+        SysTask task = sysTaskMapper.selectByPrimaryKey(taskId);
+        if (task == null) {
+            throw new ApiException(TaskErrorEnum.TASK_ID_INVALID);
+        } else if (!task.getTaskCreator().equals(userId)) {
+            throw new ApiException(TaskErrorEnum.NOT_TASK_CREATOR);
+        }
+        TaskDetailVO taskDetailVO = modelMapper.map(task, TaskDetailVO.class);
+        TaskSkillExample taskSkillExample = new TaskSkillExample();
+        TaskSkillExample.Criteria taskSkillCriteria = taskSkillExample.createCriteria();
+        taskSkillCriteria.andTaskIdEqualTo(taskId);
+        List<TaskSkill> taskSkillList = taskSkillMapper.selectByExample(taskSkillExample);
+        List<SkillVO> skillVOList = new ArrayList<>();
+        for (TaskSkill taskSkill : taskSkillList) {
+            SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(taskSkill.getSkillId());
+            SkillVO skillVO = modelMapper.map(sysSkill, SkillVO.class);
+            skillVOList.add(skillVO);
+        }
+        SysClass sysClass = sysClassMapper.selectByPrimaryKey(task.getTaskClass());
+        taskDetailVO.setTaskClass(sysClass.getClassName());
+        taskDetailVO.setSkillList(skillVOList);
+        return taskDetailVO;
+    }
+
+    @Override
+    public TaskSkillListVO getSkillList(Integer taskId) {
+        TaskSkillListVO taskSkillListVO = new TaskSkillListVO();
+        TaskSkillExample taskSkillExample = new TaskSkillExample();
+        TaskSkillExample.Criteria taskSkillCriteria = taskSkillExample.createCriteria();
+        taskSkillCriteria.andTaskIdEqualTo(taskId);
+        List<TaskSkill> taskSkillList = taskSkillMapper.selectByExample(taskSkillExample);
+        List<SkillVO> skillVOList = new ArrayList<>();
+        for (TaskSkill taskSkill : taskSkillList) {
+            SysSkill sysSkill = sysSkillMapper.selectByPrimaryKey(taskSkill.getSkillId());
+            SkillVO skillVO = modelMapper.map(sysSkill, SkillVO.class);
+            skillVOList.add(skillVO);
+        }
+        taskSkillListVO.setSkillVOList(skillVOList);
+        return taskSkillListVO;
+    }
+
+    @Override
     public TaskTeamStatusVO getTeamStatus(Integer taskId, Integer teamId) {
         TaskTeamStatusVO taskTeamStatusVO = new TaskTeamStatusVO();
 
@@ -218,10 +260,30 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void evaluate(TaskEvaluateDTO taskEvaluateDTO) {
-        List<TaskSkillDTO> taskSkillDTOList = taskEvaluateDTO.getTaskSkillDTOList();
-        Map<Integer, Double> skillScoreMap = new HashMap<>();
+
         Integer taskId = taskEvaluateDTO.getTaskId();
         Integer teamId = taskEvaluateDTO.getTeamId();
+
+        // 删除评分信息
+        UserScoreExample userScoreExample = new UserScoreExample();
+        UserScoreExample.Criteria userScoreCriteria = userScoreExample.createCriteria();
+        userScoreCriteria.andTaskIdEqualTo(taskId);
+        userScoreMapper.deleteByExample(userScoreExample);
+
+        SkillScoreExample skillScoreExample = new SkillScoreExample();
+        SkillScoreExample.Criteria skillScoreCriteria = skillScoreExample.createCriteria();
+        skillScoreCriteria.andTaskIdEqualTo(taskId);
+        skillScoreMapper.deleteByExample(skillScoreExample);
+
+        TeamScoreExample teamScoreExample = new TeamScoreExample();
+        TeamScoreExample.Criteria teamScoreCriteria = teamScoreExample.createCriteria();
+        teamScoreCriteria.andTaskIdEqualTo(taskId);
+        teamScoreMapper.deleteByExample(teamScoreExample);
+
+
+        List<TaskSkillDTO> taskSkillDTOList = taskEvaluateDTO.getTaskSkillDTOList();
+        Map<Integer, Double> skillScoreMap = new HashMap<>();
+
         Double teamScoreVal = 0.0;
         for (TaskSkillDTO taskSkillDTO : taskSkillDTOList) {
             skillScoreMap.put(taskSkillDTO.getSkillId(), taskSkillDTO.getSsScore());
@@ -255,7 +317,7 @@ public class TaskServiceImpl implements TaskService {
             UserScore userScore = new UserScore();
             Integer userId = teamUser.getUserId();
             Double finalScore = 0.0;
-            Double contributeRate = 1 + userContributeMap.get(userId) - averageContribute;
+            Double contributeRate = 1 + (userContributeMap.get(userId) - averageContribute) * 0.01;
             for (Integer skillId : skillScoreMap.keySet()) {
                 SkillScore skillScore = new SkillScore();
                 skillScore.setSkillId(skillId);
@@ -294,7 +356,7 @@ public class TaskServiceImpl implements TaskService {
             TaskVO taskVO = modelMapper.map(task, TaskVO.class);
             String taskClassName = sysClassMapper.selectByPrimaryKey(task.getTaskClass()).getClassName();
             taskVO.setTaskClassName(taskClassName);
-            User user = userDao.get(taskVO.getTaskId());
+            User user = userDao.get(taskVO.getTaskCreator());
             taskVO.setTaskCreatorName(user.getUserName());
             taskVO.setTaskCreatorAccount(user.getUserAccount());
             taskVOList.add(taskVO);
@@ -407,8 +469,4 @@ public class TaskServiceImpl implements TaskService {
         return taskSearchVO;
     }
 
-    @Override
-    public TaskSearchVO getClassTask(Integer classId, Integer userId) {
-        return null;
-    }
 }

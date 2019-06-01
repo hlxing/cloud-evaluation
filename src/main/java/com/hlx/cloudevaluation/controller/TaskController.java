@@ -4,10 +4,7 @@ import com.hlx.cloudevaluation.model.dto.TaskAddDTO;
 import com.hlx.cloudevaluation.model.dto.TaskEvaluateDTO;
 import com.hlx.cloudevaluation.model.dto.TaskUpdateDTO;
 import com.hlx.cloudevaluation.model.po.ApiResult;
-import com.hlx.cloudevaluation.model.vo.TaskScoreVO;
-import com.hlx.cloudevaluation.model.vo.TaskSearchVO;
-import com.hlx.cloudevaluation.model.vo.TaskStatusVO;
-import com.hlx.cloudevaluation.model.vo.TaskTeamStatusVO;
+import com.hlx.cloudevaluation.model.vo.*;
 import com.hlx.cloudevaluation.service.TaskService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -108,6 +105,26 @@ public class TaskController {
         taskService.update(taskUpdateDTO);
         return new ApiResult<>("delete task success");
     }
+
+    @ApiOperation(value = "老师作业查看")
+    @RequiresRoles(value = {"teacher", "assistant"}, logical = Logical.OR)
+    @GetMapping("/detail")
+    public ApiResult<TaskDetailVO> getDetail(@RequestParam("taskId") Integer taskId, HttpSession session) {
+        TaskDetailVO taskDetailVO = taskService.getDetail(taskId, (Integer) session.getAttribute("userId"));
+        ApiResult<TaskDetailVO> apiResult = new ApiResult<>();
+        apiResult.setData(taskDetailVO);
+        return apiResult;
+    }
+
+    @ApiOperation(value = "作业维度查看")
+    @GetMapping("/skill/list")
+    public ApiResult<TaskSkillListVO> getSkillList(@RequestParam("taskId") Integer taskId) {
+        TaskSkillListVO skillListVO = taskService.getSkillList(taskId);
+        ApiResult<TaskSkillListVO> apiResult = new ApiResult<>();
+        apiResult.setData(skillListVO);
+        return apiResult;
+    }
+
 
     @ApiOperation(value = "学生作业查看")
     @GetMapping("/search")
