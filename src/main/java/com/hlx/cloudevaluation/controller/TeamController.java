@@ -87,4 +87,12 @@ public class TeamController {
         return apiResult;
     }
 
+    @ApiOperation(value = "判断队长")
+    @GetMapping("/isCaptain")
+    public ApiResult<Boolean> isCaptain(HttpSession session) {
+        boolean isCaptain = teamService.isCaptain((Integer) session.getAttribute("userId"));
+        ApiResult<Boolean> apiResult = new ApiResult<>();
+        apiResult.setData(isCaptain);
+        return apiResult;
+    }
 }

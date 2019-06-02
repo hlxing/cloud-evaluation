@@ -299,4 +299,14 @@ public class TeamServiceImpl implements TeamService {
 
         return teamSearchVO;
     }
+
+    @Override
+    public boolean isCaptain(Integer userId) {
+        SysTeamExample teamExample = new SysTeamExample();
+        SysTeamExample.Criteria teamCri = teamExample.createCriteria();
+        teamCri.andTeamCaptainEqualTo(userId);
+        if (sysTeamMapper.selectByExample(teamExample).size() > 0)
+            return true;
+        return false;
+    }
 }
