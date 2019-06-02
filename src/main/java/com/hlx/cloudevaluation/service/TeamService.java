@@ -24,4 +24,6 @@ public interface TeamService {
     void clear(Integer teamId, Integer userId);
 
     TeamSearchVO search(Integer classId, Integer userId);
+
+    boolean isCaptain(Integer userId);
 }
