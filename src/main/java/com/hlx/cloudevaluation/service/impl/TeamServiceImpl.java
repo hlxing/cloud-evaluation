@@ -64,6 +64,16 @@ public class TeamServiceImpl implements TeamService {
             throw new ApiException(TeamErrorEnum.TEAM_NAME_EXIST);
         }
 
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
+        teamUserCriteria.andUserIdEqualTo(userId);
+        List<TeamUser> temp = teamUserMapper.selectByExample(teamUserExample);
+        if (temp.size() != 0) {
+            // 团队已加入
+            throw new ApiException(TeamErrorEnum.TEAM_EXIST);
+        }
+
+
         SysTeam sysTeam = modelMapper.map(teamAddDTO, SysTeam.class);
         sysTeam.setTeamCreateAt(new Date());
         String token = RandomUtil.get();

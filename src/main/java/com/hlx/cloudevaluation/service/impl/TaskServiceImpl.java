@@ -268,21 +268,29 @@ public class TaskServiceImpl implements TaskService {
         Integer teamId = taskEvaluateDTO.getTeamId();
 
         // 删除评分信息
-        UserScoreExample userScoreExample = new UserScoreExample();
-        UserScoreExample.Criteria userScoreCriteria = userScoreExample.createCriteria();
-        userScoreCriteria.andTaskIdEqualTo(taskId);
-        userScoreMapper.deleteByExample(userScoreExample);
+        TeamUserExample teamUserExample = new TeamUserExample();
+        TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
+        teamUserCriteria.andTeamIdEqualTo(teamId);
+        List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
+        for (TeamUser teamUser : teamUserList) {
+            UserScoreExample userScoreExample = new UserScoreExample();
+            UserScoreExample.Criteria userScoreCriteria = userScoreExample.createCriteria();
+            userScoreCriteria.andTaskIdEqualTo(taskId);
+            userScoreCriteria.andUserIdEqualTo(teamUser.getUserId());
+            userScoreMapper.deleteByExample(userScoreExample);
 
-        SkillScoreExample skillScoreExample = new SkillScoreExample();
-        SkillScoreExample.Criteria skillScoreCriteria = skillScoreExample.createCriteria();
-        skillScoreCriteria.andTaskIdEqualTo(taskId);
-        skillScoreMapper.deleteByExample(skillScoreExample);
+            SkillScoreExample skillScoreExample = new SkillScoreExample();
+            SkillScoreExample.Criteria skillScoreCriteria = skillScoreExample.createCriteria();
+            skillScoreCriteria.andTaskIdEqualTo(taskId);
+            skillScoreCriteria.andUserIdEqualTo(teamUser.getUserId());
+            skillScoreMapper.deleteByExample(skillScoreExample);
+        }
 
         TeamScoreExample teamScoreExample = new TeamScoreExample();
         TeamScoreExample.Criteria teamScoreCriteria = teamScoreExample.createCriteria();
         teamScoreCriteria.andTaskIdEqualTo(taskId);
+        teamScoreCriteria.andTeamIdEqualTo(teamId);
         teamScoreMapper.deleteByExample(teamScoreExample);
-
 
         List<TaskSkillDTO> taskSkillDTOList = taskEvaluateDTO.getTaskSkillDTOList();
         Map<Integer, Double> skillScoreMap = new HashMap<>();
@@ -312,10 +320,6 @@ public class TaskServiceImpl implements TaskService {
         teamScoreMapper.insertSelective(teamScore);
 
 
-        TeamUserExample teamUserExample = new TeamUserExample();
-        TeamUserExample.Criteria teamUserCriteria = teamUserExample.createCriteria();
-        teamUserCriteria.andTeamIdEqualTo(taskEvaluateDTO.getTeamId());
-        List<TeamUser> teamUserList = teamUserMapper.selectByExample(teamUserExample);
         for (TeamUser teamUser : teamUserList) {
             UserScore userScore = new UserScore();
             Integer userId = teamUser.getUserId();
